@@ -1,0 +1,15 @@
+Part,Qty,Length (mm),Width (mm),Thickness (mm),Material
+Horizontal inside,6,600.0,297.0,18.0,
+Horizontal inside.001,1,617.0,600.0,18.0,
+Inside  Vertical.001,6,1259.0,600.0,18.0,
+Right end,1,1295.0,600.0,18.0,
+Bottom ,1,2507.0,600.0,18.0,
+Cabinet Handle 01,16,180.0,20.0,15.0,Brushed  Dark Metal
+Screw.001,4,27.0,16.0,16.0,Brushed Steel Procedural.001
+Outer screw,110,79.0,16.0,16.0,Brushed Steel Procedural.001
+Hinges,33,73.0,44.0,44.0,Material.002
+Door.001,10,644.0,310.0,18.0,Wood
+Door.006,4,644.0,318.0,18.0,Wood
+Door,2,644.0,320.0,18.0,Wood
+left End,1,1295.0,600.0,18.0,Wood
+Top,1,2507.0,600.0,18.0,Wood
