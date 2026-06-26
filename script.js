@@ -1,13 +1,50 @@
 // Constants
-const sheetWidth = 2440; // Standard sheet width in mm
-const sheetHeight = 1220; // Standard sheet height in mm
 const woodWaste = 10; // 10mm waste between pieces
-const sheetCost = 455; // Cost per sheet in RF
 const cutCost = 10; // Cost per cut in RF
 const teakCost = 10; // Cost per meter of teak in RF
 let sheets = []; // Array to store sheets and their pieces
 let currentUnit = 'mm'; // Default unit
 let pieceIdCounter = 0; // Counter for generating unique piece IDs
+
+// Shop and wood data structure
+let shops = [
+  {
+    id: 1,
+    name: "Wood Pro",
+    woodTypes: [
+      {
+        id: 1,
+        name: "Standard Plywood",
+        dimensions: { width: 2440, height: 1220 }, // mm
+        thickness: 18,
+        price: 750, // MVR
+        description: "8 feet x 4 feet x 18mm"
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: "Home & Hardware",
+    woodTypes: [
+      {
+        id: 2,
+        name: "Blockboard Semi Glossy White",
+        dimensions: { width: 2440, height: 1220 }, // mm
+        thickness: 18,
+        price: 675, // MVR
+        description: "1220 X 2440 X 18MM"
+      }
+    ]
+  }
+];
+
+let selectedShop = null;
+let selectedWood = null;
+
+// Current sheet dimensions (based on selected wood)
+let sheetWidth = 2440;
+let sheetHeight = 1220;
+let sheetCost = 750;
 
 // Display dimensions (pixels) - will be calculated dynamically
 let displayWidth = 800; // px (default, will be updated based on container)
@@ -51,6 +88,200 @@ window.addEventListener('resize', function() {
     renderSheets();
   }
 });
+
+// Shop and Wood Selection Functions
+function populateShopSelector() {
+  const shopSelector = document.getElementById('shopSelector');
+  shopSelector.innerHTML = '<option value="">-- Select Shop --</option>';
+  
+  shops.forEach(shop => {
+    const option = document.createElement('option');
+    option.value = shop.id;
+    option.textContent = shop.name;
+    shopSelector.appendChild(option);
+  });
+}
+
+function populateWoodSelector(shopId) {
+  const woodSelector = document.getElementById('woodSelector');
+  woodSelector.innerHTML = '<option value="">-- Select Wood Type --</option>';
+  woodSelector.disabled = true;
+  
+  const shop = shops.find(s => s.id === parseInt(shopId));
+  if (shop) {
+    shop.woodTypes.forEach(wood => {
+      const option = document.createElement('option');
+      option.value = wood.id;
+      option.textContent = `${wood.name} - ${wood.price} MVR`;
+      woodSelector.appendChild(option);
+    });
+    woodSelector.disabled = false;
+  }
+  
+  // Hide wood details
+  document.getElementById('woodDetails').style.display = 'none';
+}
+
+function selectWood(woodId) {
+  const woodSelector = document.getElementById('woodSelector');
+  const woodDetails = document.getElementById('woodDetails');
+  
+  if (!woodId) {
+    selectedWood = null;
+    woodDetails.style.display = 'none';
+    return;
+  }
+  
+  // Find the selected wood type
+  for (const shop of shops) {
+    const wood = shop.woodTypes.find(w => w.id === parseInt(woodId));
+    if (wood) {
+      selectedWood = wood;
+      selectedShop = shop;
+      
+      // Update sheet dimensions and cost
+      sheetWidth = wood.dimensions.width;
+      sheetHeight = wood.dimensions.height;
+      sheetCost = wood.price;
+      
+      // Display wood details
+      document.getElementById('woodDimensions').textContent = 
+        `${wood.dimensions.width}mm × ${wood.dimensions.height}mm (${wood.description})`;
+      document.getElementById('woodThickness').textContent = wood.thickness;
+      document.getElementById('woodPrice').textContent = wood.price;
+      
+      woodDetails.style.display = 'block';
+      
+      // Clear existing sheets since dimensions changed
+      if (sheets.length > 0) {
+        if (confirm('Changing wood type will clear existing pieces. Continue?')) {
+          sheets = [];
+          pieceIdCounter = 0;
+          renderSheets();
+          renderPiecesList();
+          renderSheetDetails();
+          generateQuotation();
+        } else {
+          // Revert selection
+          woodSelector.value = '';
+          selectedWood = null;
+          woodDetails.style.display = 'none';
+        }
+      }
+      break;
+    }
+  }
+}
+
+// Event listeners for shop and wood selection
+document.getElementById('shopSelector').addEventListener('change', function(e) {
+  selectedShop = shops.find(s => s.id === parseInt(e.target.value)) || null;
+  populateWoodSelector(e.target.value);
+  document.getElementById('woodSelector').value = '';
+});
+
+document.getElementById('woodSelector').addEventListener('change', function(e) {
+  selectWood(e.target.value);
+});
+
+// Initialize shop selector
+populateShopSelector();
+
+// Add Shop Modal Functions
+function openAddShopModal() {
+  document.getElementById('addShopModal').style.display = 'flex';
+}
+
+function closeAddShopModal() {
+  document.getElementById('addShopModal').style.display = 'none';
+  // Clear form
+  document.getElementById('newShopName').value = '';
+  document.getElementById('newWoodName').value = '';
+  document.getElementById('newWoodWidth').value = '2440';
+  document.getElementById('newWoodHeight').value = '1220';
+  document.getElementById('newWoodThickness').value = '18';
+  document.getElementById('newWoodPrice').value = '';
+  document.getElementById('newWoodDescription').value = '';
+}
+
+function saveNewShop() {
+  const shopName = document.getElementById('newShopName').value.trim();
+  const woodName = document.getElementById('newWoodName').value.trim();
+  const woodWidth = parseInt(document.getElementById('newWoodWidth').value);
+  const woodHeight = parseInt(document.getElementById('newWoodHeight').value);
+  const woodThickness = parseInt(document.getElementById('newWoodThickness').value);
+  const woodPrice = parseFloat(document.getElementById('newWoodPrice').value);
+  const woodDescription = document.getElementById('newWoodDescription').value.trim();
+
+  // Validation
+  if (!shopName) {
+    alert('Please enter a shop name');
+    return;
+  }
+  if (!woodName) {
+    alert('Please enter a wood type name');
+    return;
+  }
+  if (!woodWidth || !woodHeight || !woodThickness || !woodPrice) {
+    alert('Please fill in all wood specifications');
+    return;
+  }
+
+  // Create new shop with wood type
+  const newShop = {
+    id: shops.length + 1,
+    name: shopName,
+    woodTypes: [
+      {
+        id: shops.length * 10 + 1,
+        name: woodName,
+        dimensions: { width: woodWidth, height: woodHeight },
+        thickness: woodThickness,
+        price: woodPrice,
+        description: woodDescription || `${woodWidth}mm × ${woodHeight}mm × ${woodThickness}mm`
+      }
+    ]
+  };
+
+  shops.push(newShop);
+  
+  // Save to localStorage
+  localStorage.setItem('maaWadiShops', JSON.stringify(shops));
+  
+  // Update UI
+  populateShopSelector();
+  closeAddShopModal();
+  
+  alert('Shop added successfully!');
+}
+
+// Event listeners for modal
+document.getElementById('addShopBtn').addEventListener('click', openAddShopModal);
+document.getElementById('closeShopModal').addEventListener('click', closeAddShopModal);
+document.getElementById('cancelAddShop').addEventListener('click', closeAddShopModal);
+document.getElementById('saveShop').addEventListener('click', saveNewShop);
+
+// Close modal when clicking outside
+document.getElementById('addShopModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeAddShopModal();
+  }
+});
+
+// Load shops from localStorage on startup
+function loadShopsFromStorage() {
+  const savedShops = localStorage.getItem('maaWadiShops');
+  if (savedShops) {
+    try {
+      shops = JSON.parse(savedShops);
+      populateShopSelector();
+    } catch (e) {
+      console.error('Error loading shops from storage:', e);
+    }
+  }
+}
+
+loadShopsFromStorage();
 
 document.getElementById('piece-form').addEventListener('submit', function (e) {
   e.preventDefault();
@@ -671,6 +902,9 @@ function generateQuotation() {
 
   const sheetWidthConverted = UnitConverter.fromMM(sheetWidth, currentUnit);
   const sheetHeightConverted = UnitConverter.fromMM(sheetHeight, currentUnit);
+  const currency = selectedWood ? 'MVR' : 'RF';
+  const woodName = selectedWood ? selectedWood.name : 'Plywood';
+  const shopName = selectedShop ? selectedShop.name : 'Default';
 
   quotationDiv.innerHTML = `
     <table>
@@ -678,13 +912,13 @@ function generateQuotation() {
         <tr>
           <th>Description</th>
           <th>Quantity</th>
-          <th>Unit Price (RF)</th>
-          <th>Total (RF)</th>
+          <th>Unit Price (${currency})</th>
+          <th>Total (${currency})</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Plywood Sheets (${sheetWidthConverted}${currentUnit} × ${sheetHeightConverted}${currentUnit})</td>
+          <td>${woodName} Sheets (${sheetWidthConverted}${currentUnit} × ${sheetHeightConverted}${currentUnit}) - ${shopName}</td>
           <td>${totalSheets}</td>
           <td>${sheetCost.toFixed(2)}</td>
           <td>${sheetTotal.toFixed(2)}</td>
@@ -703,7 +937,7 @@ function generateQuotation() {
         </tr>
         <tr class="total-row">
           <td colspan="3"><strong>Grand Total</strong></td>
-          <td><strong>${grandTotal.toFixed(2)} RF</strong></td>
+          <td><strong>${grandTotal.toFixed(2)} ${currency}</strong></td>
         </tr>
       </tbody>
     </table>
