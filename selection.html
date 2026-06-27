@@ -68,6 +68,11 @@
                         </button>
                     </div>
                     <div class="form-group">
+                        <button class="btn btn-warning" id="addCabinetBtn">
+                            <i class="fas fa-box"></i> Add Cabinet
+                        </button>
+                    </div>
+                    <div class="form-group">
                         <button class="btn btn-info" id="blenderSyncBtn">
                             <i class="fas fa-sync"></i> Blender Sync
                         </button>
@@ -85,6 +90,80 @@
                     <div id="syncStatus" class="sync-status" style="display: none;">
                         <span id="syncIndicator"></span>
                         <span id="syncText"></span>
+                    </div>
+                </div>
+
+                <!-- Add Cabinet Modal -->
+                <div id="addCabinetModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-box"></i> Add Cabinet Specification</h3>
+                            <button class="modal-close" id="closeCabinetModal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="cabinetName">Cabinet Name/Type</label>
+                                <input type="text" id="cabinetName" class="form-control" placeholder="e.g., Executive Room Cabinet">
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="cabinetLength">Length (mm)</label>
+                                    <input type="number" id="cabinetLength" class="form-control" placeholder="710">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cabinetHeight">Height (mm)</label>
+                                    <input type="number" id="cabinetHeight" class="form-control" placeholder="710">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cabinetDepth">Depth (mm)</label>
+                                    <input type="number" id="cabinetDepth" class="form-control" placeholder="405">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cabinetQuantity">Quantity</label>
+                                    <input type="number" id="cabinetQuantity" class="form-control" placeholder="1" value="1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cabinetMaterial">Material</label>
+                                <input type="text" id="cabinetMaterial" class="form-control" placeholder="e.g., 18 mm white matte block board">
+                            </div>
+                            <div class="form-group">
+                                <label for="cabinetThickness">Thickness (mm)</label>
+                                <input type="number" id="cabinetThickness" class="form-control" placeholder="18" value="18">
+                            </div>
+                            <div class="form-group">
+                                <label>Cabinet Features</label>
+                                <div class="teak-options">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="cabinetDoors"> Doors
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="cabinetShelves"> Middle Shelf
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="cabinetDividers"> Divider Panels
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="cabinetHandles"> Handles & Hardware
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="cabinetSkirting"> Bottom Skirting (80mm)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cabinetDoorCount">Number of Doors</label>
+                                <input type="number" id="cabinetDoorCount" class="form-control" placeholder="2" value="2">
+                            </div>
+                            <div class="form-group">
+                                <label for="cabinetNotes">Additional Notes</label>
+                                <textarea id="cabinetNotes" class="form-control" placeholder="e.g., Hinged doors, handles on all doors"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" id="cancelAddCabinet">Cancel</button>
+                            <button class="btn btn-primary" id="confirmAddCabinet">Add Cabinet & Generate Pieces</button>
+                        </div>
                     </div>
                 </div>
 
@@ -375,7 +454,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="script.js?v=37"></script>
-    <script src="units.js?v=37"></script>
+    <script src="script.js?v=38"></script>
+    <script src="units.js?v=38"></script>
 </body>
 </html>

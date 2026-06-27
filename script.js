@@ -349,6 +349,7 @@ async function saveProjectToFirestore(projectName) {
       sheets: sheets,
       pieces: pieces,
       pieceIdCounter: pieceIdCounter,
+      cabinets: cabinets,
       customerName: customerName,
       customerPhone: customerPhone,
       customerAddress: customerAddress,
@@ -391,6 +392,7 @@ async function loadProjectFromFirestore(projectName) {
     sheets = projectData.sheets || [];
     pieces = projectData.pieces || [];
     pieceIdCounter = projectData.pieceIdCounter || 0;
+    cabinets = projectData.cabinets || [];
     customerName = projectData.customerName || '';
     customerPhone = projectData.customerPhone || '';
     customerAddress = projectData.customerAddress || '';
@@ -797,6 +799,171 @@ function disableBlenderSync() {
 document.getElementById('blenderSyncBtn').addEventListener('click', enableBlenderSync);
 
 // Template Management Functions
+// Cabinet/Asset Management
+let cabinets = [];
+
+function openCabinetModal() {
+  document.getElementById('addCabinetModal').style.display = 'flex';
+}
+
+function closeCabinetModal() {
+  document.getElementById('addCabinetModal').style.display = 'none';
+  // Reset form
+  document.getElementById('cabinetName').value = '';
+  document.getElementById('cabinetLength').value = '';
+  document.getElementById('cabinetHeight').value = '';
+  document.getElementById('cabinetDepth').value = '';
+  document.getElementById('cabinetQuantity').value = '1';
+  document.getElementById('cabinetMaterial').value = '';
+  document.getElementById('cabinetThickness').value = '18';
+  document.getElementById('cabinetDoors').checked = false;
+  document.getElementById('cabinetShelves').checked = false;
+  document.getElementById('cabinetDividers').checked = false;
+  document.getElementById('cabinetHandles').checked = false;
+  document.getElementById('cabinetSkirting').checked = false;
+  document.getElementById('cabinetDoorCount').value = '2';
+  document.getElementById('cabinetNotes').value = '';
+}
+
+function addCabinetAndGeneratePieces() {
+  const cabinetName = document.getElementById('cabinetName').value.trim();
+  const length = parseFloat(document.getElementById('cabinetLength').value);
+  const height = parseFloat(document.getElementById('cabinetHeight').value);
+  const depth = parseFloat(document.getElementById('cabinetDepth').value);
+  const quantity = parseInt(document.getElementById('cabinetQuantity').value);
+  const material = document.getElementById('cabinetMaterial').value.trim();
+  const thickness = parseFloat(document.getElementById('cabinetThickness').value);
+  const hasDoors = document.getElementById('cabinetDoors').checked;
+  const hasShelves = document.getElementById('cabinetShelves').checked;
+  const hasDividers = document.getElementById('cabinetDividers').checked;
+  const hasHandles = document.getElementById('cabinetHandles').checked;
+  const hasSkirting = document.getElementById('cabinetSkirting').checked;
+  const doorCount = parseInt(document.getElementById('cabinetDoorCount').value);
+  const notes = document.getElementById('cabinetNotes').value.trim();
+
+  if (!cabinetName || !length || !height || !depth) {
+    alert('Please fill in cabinet name and dimensions');
+    return;
+  }
+
+  // Generate pieces based on cabinet specification
+  const piecesGenerated = generatePiecesFromCabinet({
+    name: cabinetName,
+    length,
+    height,
+    depth,
+    quantity,
+    material,
+    thickness,
+    hasDoors,
+    hasShelves,
+    hasDividers,
+    hasHandles,
+    hasSkirting,
+    doorCount,
+    notes
+  });
+
+  // Save cabinet specification
+  cabinets.push({
+    id: Date.now(),
+    name: cabinetName,
+    length,
+    height,
+    depth,
+    quantity,
+    material,
+    thickness,
+    hasDoors,
+    hasShelves,
+    hasDividers,
+    hasHandles,
+    hasSkirting,
+    doorCount,
+    notes,
+    piecesCount: piecesGenerated,
+    createdAt: new Date().toISOString()
+  });
+
+  closeCabinetModal();
+  alert(`Added ${quantity} cabinet(s) and generated ${piecesGenerated} pieces`);
+  
+  renderSheets();
+  renderPiecesList();
+  renderSheetDetails();
+  generateQuotation();
+  generateCostComparison();
+}
+
+function generatePiecesFromCabinet(cabinet) {
+  let piecesCount = 0;
+  const teakSides = []; // No teak by default for cabinets
+
+  // Generate pieces for each cabinet quantity
+  for (let q = 0; q < cabinet.quantity; q++) {
+    // 1. Main cabinet body (sides)
+    // Left side panel
+    addPieceToSheetOptimized(cabinet.depth, cabinet.height, teakSides);
+    piecesCount++;
+    
+    // Right side panel
+    addPieceToSheetOptimized(cabinet.depth, cabinet.height, teakSides);
+    piecesCount++;
+    
+    // 2. Top panel
+    addPieceToSheetOptimized(cabinet.length, cabinet.depth, teakSides);
+    piecesCount++;
+    
+    // 3. Bottom panel
+    addPieceToSheetOptimized(cabinet.length, cabinet.depth, teakSides);
+    piecesCount++;
+    
+    // 4. Back panel
+    addPieceToSheetOptimized(cabinet.length, cabinet.height, teakSides);
+    piecesCount++;
+    
+    // 5. Front face panel (if specified)
+    if (cabinet.hasDoors) {
+      addPieceToSheetOptimized(cabinet.length, cabinet.height, teakSides);
+      piecesCount++;
+    }
+    
+    // 6. Middle shelf (if specified)
+    if (cabinet.hasShelves) {
+      addPieceToSheetOptimized(cabinet.length - (cabinet.thickness * 2), cabinet.depth, teakSides);
+      piecesCount++;
+    }
+    
+    // 7. Divider panels (if specified)
+    if (cabinet.hasDividers) {
+      // Divider above shelf
+      addPieceToSheetOptimized(cabinet.depth, (cabinet.height / 2) - cabinet.thickness, teakSides);
+      piecesCount++;
+      
+      // Divider below shelf
+      addPieceToSheetOptimized(cabinet.depth, (cabinet.height / 2) - cabinet.thickness, teakSides);
+      piecesCount++;
+    }
+    
+    // 8. Doors (if specified)
+    if (cabinet.hasDoors && cabinet.doorCount > 0) {
+      const doorWidth = cabinet.length / cabinet.doorCount;
+      for (let d = 0; d < cabinet.doorCount; d++) {
+        addPieceToSheetOptimized(doorWidth, cabinet.height, teakSides);
+        piecesCount++;
+      }
+    }
+    
+    // 9. Bottom skirting (if specified - 80mm height)
+    if (cabinet.hasSkirting) {
+      addPieceToSheetOptimized(cabinet.length, 80, teakSides);
+      piecesCount++;
+    }
+  }
+
+  return piecesCount;
+}
+
 // Project Modal Functions
 function openSaveProjectModal() {
   if (sheets.length === 0) {
@@ -878,6 +1045,7 @@ async function loadProject(projectName) {
 document.addEventListener('DOMContentLoaded', function() {
   const saveProjectBtn = document.getElementById('saveProjectBtn');
   const loadProjectBtn = document.getElementById('loadProjectBtn');
+  const addCabinetBtn = document.getElementById('addCabinetBtn');
   
   if (saveProjectBtn) {
     saveProjectBtn.addEventListener('click', openSaveProjectModal);
@@ -887,12 +1055,20 @@ document.addEventListener('DOMContentLoaded', function() {
     loadProjectBtn.addEventListener('click', openLoadProjectModal);
   }
   
+  if (addCabinetBtn) {
+    addCabinetBtn.addEventListener('click', openCabinetModal);
+  }
+  
   document.getElementById('closeSaveProjectModal').addEventListener('click', closeSaveProjectModal);
   document.getElementById('cancelSaveProject').addEventListener('click', closeSaveProjectModal);
   document.getElementById('confirmSaveProject').addEventListener('click', saveProject);
   
   document.getElementById('closeLoadProjectModal').addEventListener('click', closeLoadProjectModal);
   document.getElementById('cancelLoadProject').addEventListener('click', closeLoadProjectModal);
+  
+  document.getElementById('closeCabinetModal').addEventListener('click', closeCabinetModal);
+  document.getElementById('cancelAddCabinet').addEventListener('click', closeCabinetModal);
+  document.getElementById('confirmAddCabinet').addEventListener('click', addCabinetAndGeneratePieces);
   
   // Close modals when clicking outside
   document.getElementById('saveProjectModal').addEventListener('click', function(e) {
@@ -901,6 +1077,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   document.getElementById('loadProjectModal').addEventListener('click', function(e) {
     if (e.target === this) closeLoadProjectModal();
+  });
+  
+  document.getElementById('addCabinetModal').addEventListener('click', function(e) {
+    if (e.target === this) closeCabinetModal();
   });
 });
 
