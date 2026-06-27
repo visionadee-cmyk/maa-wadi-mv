@@ -48,6 +48,273 @@ let shops = [
 let selectedShop = null;
 let selectedWood = null;
 
+// Hardware pricing database (Maldivian prices in MVR)
+const hardwarePrices = {
+  // Hinges
+  "HINGE": { name: "Standard Hinge", price: 25, unit: "each" },
+  "CONCEALED_HINGE": { name: "Concealed Hinge", price: 45, unit: "each" },
+  "SOFT_CLOSE_HINGE": { name: "Soft-close Hinge", price: 65, unit: "each" },
+  "PIANO_HINGE": { name: "Piano Hinge", price: 35, unit: "each" },
+  "PIVOT_HINGE": { name: "Pivot Hinge", price: 55, unit: "each" },
+  "BUTT_HINGE": { name: "Butt Hinge", price: 20, unit: "each" },
+  "CORNER_HINGE": { name: "Corner Hinge", price: 30, unit: "each" },
+  "GLASS_DOOR_HINGE": { name: "Glass Door Hinge", price: 40, unit: "each" },
+  "LIFT_UP_HINGE": { name: "Lift Up Hinge", price: 75, unit: "each" },
+  
+  // Drawer hardware
+  "DRAWER_SLIDE": { name: "Standard Drawer Slide", price: 35, unit: "pair" },
+  "BALL_BEARING_SLIDE": { name: "Ball-bearing Slide", price: 55, unit: "pair" },
+  "TELESCOPIC_SLIDE": { name: "Telescopic Slide", price: 45, unit: "pair" },
+  "ROLLER_SLIDE": { name: "Roller Slide", price: 30, unit: "pair" },
+  "SOFT_CLOSE_SLIDER": { name: "Soft-close Slider", price: 70, unit: "pair" },
+  
+  // Handles and knobs
+  "HANDLE": { name: "Standard Handle", price: 25, unit: "each" },
+  "PULL_HANDLE": { name: "Pull Handle", price: 35, unit: "each" },
+  "KNOB": { name: "Knob", price: 15, unit: "each" },
+  "FINGER_PULL": { name: "Finger Pull", price: 20, unit: "each" },
+  
+  // Shelf supports
+  "SHELF_SUPPORT_PIN": { name: "Shelf Support Pin", price: 5, unit: "each" },
+  "SHELF_BRACKET": { name: "Shelf Bracket", price: 15, unit: "each" },
+  "SHELF_CLIP": { name: "Shelf Clip", price: 8, unit: "each" },
+  
+  // Fasteners
+  "WOOD_SCREW": { name: "Wood Screw", price: 1, unit: "each" },
+  "MACHINE_SCREW": { name: "Machine Screw", price: 1.5, unit: "each" },
+  "SELF_TAPPING_SCREW": { name: "Self-tapping Screw", price: 1.5, unit: "each" },
+  "CONFIRMAT_SCREW": { name: "Confirmat Screw", price: 3, unit: "each" },
+  "DRYWALL_SCREW": { name: "Drywall Screw", price: 1, unit: "each" },
+  "HEX_BOLT": { name: "Hex Bolt", price: 2, unit: "each" },
+  "CARRIAGE_BOLT": { name: "Carriage Bolt", price: 2.5, unit: "each" },
+  "SOCKET_BOLT": { name: "Socket Bolt", price: 3, unit: "each" },
+  "ANCHOR_BOLT": { name: "Anchor Bolt", price: 5, unit: "each" },
+  "NUT": { name: "Nut", price: 0.5, unit: "each" },
+  "LOCK_NUT": { name: "Lock Nut", price: 1, unit: "each" },
+  "WING_NUT": { name: "Wing Nut", price: 1.5, unit: "each" },
+  "WASHER": { name: "Washer", price: 0.5, unit: "each" },
+  "SPRING_WASHER": { name: "Spring Washer", price: 1, unit: "each" },
+  "NAIL": { name: "Nail", price: 0.5, unit: "each" },
+  "STAPLE": { name: "Staple", price: 0.3, unit: "each" },
+  
+  // Joining hardware
+  "CAM_LOCK": { name: "Cam Lock", price: 8, unit: "each" },
+  "CAM_BOLT": { name: "Cam Bolt", price: 5, unit: "each" },
+  "CROSS_DOWEL": { name: "Cross Dowel", price: 3, unit: "each" },
+  "BARREL_NUT": { name: "Barrel Nut", price: 4, unit: "each" },
+  "DOWEL": { name: "Dowel", price: 2, unit: "each" },
+  "WOOD_DOWEL": { name: "Wood Dowel", price: 1.5, unit: "each" },
+  "METAL_DOWEL": { name: "Metal Dowel", price: 2.5, unit: "each" },
+  "CONNECTOR_PIN": { name: "Connector Pin", price: 3, unit: "each" },
+  "JOINING_PLATE": { name: "Joining Plate", price: 10, unit: "each" },
+  "CONNECTING_BOLT": { name: "Connecting Bolt", price: 4, unit: "each" },
+  "JOINT_CONNECTOR": { name: "Joint Connector", price: 12, unit: "each" },
+  "CORNER_CONNECTOR": { name: "Corner Connector", price: 15, unit: "each" },
+  
+  // Brackets
+  "L_BRACKET": { name: "L Bracket", price: 8, unit: "each" },
+  "CORNER_BRACKET": { name: "Corner Bracket", price: 10, unit: "each" },
+  "ANGLE_BRACKET": { name: "Angle Bracket", price: 12, unit: "each" },
+  "FLAT_BRACKET": { name: "Flat Bracket", price: 7, unit: "each" },
+  
+  // Support hardware
+  "LEG_ADJUSTER": { name: "Leg Adjuster", price: 15, unit: "each" },
+  "ADJUSTABLE_FOOT": { name: "Adjustable Foot", price: 12, unit: "each" },
+  "CASTER_WHEEL": { name: "Caster Wheel", price: 25, unit: "each" },
+  
+  // Accessories
+  "HANGING_ROD": { name: "Hanging Rod", price: 50, unit: "each" },
+  "ROD_BRACKET": { name: "Rod Bracket", price: 15, unit: "each" },
+  "TIE_RACK": { name: "Tie Rack", price: 35, unit: "each" },
+  "BELT_RACK": { name: "Belt Rack", price: 30, unit: "each" },
+  "SHOE_RACK": { name: "Shoe Rack", price: 40, unit: "each" },
+  
+  // Adhesives
+  "WOOD_GLUE": { name: "Wood Glue", price: 45, unit: "bottle" },
+  "ADHESIVE": { name: "General Adhesive", price: 35, unit: "tube" },
+  "SILICONE": { name: "Silicone", price: 25, unit: "tube" },
+  "SEALANT": { name: "Sealant", price: 30, unit: "tube" }
+};
+
+// Map hardware type from hardware list to pricing database key
+function mapHardwareTypeToKey(type, specification) {
+  // Convert type to.uppercase for matching
+  const typeUpper = type.toUpperCase();
+  
+  // Direct matches
+  if (hardwarePrices[typeUpper]) {
+    return typeUpper;
+  }
+  
+  // Map based on specification
+  const specLower = specification ? specification.toLowerCase() : '';
+  
+  // Hinges
+  if (typeUpper.includes('HINGE')) {
+    if (specLower.includes('concealed') || specLower.includes('hidden')) return 'CONCEALED_HINGE';
+    if (specLower.includes('soft') || specLower.includes('close')) return 'SOFT_CLOSE_HINGE';
+    if (specLower.includes('piano')) return 'PIANO_HINGE';
+    if (specLower.includes('pivot')) return 'PIVOT_HINGE';
+    if (specLower.includes('butt')) return 'BUTT_HINGE';
+    if (specLower.includes('corner')) return 'CORNER_HINGE';
+    if (specLower.includes('glass')) return 'GLASS_DOOR_HINGE';
+    if (specLower.includes('lift')) return 'LIFT_UP_HINGE';
+    return 'HINGE';
+  }
+  
+  // Drawer slides
+  if (typeUpper.includes('SLIDE') || typeUpper.includes('RUNNER')) {
+    if (specLower.includes('ball') || specLower.includes('bearing')) return 'BALL_BEARING_SLIDE';
+    if (specLower.includes('telescopic')) return 'TELESCOPIC_SLIDE';
+    if (specLower.includes('roller')) return 'ROLLER_SLIDE';
+    if (specLower.includes('soft') || specLower.includes('close')) return 'SOFT_CLOSE_SLIDER';
+    return 'DRAWER_SLIDE';
+  }
+  
+  // Handles and knobs
+  if (typeUpper.includes('HANDLE')) {
+    if (specLower.includes('pull')) return 'PULL_HANDLE';
+    if (specLower.includes('finger')) return 'FINGER_PULL';
+    return 'HANDLE';
+  }
+  
+  if (typeUpper.includes('KNOB')) {
+    return 'KNOB';
+  }
+  
+  // Shelf supports
+  if (typeUpper.includes('SHELF') && typeUpper.includes('PIN')) {
+    return 'SHELF_SUPPORT_PIN';
+  }
+  
+  if (typeUpper.includes('SHELF') && typeUpper.includes('BRACKET')) {
+    return 'SHELF_BRACKET';
+  }
+  
+  if (typeUpper.includes('SHELF') && typeUpper.includes('CLIP')) {
+    return 'SHELF_CLIP';
+  }
+  
+  // Screws
+  if (typeUpper.includes('SCREW')) {
+    if (specLower.includes('wood')) return 'WOOD_SCREW';
+    if (specLower.includes('machine')) return 'MACHINE_SCREW';
+    if (specLower.includes('self') || specLower.includes('tapping')) return 'SELF_TAPPING_SCREW';
+    if (specLower.includes('confirmat')) return 'CONFIRMAT_SCREW';
+    if (specLower.includes('drywall')) return 'DRYWALL_SCREW';
+    return 'WOOD_SCREW';
+  }
+  
+  // Bolts
+  if (typeUpper.includes('BOLT')) {
+    if (specLower.includes('hex')) return 'HEX_BOLT';
+    if (specLower.includes('carriage')) return 'CARRIAGE_BOLT';
+    if (specLower.includes('socket')) return 'SOCKET_BOLT';
+    if (specLower.includes('anchor')) return 'ANCHOR_BOLT';
+    if (specLower.includes('cam')) return 'CAM_BOLT';
+    if (specLower.includes('connect')) return 'CONNECTING_BOLT';
+    return 'HEX_BOLT';
+  }
+  
+  // Nuts
+  if (typeUpper.includes('NUT')) {
+    if (specLower.includes('lock')) return 'LOCK_NUT';
+    if (specLower.includes('wing')) return 'WING_NUT';
+    if (specLower.includes('barrel')) return 'BARREL_NUT';
+    return 'NUT';
+  }
+  
+  // Washers
+  if (typeUpper.includes('WASHER')) {
+    if (specLower.includes('spring')) return 'SPRING_WASHER';
+    return 'WASHER';
+  }
+  
+  // Joining hardware
+  if (typeUpper.includes('CAM') && typeUpper.includes('LOCK')) {
+    return 'CAM_LOCK';
+  }
+  
+  if (typeUpper.includes('DOWEL')) {
+    if (specLower.includes('wood')) return 'WOOD_DOWEL';
+    if (specLower.includes('metal')) return 'METAL_DOWEL';
+    if (specLower.includes('cross')) return 'CROSS_DOWEL';
+    return 'DOWEL';
+  }
+  
+  if (typeUpper.includes('CONNECTOR') || typeUpper.includes('JOINT')) {
+    if (specLower.includes('pin')) return 'CONNECTOR_PIN';
+    if (specLower.includes('corner')) return 'CORNER_CONNECTOR';
+    if (specLower.includes('joint')) return 'JOINT_CONNECTOR';
+    return 'JOINT_CONNECTOR';
+  }
+  
+  if (typeUpper.includes('PLATE')) {
+    return 'JOINING_PLATE';
+  }
+  
+  // Brackets
+  if (typeUpper.includes('BRACKET')) {
+    if (specLower.includes('l ') || specLower.includes('l-')) return 'L_BRACKET';
+    if (specLower.includes('corner')) return 'CORNER_BRACKET';
+    if (specLower.includes('angle')) return 'ANGLE_BRACKET';
+    if (specLower.includes('flat')) return 'FLAT_BRACKET';
+    if (typeUpper.includes('SHELF')) return 'SHELF_BRACKET';
+    if (typeUpper.includes('ROD')) return 'ROD_BRACKET';
+    return 'CORNER_BRACKET';
+  }
+  
+  // Support hardware
+  if (typeUpper.includes('ADJUSTER') || typeUpper.includes('LEVEL')) {
+    return 'LEG_ADJUSTER';
+  }
+  
+  if (typeUpper.includes('FOOT') && typeUpper.includes('ADJUST')) {
+    return 'ADJUSTABLE_FOOT';
+  }
+  
+  if (typeUpper.includes('CASTER') || typeUpper.includes('WHEEL')) {
+    return 'CASTER_WHEEL';
+  }
+  
+  // Accessories
+  if (typeUpper.includes('ROD') && typeUpper.includes('HANG')) {
+    return 'HANGING_ROD';
+  }
+  
+  if (typeUpper.includes('TIE') && typeUpper.includes('RACK')) {
+    return 'TIE_RACK';
+  }
+  
+  if (typeUpper.includes('BELT') && typeUpper.includes('RACK')) {
+    return 'BELT_RACK';
+  }
+  
+  if (typeUpper.includes('SHOE') && typeUpper.includes('RACK')) {
+    return 'SHOE_RACK';
+  }
+  
+  // Adhesives
+  if (typeUpper.includes('GLUE')) {
+    return 'WOOD_GLUE';
+  }
+  
+  if (typeUpper.includes('ADHESIVE')) {
+    return 'ADHESIVE';
+  }
+  
+  if (typeUpper.includes('SILICONE')) {
+    return 'SILICONE';
+  }
+  
+  if (typeUpper.includes('SEALANT')) {
+    return 'SEALANT';
+  }
+  
+  // Default fallback
+  return 'HANDLE';
+}
+
 // Current sheet dimensions (based on selected wood)
 let sheetWidth = 2440;
 let sheetHeight = 1220;
@@ -1520,19 +1787,31 @@ function renderHardwareList() {
     '<th>Size</th>' +
     '<th>Material</th>' +
     '<th>Total Quantity</th>' +
+    '<th>Unit Price (MVR)</th>' +
+    '<th>Total (MVR)</th>' +
     '<th>Used In</th>' +
     '<th>Notes</th>' +
     '</tr>' +
     '</thead>' +
     '<tbody>';
   
+  let hardwareTotalCost = 0;
+  
   Object.values(groupedHardware).forEach(item => {
+    // Map to pricing database
+    const hardwareKey = mapHardwareTypeToKey(item.type, item.specification);
+    const pricing = hardwarePrices[hardwareKey] || { name: item.type, price: 5, unit: 'each' };
+    const itemTotal = item.quantity * pricing.price;
+    hardwareTotalCost += itemTotal;
+    
     html += '<tr>' +
       '<td><strong>' + item.type + '</strong></td>' +
       '<td>' + item.specification + '</td>' +
       '<td>' + item.size + '</td>' +
       '<td>' + item.material + '</td>' +
       '<td><span class="quantity-badge">' + item.quantity + '</span></td>' +
+      '<td>' + pricing.price.toFixed(2) + '</td>' +
+      '<td><strong>' + itemTotal.toFixed(2) + '</strong></td>' +
       '<td>' + Array.from(item.cabinets).join(', ') + '</td>' +
       '<td>' + item.notes + '</td>' +
       '</tr>';
@@ -1544,6 +1823,7 @@ function renderHardwareList() {
   const totalItems = hardwareList.reduce((sum, item) => sum + item.quantity, 0);
   html += '<div class="hardware-summary">' +
     '<strong>Total Hardware Items:</strong> ' + totalItems +
+    ' | <strong>Total Hardware Cost:</strong> ' + hardwareTotalCost.toFixed(2) + ' MVR' +
     '</div>';
   
   hardwareListEl.innerHTML = html;
@@ -2409,29 +2689,27 @@ function generateQuotation() {
   const cutsTotal = totalCuts * cutCost;
   const teakTotal = totalTeakMeters * teakCost;
   
-  // Hardware costs (estimated prices)
-  const hardwarePrices = {
-    'Hinge': 15,
-    'Handle': 25,
-    'Shelf Support Pin': 2,
-    'Wood Screw': 0.5,
-    'Cam Lock': 8,
-    'Cam Bolt': 5
-  };
-  
+  // Hardware costs using Maldivian pricing database
   let hardwareTotal = 0;
   let hardwareRows = '';
   
   if (hardwareList.length > 0) {
-    // Group hardware by type
+    // Group hardware by type and specification
     const groupedHardware = {};
     hardwareList.forEach(item => {
-      const key = item.type;
+      // Map hardware type to pricing database key
+      const hardwareKey = mapHardwareTypeToKey(item.type, item.specification);
+      const pricing = hardwarePrices[hardwareKey] || { name: item.type, price: 5, unit: 'each' };
+      
+      const key = `${item.type}-${item.specification}-${item.size}`;
       if (!groupedHardware[key]) {
         groupedHardware[key] = {
           type: item.type,
+          specification: item.specification,
+          size: item.size,
           quantity: 0,
-          unitPrice: hardwarePrices[item.type] || 5
+          unitPrice: pricing.price,
+          unit: pricing.unit
         };
       }
       groupedHardware[key].quantity += item.quantity;
@@ -2441,10 +2719,10 @@ function generateQuotation() {
       const hwTotal = hw.quantity * hw.unitPrice;
       hardwareTotal += hwTotal;
       hardwareRows += '<tr>' +
-        '<td>' + hw.type + '</td>' +
-        '<td>' + hw.quantity + '</td>' +
-        '<td>' + hw.unitPrice.toFixed(2) + '</td>' +
-        '<td>' + hwTotal.toFixed(2) + '</td>' +
+        '<td>' + hw.type + (hw.specification ? ' (' + hw.specification + ')' : '') + '</td>' +
+        '<td>' + hw.quantity + ' ' + hw.unit + '</td>' +
+        '<td>' + hw.unitPrice.toFixed(2) + ' MVR</td>' +
+        '<td>' + hwTotal.toFixed(2) + ' MVR</td>' +
         '</tr>';
     });
   }
