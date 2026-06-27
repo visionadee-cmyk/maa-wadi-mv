@@ -901,7 +901,7 @@ function enableBlenderSync() {
           // Handle qty field from Blender Cut List addon
           const qty = piece.qty || 1;
           for (let i = 0; i < qty; i++) {
-            addPieceToSheetOptimized(piece.length, piece.width, teakSides);
+            addPieceToSheetOptimized(piece.length, piece.width, teakSides, piece.name || '');
           }
 
           // Generate 3D boxes from cut list data (only if no Blender model)
@@ -2003,7 +2003,14 @@ function renderSheets() {
       labelDiv.className = 'piece-label';
       const pieceWidthConverted = UnitConverter.fromMM(piece.width, currentUnit);
       const pieceHeightConverted = UnitConverter.fromMM(piece.height, currentUnit);
-      labelDiv.textContent = `#${piece.id}: ${pieceWidthConverted} × ${pieceHeightConverted}${currentUnit}`;
+      
+      // Show piece name if available, otherwise show ID
+      if (piece.pieceType) {
+        labelDiv.textContent = `${piece.pieceType}`;
+      } else {
+        labelDiv.textContent = `#${piece.id}`;
+      }
+      labelDiv.textContent += `: ${pieceWidthConverted} × ${pieceHeightConverted}${currentUnit}`;
       
       if (piece.isRotated) {
         labelDiv.textContent += ' (R)';
