@@ -1181,6 +1181,172 @@ class BCL_OT_export_3d_model(Operator):
         return {"FINISHED"}
 
 
+class BCL_OT_visualize_cut_layout(Operator):
+    bl_idname = "bcl.visualize_cut_layout"
+    bl_label = "Visualize Cut Layout"
+    bl_description = "Create 3D visualization of cut layout on sheets"
+    bl_options = {"REGISTER", "UNDO"}
+    
+    sheet_width: bpy.props.FloatProperty(
+        name="Sheet Width",
+        description="Width of the sheet in mm",
+        default=2440.0,
+        min=100.0,
+        max=10000.0
+    )
+    
+    sheet_height: bpy.props.FloatProperty(
+        name="Sheet Height",
+        description="Height of the sheet in mm",
+        default=1220.0,
+        min=100.0,
+        max=10000.0
+    )
+    
+    sheet_thickness: bpy.props.FloatProperty(
+        name="Sheet Thickness",
+        description="Thickness of the sheet in mm",
+        default=18.0,
+        min=1.0,
+        max=100.0
+    )
+    
+    def execute(self, context):
+        st = context.scene.bcl_settings
+        
+        if not st.items:
+            self.report({'WARNING'}, "No cut list items to visualize")
+            return {"CANCELLED"}
+        
+        # Create a new collection for the visualization
+        viz_collection_name = "CutLayout_Visualization"
+        if viz_collection_name in bpy.data.collections:
+            bpy.data.collections.remove(bpy.data.collections[viz_collection_name])
+        
+        viz_collection = bpy.data.collections.new(viz_collection_name)
+        context.scene.collection.children.link(viz_collection)
+        
+        # Create sheet material
+        sheet_mat = bpy.data.materials.new(name="CutLayout_Sheet_Mat")
+        sheet_mat.use_nodes = True
+        bsdf = sheet_mat.node_tree.nodes["Principled BSDF"]
+        bsdf.inputs["Base Color"].default_value = (0.9, 0.85, 0.7, 1.0)  # Light wood color
+        bsdf.inputs["Roughness"].default_value = 0.5
+        
+        # Create piece material
+        piece_mat = bpy.data.materials.new(name="CutLayout_Piece_Mat")
+        piece_mat.use_nodes = True
+        bsdf = piece_mat.node_tree.nodes["Principled BSDF"]
+        bsdf.inputs["Base Color"].default_value = (0.7, 0.5, 0.3, 1.0)  # Darker wood color
+        bsdf.inputs["Roughness"].default_value = 0.6
+        
+        # Create cut line material
+        cut_mat = bpy.data.materials.new(name="CutLayout_Cut_Mat")
+        cut_mat.use_nodes = True
+        bsdf = cut_mat.node_tree.nodes["Principled BSDF"]
+        bsdf.inputs["Base Color"].default_value = (0.2, 0.2, 0.2, 1.0)  # Dark gray for cut lines
+        bsdf.inputs["Roughness"].default_value = 0.8
+        
+        # Convert mm to Blender units (1 Blender unit = 1 meter)
+        scale = 0.001
+        sw = self.sheet_width * scale
+        sh = self.sheet_height * scale
+        sth = self.sheet_thickness * scale
+        
+        # Create sheet mesh
+        sheet_mesh = bpy.data.meshes.new(name="CutLayout_Sheet")
+        sheet_verts = [
+            (-sw/2, -sh/2, 0),
+            (sw/2, -sh/2, 0),
+            (sw/2, sh/2, 0),
+            (-sw/2, sh/2, 0),
+            (-sw/2, -sh/2, -sth),
+            (sw/2, -sh/2, -sth),
+            (sw/2, sh/2, -sth),
+            (-sw/2, sh/2, -sth),
+        ]
+        sheet_faces = [
+            (0, 1, 2, 3),  # Top
+            (4, 5, 6, 7),  # Bottom
+            (0, 1, 5, 4),  # Front
+            (2, 3, 7, 6),  # Back
+            (0, 3, 7, 4),  # Left
+            (1, 2, 6, 5),  # Right
+        ]
+        sheet_mesh.from_pydata(sheet_verts, [], sheet_faces)
+        sheet_obj = bpy.data.objects.new(name="CutLayout_Sheet", object_data=sheet_mesh)
+        sheet_obj.active_material = sheet_mat
+        viz_collection.objects.link(sheet_obj)
+        
+        # Simple layout algorithm - place pieces in a grid pattern
+        current_x = -sw/2 + 0.1
+        current_y = -sh/2 + 0.1
+        max_y = current_y
+        waste_gap = 0.01  # 10mm waste in meters
+        
+        for item in st.items:
+            pw = item.length * scale
+            ph = item.width * scale
+            pth = item.thickness * scale
+            
+            # Check if piece fits in current row
+            if current_x + pw > sw/2 - 0.1:
+                current_x = -sw/2 + 0.1
+                current_y = max_y + waste_gap
+            
+            # Check if piece fits vertically
+            if current_y + ph > sh/2 - 0.1:
+                self.report({'WARNING'}, f"Not enough space for {item.part_name}")
+                continue
+            
+            # Create piece mesh
+            piece_mesh = bpy.data.meshes.new(name=f"Piece_{item.part_name}")
+            piece_verts = [
+                (current_x, current_y, sth),
+                (current_x + pw, current_y, sth),
+                (current_x + pw, current_y + ph, sth),
+                (current_x, current_y + ph, sth),
+                (current_x, current_y, sth - pth),
+                (current_x + pw, current_y, sth - pth),
+                (current_x + pw, current_y + ph, sth - pth),
+                (current_x, current_y + ph, sth - pth),
+            ]
+            piece_faces = [
+                (0, 1, 2, 3),  # Top
+                (4, 5, 6, 7),  # Bottom
+                (0, 1, 5, 4),  # Front
+                (2, 3, 7, 6),  # Back
+                (0, 3, 7, 4),  # Left
+                (1, 2, 6, 5),  # Right
+            ]
+            piece_mesh.from_pydata(piece_verts, [], piece_faces)
+            piece_obj = bpy.data.objects.new(name=f"Piece_{item.part_name}", object_data=piece_mesh)
+            piece_obj.active_material = piece_mat
+            viz_collection.objects.link(piece_obj)
+            
+            # Create cut line (edge around the piece)
+            cut_mesh = bpy.data.meshes.new(name=f"Cut_{item.part_name}")
+            cut_verts = [
+                (current_x, current_y, sth + 0.001),
+                (current_x + pw, current_y, sth + 0.001),
+                (current_x + pw, current_y + ph, sth + 0.001),
+                (current_x, current_y + ph, sth + 0.001),
+                (current_x, current_y, sth + 0.001),  # Close the loop
+            ]
+            cut_edges = [(0, 1), (1, 2), (2, 3), (3, 4)]
+            cut_mesh.from_pydata(cut_verts, cut_edges, [])
+            cut_obj = bpy.data.objects.new(name=f"Cut_{item.part_name}", object_data=cut_mesh)
+            cut_obj.active_material = cut_mat
+            viz_collection.objects.link(cut_obj)
+            
+            # Update position for next piece
+            current_x += pw + waste_gap
+            max_y = max(max_y, current_y + ph)
+        
+        self.report({'INFO'}, f"Visualized {len(st.items)} pieces on sheet")
+        return {"FINISHED"}
+
+
 classes = (
     BCL_OT_generate_cut_list,
     BCL_OT_clear_cut_list,
@@ -1196,6 +1362,7 @@ classes = (
     BCL_OT_disable_sync,
     BCL_OT_sync_now,
     BCL_OT_export_3d_model,
+    BCL_OT_visualize_cut_layout,
 )
 
 

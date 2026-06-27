@@ -57,6 +57,13 @@ class BCL_PT_cut_list(Panel):
         op.format = "TSV"
 
         layout.separator()
+        
+        # Cut Layout Visualization
+        box = layout.box()
+        box.label(text="Cut Layout Visualization")
+        box.operator("bcl.visualize_cut_layout", icon="VIEW3D")
+
+        layout.separator()
 
         # Firebase Sync Section
         box = layout.box()
