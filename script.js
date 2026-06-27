@@ -890,6 +890,27 @@ function enableBlenderSync() {
         // Add pieces from Firebase
         const piecesArray = Object.values(data);
         
+        // Process pieces to create sheets (always do this regardless of model)
+        piecesArray.forEach(piece => {
+          const teakSides = [];
+          if (piece.teak_top) teakSides.push('top');
+          if (piece.teak_bottom) teakSides.push('bottom');
+          if (piece.teak_left) teakSides.push('left');
+          if (piece.teak_right) teakSides.push('right');
+          
+          // Handle qty field from Blender Cut List addon
+          const qty = piece.qty || 1;
+          for (let i = 0; i < qty; i++) {
+            addPieceToSheetOptimized(piece.length, piece.width, teakSides);
+          }
+
+          // Generate 3D boxes from cut list data (only if no Blender model)
+          if (piece.length && piece.width && piece.thickness) {
+            const position = piece.position || null;
+            generate3DBox(piece.length, piece.width, piece.thickness, piece.name, position);
+          }
+        });
+        
         // Check if Blender GLB model is available (new _model key or old model_base64 in pieces)
         let blenderModel = null;
         
@@ -909,31 +930,11 @@ function enableBlenderSync() {
         }
         
         if (blenderModel) {
-          // Load Blender GLB model instead of generating boxes
+          // Load Blender GLB model instead of generated boxes
           console.log('Loading Blender GLB model...');
           load3DModelFromBase64(blenderModel);
         } else {
-          console.log('No Blender GLB model found, generating boxes from cut list');
-          // Fall back to generating 3D boxes from cut list data
-          piecesArray.forEach(piece => {
-            const teakSides = [];
-            if (piece.teak_top) teakSides.push('top');
-            if (piece.teak_bottom) teakSides.push('bottom');
-            if (piece.teak_left) teakSides.push('left');
-            if (piece.teak_right) teakSides.push('right');
-            
-            // Handle qty field from Blender Cut List addon
-            const qty = piece.qty || 1;
-            for (let i = 0; i < qty; i++) {
-              addPieceToSheetOptimized(piece.length, piece.width, teakSides);
-            }
-
-            // Generate 3D boxes from cut list data
-            if (piece.length && piece.width && piece.thickness) {
-              const position = piece.position || null;
-              generate3DBox(piece.length, piece.width, piece.thickness, piece.name, position);
-            }
-          });
+          console.log('No Blender GLB model found, using generated boxes from cut list');
         }
         
         renderSheets();
