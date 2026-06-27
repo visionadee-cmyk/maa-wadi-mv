@@ -875,22 +875,33 @@ async function loadProject(projectName) {
 }
 
 // Event listeners for project modals
-document.getElementById('saveProjectBtn').addEventListener('click', openSaveProjectModal);
-document.getElementById('closeSaveProjectModal').addEventListener('click', closeSaveProjectModal);
-document.getElementById('cancelSaveProject').addEventListener('click', closeSaveProjectModal);
-document.getElementById('confirmSaveProject').addEventListener('click', saveProject);
-
-document.getElementById('loadProjectBtn').addEventListener('click', openLoadProjectModal);
-document.getElementById('closeLoadProjectModal').addEventListener('click', closeLoadProjectModal);
-document.getElementById('cancelLoadProject').addEventListener('click', closeLoadProjectModal);
-
-// Close modals when clicking outside
-document.getElementById('saveProjectModal').addEventListener('click', function(e) {
-  if (e.target === this) closeSaveProjectModal();
-});
-
-document.getElementById('loadProjectModal').addEventListener('click', function(e) {
-  if (e.target === this) closeLoadProjectModal();
+document.addEventListener('DOMContentLoaded', function() {
+  const saveProjectBtn = document.getElementById('saveProjectBtn');
+  const loadProjectBtn = document.getElementById('loadProjectBtn');
+  
+  if (saveProjectBtn) {
+    saveProjectBtn.addEventListener('click', openSaveProjectModal);
+  }
+  
+  if (loadProjectBtn) {
+    loadProjectBtn.addEventListener('click', openLoadProjectModal);
+  }
+  
+  document.getElementById('closeSaveProjectModal').addEventListener('click', closeSaveProjectModal);
+  document.getElementById('cancelSaveProject').addEventListener('click', closeSaveProjectModal);
+  document.getElementById('confirmSaveProject').addEventListener('click', saveProject);
+  
+  document.getElementById('closeLoadProjectModal').addEventListener('click', closeLoadProjectModal);
+  document.getElementById('cancelLoadProject').addEventListener('click', closeLoadProjectModal);
+  
+  // Close modals when clicking outside
+  document.getElementById('saveProjectModal').addEventListener('click', function(e) {
+    if (e.target === this) closeSaveProjectModal();
+  });
+  
+  document.getElementById('loadProjectModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLoadProjectModal();
+  });
 });
 
 document.getElementById('piece-form').addEventListener('submit', function (e) {
