@@ -68,16 +68,6 @@
                         </button>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-secondary" id="saveTemplateBtn">
-                            <i class="fas fa-save"></i> Save as Template
-                        </button>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-secondary" id="loadTemplateBtn">
-                            <i class="fas fa-folder-open"></i> Load Template
-                        </button>
-                    </div>
-                    <div class="form-group">
                         <button class="btn btn-info" id="blenderSyncBtn">
                             <i class="fas fa-sync"></i> Blender Sync
                         </button>
@@ -142,46 +132,6 @@
                         <div class="modal-footer">
                             <button class="btn btn-secondary" id="cancelAddShop">Cancel</button>
                             <button class="btn btn-primary" id="saveShop">Save Shop</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Save Template Modal -->
-                <div id="saveTemplateModal" class="modal" style="display: none;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3><i class="fas fa-save"></i> Save as Template</h3>
-                            <button class="modal-close" id="closeSaveTemplateModal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="templateName">Template Name</label>
-                                <input type="text" id="templateName" class="form-control" placeholder="e.g., Wardrobe Standard">
-                            </div>
-                            <div class="form-group">
-                                <label for="templateDescription">Description (optional)</label>
-                                <input type="text" id="templateDescription" class="form-control" placeholder="e.g., Standard wardrobe with 2 doors">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" id="cancelSaveTemplate">Cancel</button>
-                            <button class="btn btn-primary" id="confirmSaveTemplate">Save Template</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Load Template Modal -->
-                <div id="loadTemplateModal" class="modal" style="display: none;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3><i class="fas fa-folder-open"></i> Load Template</h3>
-                            <button class="modal-close" id="closeLoadTemplateModal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="templateList" class="template-list"></div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" id="cancelLoadTemplate">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -425,7 +375,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="script.js?v=35"></script>
-    <script src="units.js?v=35"></script>
+    <script src="script.js?v=36"></script>
+    <script src="units.js?v=36"></script>
 </body>
 </html>

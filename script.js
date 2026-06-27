@@ -797,20 +797,6 @@ function disableBlenderSync() {
 document.getElementById('blenderSyncBtn').addEventListener('click', enableBlenderSync);
 
 // Template Management Functions
-function openSaveTemplateModal() {
-  if (sheets.length === 0) {
-    alert('No pieces to save as template. Add pieces first.');
-    return;
-  }
-  document.getElementById('saveTemplateModal').style.display = 'flex';
-}
-
-function closeSaveTemplateModal() {
-  document.getElementById('saveTemplateModal').style.display = 'none';
-  document.getElementById('templateName').value = '';
-  document.getElementById('templateDescription').value = '';
-}
-
 // Project Modal Functions
 function openSaveProjectModal() {
   if (sheets.length === 0) {
@@ -888,138 +874,6 @@ async function loadProject(projectName) {
   }
 }
 
-function saveTemplate() {
-  const templateName = document.getElementById('templateName').value.trim();
-  const templateDescription = document.getElementById('templateDescription').value.trim();
-
-  if (!templateName) {
-    alert('Please enter a template name');
-    return;
-  }
-
-  // Collect all pieces
-  const pieces = [];
-  sheets.forEach(sheet => {
-    sheet.pieces.forEach(piece => {
-      pieces.push({
-        width: piece.width,
-        height: piece.height,
-        teakSides: piece.teakSides
-      });
-    });
-  });
-
-  const template = {
-    id: Date.now(),
-    name: templateName,
-    description: templateDescription,
-    pieces: pieces,
-    createdAt: new Date().toISOString()
-  };
-
-  // Get existing templates
-  const templates = JSON.parse(localStorage.getItem('maaWadiTemplates') || '[]');
-  templates.push(template);
-  localStorage.setItem('maaWadiTemplates', JSON.stringify(templates));
-
-  closeSaveTemplateModal();
-  alert('Template saved successfully!');
-}
-
-function openLoadTemplateModal() {
-  const templates = JSON.parse(localStorage.getItem('maaWadiTemplates') || '[]');
-  const templateList = document.getElementById('templateList');
-
-  if (templates.length === 0) {
-    templateList.innerHTML = '<p>No templates saved yet.</p>';
-  } else {
-    templateList.innerHTML = '';
-    templates.forEach(template => {
-      const templateItem = document.createElement('div');
-      templateItem.className = 'template-item';
-      templateItem.innerHTML = `
-        <span class="delete-template" onclick="deleteTemplate(${template.id}, event)">🗑️</span>
-        <h4>${template.name}</h4>
-        <p>${template.description || 'No description'}</p>
-        <div class="template-meta">
-          ${template.pieces.length} pieces | Created: ${new Date(template.createdAt).toLocaleDateString()}
-        </div>
-      `;
-      templateItem.onclick = (e) => {
-        if (!e.target.classList.contains('delete-template')) {
-          loadTemplate(template.id);
-        }
-      };
-      templateList.appendChild(templateItem);
-    });
-  }
-
-  document.getElementById('loadTemplateModal').style.display = 'flex';
-}
-
-function closeLoadTemplateModal() {
-  document.getElementById('loadTemplateModal').style.display = 'none';
-}
-
-function loadTemplate(templateId) {
-  const templates = JSON.parse(localStorage.getItem('maaWadiTemplates') || '[]');
-  const template = templates.find(t => t.id === templateId);
-
-  if (!template) {
-    alert('Template not found');
-    return;
-  }
-
-  if (sheets.length > 0) {
-    if (!confirm('Loading template will replace existing pieces. Continue?')) {
-      return;
-    }
-  }
-
-  // Clear existing sheets
-  sheets = [];
-  pieceIdCounter = 0;
-
-  // Add pieces from template
-  template.pieces.forEach(piece => {
-    addPieceToSheetOptimized(piece.width, piece.height, piece.teakSides);
-  });
-
-  closeLoadTemplateModal();
-  renderSheets();
-  renderPiecesList();
-  renderSheetDetails();
-  generateQuotation();
-  generateCostComparison();
-
-  alert(`Template "${template.name}" loaded successfully!`);
-}
-
-function deleteTemplate(templateId, event) {
-  event.stopPropagation();
-
-  if (!confirm('Are you sure you want to delete this template?')) {
-    return;
-  }
-
-  const templates = JSON.parse(localStorage.getItem('maaWadiTemplates') || '[]');
-  const filteredTemplates = templates.filter(t => t.id !== templateId);
-  localStorage.setItem('maaWadiTemplates', JSON.stringify(filteredTemplates));
-
-  // Refresh the template list
-  openLoadTemplateModal();
-}
-
-// Event listeners for template modals
-document.getElementById('saveTemplateBtn').addEventListener('click', openSaveTemplateModal);
-document.getElementById('closeSaveTemplateModal').addEventListener('click', closeSaveTemplateModal);
-document.getElementById('cancelSaveTemplate').addEventListener('click', closeSaveTemplateModal);
-document.getElementById('confirmSaveTemplate').addEventListener('click', saveTemplate);
-
-document.getElementById('loadTemplateBtn').addEventListener('click', openLoadTemplateModal);
-document.getElementById('closeLoadTemplateModal').addEventListener('click', closeLoadTemplateModal);
-document.getElementById('cancelLoadTemplate').addEventListener('click', closeLoadTemplateModal);
-
 // Event listeners for project modals
 document.getElementById('saveProjectBtn').addEventListener('click', openSaveProjectModal);
 document.getElementById('closeSaveProjectModal').addEventListener('click', closeSaveProjectModal);
@@ -1031,14 +885,6 @@ document.getElementById('closeLoadProjectModal').addEventListener('click', close
 document.getElementById('cancelLoadProject').addEventListener('click', closeLoadProjectModal);
 
 // Close modals when clicking outside
-document.getElementById('saveTemplateModal').addEventListener('click', function(e) {
-  if (e.target === this) closeSaveTemplateModal();
-});
-
-document.getElementById('loadTemplateModal').addEventListener('click', function(e) {
-  if (e.target === this) closeLoadTemplateModal();
-});
-
 document.getElementById('saveProjectModal').addEventListener('click', function(e) {
   if (e.target === this) closeSaveProjectModal();
 });
