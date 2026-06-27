@@ -316,6 +316,135 @@ function initializeFirebase() {
   }
 }
 
+// Firestore Functions
+let db = null;
+
+function initializeFirestore() {
+  if (!firebaseInitialized) {
+    console.error('Firebase not initialized');
+    return false;
+  }
+  
+  try {
+    db = firebase.firestore();
+    console.log('Firestore initialized successfully');
+    return true;
+  } catch (error) {
+    console.error('Firestore initialization error:', error);
+    return false;
+  }
+}
+
+async function saveProjectToFirestore(projectName) {
+  if (!db) {
+    if (!initializeFirestore()) {
+      alert('Failed to initialize Firestore');
+      return false;
+    }
+  }
+
+  try {
+    const projectData = {
+      name: projectName,
+      sheets: sheets,
+      pieces: pieces,
+      pieceIdCounter: pieceIdCounter,
+      customerName: customerName,
+      customerPhone: customerPhone,
+      customerAddress: customerAddress,
+      customerNotes: customerNotes,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    const docRef = await db.collection('projects').doc(projectName).set(projectData);
+    console.log('Project saved successfully:', projectName);
+    alert(`Project "${projectName}" saved successfully!`);
+    return true;
+  } catch (error) {
+    console.error('Error saving project:', error);
+    alert('Failed to save project: ' + error.message);
+    return false;
+  }
+}
+
+async function loadProjectFromFirestore(projectName) {
+  if (!db) {
+    if (!initializeFirestore()) {
+      alert('Failed to initialize Firestore');
+      return false;
+    }
+  }
+
+  try {
+    const docRef = db.collection('projects').doc(projectName);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+      alert(`Project "${projectName}" not found`);
+      return false;
+    }
+
+    const projectData = doc.data();
+    
+    // Restore project data
+    sheets = projectData.sheets || [];
+    pieces = projectData.pieces || [];
+    pieceIdCounter = projectData.pieceIdCounter || 0;
+    customerName = projectData.customerName || '';
+    customerPhone = projectData.customerPhone || '';
+    customerAddress = projectData.customerAddress || '';
+    customerNotes = projectData.customerNotes || '';
+
+    // Update UI
+    document.getElementById('customerName').value = customerName;
+    document.getElementById('customerPhone').value = customerPhone;
+    document.getElementById('customerAddress').value = customerAddress;
+    document.getElementById('customerNotes').value = customerNotes;
+
+    renderSheets();
+    renderPiecesList();
+    renderSheetDetails();
+    generateQuotation();
+    generateCostComparison();
+
+    console.log('Project loaded successfully:', projectName);
+    alert(`Project "${projectName}" loaded successfully!`);
+    return true;
+  } catch (error) {
+    console.error('Error loading project:', error);
+    alert('Failed to load project: ' + error.message);
+    return false;
+  }
+}
+
+async function listProjectsFromFirestore() {
+  if (!db) {
+    if (!initializeFirestore()) {
+      alert('Failed to initialize Firestore');
+      return [];
+    }
+  }
+
+  try {
+    const snapshot = await db.collection('projects').orderBy('updatedAt', 'desc').get();
+    const projects = [];
+    
+    snapshot.forEach(doc => {
+      projects.push({
+        name: doc.id,
+        ...doc.data()
+      });
+    });
+
+    return projects;
+  } catch (error) {
+    console.error('Error listing projects:', error);
+    alert('Failed to list projects: ' + error.message);
+    return [];
+  }
+}
+
 // 3D Viewer Functions
 function initialize3DViewer() {
   if (viewerInitialized) return;
@@ -682,6 +811,73 @@ function closeSaveTemplateModal() {
   document.getElementById('templateDescription').value = '';
 }
 
+// Project Modal Functions
+function openSaveProjectModal() {
+  if (sheets.length === 0) {
+    alert('No pieces to save as project. Add pieces first.');
+    return;
+  }
+  document.getElementById('saveProjectModal').style.display = 'flex';
+}
+
+function closeSaveProjectModal() {
+  document.getElementById('saveProjectModal').style.display = 'none';
+  document.getElementById('projectName').value = '';
+}
+
+async function saveProject() {
+  const projectName = document.getElementById('projectName').value.trim();
+  
+  if (!projectName) {
+    alert('Please enter a project name');
+    return;
+  }
+
+  const success = await saveProjectToFirestore(projectName);
+  if (success) {
+    closeSaveProjectModal();
+  }
+}
+
+async function openLoadProjectModal() {
+  document.getElementById('loadProjectModal').style.display = 'flex';
+  document.getElementById('projectList').innerHTML = '<p>Loading projects...</p>';
+  
+  const projects = await listProjectsFromFirestore();
+  
+  if (projects.length === 0) {
+    document.getElementById('projectList').innerHTML = '<p>No projects found. Save a project first.</p>';
+    return;
+  }
+
+  let html = '<div class="template-list">';
+  projects.forEach(project => {
+    const date = new Date(project.updatedAt?.toDate?.() || project.createdAt?.toDate?.() || Date.now());
+    html += `
+      <div class="template-item" onclick="loadProject('${project.name}')">
+        <div class="template-item-header">
+          <strong>${project.name}</strong>
+          <span class="template-date">${date.toLocaleDateString()}</span>
+        </div>
+        <p>${project.sheets?.length || 0} sheets, ${project.pieces?.length || 0} pieces</p>
+      </div>
+    `;
+  });
+  html += '</div>';
+  document.getElementById('projectList').innerHTML = html;
+}
+
+function closeLoadProjectModal() {
+  document.getElementById('loadProjectModal').style.display = 'none';
+}
+
+async function loadProject(projectName) {
+  const success = await loadProjectFromFirestore(projectName);
+  if (success) {
+    closeLoadProjectModal();
+  }
+}
+
 function saveTemplate() {
   const templateName = document.getElementById('templateName').value.trim();
   const templateDescription = document.getElementById('templateDescription').value.trim();
@@ -814,6 +1010,16 @@ document.getElementById('loadTemplateBtn').addEventListener('click', openLoadTem
 document.getElementById('closeLoadTemplateModal').addEventListener('click', closeLoadTemplateModal);
 document.getElementById('cancelLoadTemplate').addEventListener('click', closeLoadTemplateModal);
 
+// Event listeners for project modals
+document.getElementById('saveProjectBtn').addEventListener('click', openSaveProjectModal);
+document.getElementById('closeSaveProjectModal').addEventListener('click', closeSaveProjectModal);
+document.getElementById('cancelSaveProject').addEventListener('click', closeSaveProjectModal);
+document.getElementById('confirmSaveProject').addEventListener('click', saveProject);
+
+document.getElementById('loadProjectBtn').addEventListener('click', openLoadProjectModal);
+document.getElementById('closeLoadProjectModal').addEventListener('click', closeLoadProjectModal);
+document.getElementById('cancelLoadProject').addEventListener('click', closeLoadProjectModal);
+
 // Close modals when clicking outside
 document.getElementById('saveTemplateModal').addEventListener('click', function(e) {
   if (e.target === this) closeSaveTemplateModal();
@@ -821,6 +1027,14 @@ document.getElementById('saveTemplateModal').addEventListener('click', function(
 
 document.getElementById('loadTemplateModal').addEventListener('click', function(e) {
   if (e.target === this) closeLoadTemplateModal();
+});
+
+document.getElementById('saveProjectModal').addEventListener('click', function(e) {
+  if (e.target === this) closeSaveProjectModal();
+});
+
+document.getElementById('loadProjectModal').addEventListener('click', function(e) {
+  if (e.target === this) closeLoadProjectModal();
 });
 
 document.getElementById('piece-form').addEventListener('submit', function (e) {

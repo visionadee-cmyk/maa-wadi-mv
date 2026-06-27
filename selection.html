@@ -82,6 +82,16 @@
                             <i class="fas fa-sync"></i> Blender Sync
                         </button>
                     </div>
+                    <div class="form-group">
+                        <button class="btn" id="saveProjectBtn">
+                            <i class="fas fa-cloud-upload-alt"></i> Save Project
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn" id="loadProjectBtn">
+                            <i class="fas fa-cloud-download-alt"></i> Load Project
+                        </button>
+                    </div>
                     <div id="syncStatus" class="sync-status" style="display: none;">
                         <span id="syncIndicator"></span>
                         <span id="syncText"></span>
@@ -172,6 +182,42 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn" id="cancelLoadTemplate">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Project Modal -->
+                <div id="saveProjectModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-cloud-upload-alt"></i> Save Project to Firestore</h3>
+                            <button class="modal-close" id="closeSaveProjectModal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="projectName">Project Name</label>
+                                <input type="text" id="projectName" class="form-control" placeholder="e.g., Wardrobe Project 001">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" id="cancelSaveProject">Cancel</button>
+                            <button class="btn" id="confirmSaveProject">Save Project</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Load Project Modal -->
+                <div id="loadProjectModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-cloud-download-alt"></i> Load Project from Firestore</h3>
+                            <button class="modal-close" id="closeLoadProjectModal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="projectList" class="template-list"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" id="cancelLoadProject">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -378,7 +424,8 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <script src="script.js?v=32"></script>
-    <script src="units.js?v=32"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="script.js?v=33"></script>
+    <script src="units.js?v=33"></script>
 </body>
 </html>
