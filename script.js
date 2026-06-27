@@ -7,6 +7,12 @@ let pieces = []; // Array to store all pieces
 let currentUnit = 'mm'; // Default unit
 let pieceIdCounter = 0; // Counter for generating unique piece IDs
 
+// Customer information
+let customerName = '';
+let customerPhone = '';
+let customerAddress = '';
+let customerNotes = '';
+
 // Shop and wood data structure
 let shops = [
   {
