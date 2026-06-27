@@ -309,7 +309,6 @@ function initializeFirebase() {
   try {
     firebase.initializeApp(firebaseConfig);
     firebaseInitialized = true;
-    storageRef = firebase.storage();
     console.log('Firebase initialized successfully');
   } catch (error) {
     console.error('Firebase initialization error:', error);
