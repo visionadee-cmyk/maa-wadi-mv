@@ -1363,8 +1363,12 @@ class BCL_OT_rename_part(Operator):
         for i, obj in enumerate(selected_objects):
             # Auto-increment for parts that typically have multiple instances
             auto_increment_parts = [
-                "SHELF", "TABLE_LEG", "CHAIR_LEG", "TV_SHELF_TOP", "TV_SHELF_MIDDLE", 
-                "TV_SHELF_BOTTOM", "BED_SLAT", "SIDE_TABLE_LEG"
+                "SHELF", "SHELF_PIN", "SHELF_BRACKET", "LEG", "STRETCH_BAR",
+                "DRAWER_RUNNER_LEFT", "DRAWER_RUNNER_RIGHT", "DRAWER_SLIDE_LEFT",
+                "DRAWER_SLIDE_RIGHT", "BED_SLAT", "WOOD_SCREW", "NAIL", "STAPLE",
+                "CORNER_BRACKET", "L_BRACKET", "ANGLE_BRACKET", "ADJUSTABLE_FOOT",
+                "CASTER_WHEEL", "WHEEL_CASTER_01", "WHEEL_CASTER_02",
+                "WHEEL_CASTER_03", "WHEEL_CASTER_04", "WHEEL_CASTER_05"
             ]
             
             if st.part_name_type in auto_increment_parts:

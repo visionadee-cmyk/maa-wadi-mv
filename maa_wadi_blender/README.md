@@ -81,46 +81,134 @@ This feature helps you quickly rename objects with standard furniture part names
 
 ### Available Part Types
 
-**Cabinet/Wardrobe:**
-- Door Left/Right
-- Drawers (Top/Middle/Bottom)
-- Shelf (auto-increments: Shelf_1, Shelf_2, etc.)
-- Side Panels (Left/Right)
-- Top/Bottom/Back Panels
-- Divider
+**Body Parts:**
+- Top Panel / Bottom Panel
+- Left/Right Side Panel
+- Front/Rear/Back Panel
+- Center Panel
+- Center/Vertical/Horizontal/Inner/Outer/Cross Divider
+- Middle/Side/Rear/Front/Cross Support
+- Top/Bottom/Front/Rear/Left/Right/Cross/Support Rail
+- Upper/Lower/Base/Sub/Face Frame
+- Support Bar / Stretch Bar / Cross Member / Support Beam
+- Mounting Plate / Panel Insert
+- Corner Block / Corner Post
+- Reinforcement Bar / Side/Cross/Diagonal Brace
+- Base / Plinth / Toe Kick
+- Leg (Front Left/Right, Rear Left/Right, Round, Square, Metal, Wood, Adjustable)
+- Foot / Foot Pad / Rubber Foot / Adjustable Foot
+- Caster Wheel / Wheel Lock
 
-**Table:**
-- Table Top
-- Table Leg (auto-increments)
-- Table Apron
-- Table Drawer
+**Door Parts:**
+- Door Panel / Door Leaf / Door Frame
+- Door Stile (Left/Right) / Door Rail (Top/Bottom/Middle)
+- Door Edge (Left/Right) / Door Cap (Top/Bottom)
+- Door Handle / Door Knob
+- Door Lock / Door Latch / Door Catch / Door Stopper
+- Door Closer / Door Buffer / Door Magnet / Door Seal
+- Door Mirror / Glass Panel
+- Sliding Door (Left/Right)
+- Top/Bottom/Guide Track / Guide Rail / Guide Wheel
+- Roller / Roller Wheel / Soft Close System / Stopper
 
-**Chair:**
-- Chair Seat
-- Chair Back
-- Chair Leg (auto-increments)
-- Chair Arm
+**Drawer Parts:**
+- Drawer Box
+- Drawer Front / Drawer Back / Drawer Side (Left/Right) / Drawer Bottom
+- Drawer Handle / Drawer Pull
+- Drawer Runner (Left/Right) / Drawer Slide (Left/Right)
+- Drawer Track / Drawer Guide / Drawer Stop
+- Drawer Spacer / Drawer Divider / Drawer Insert
 
-**TV Rack:**
-- TV Shelves (Top/Middle/Bottom)
-- TV Back/Side Panels
+**Shelf Parts:**
+- Shelf / Shelf Top / Shelf Bottom / Shelf Divider
+- Shelf Support / Shelf Pin (auto-increments) / Shelf Bracket (auto-increments)
+- Shelf Clip / Shelf Holder / Shelf Rod / Shelf Insert
+- Glass Shelf / Adjustable Shelf / Fixed Shelf
 
-**Bed:**
-- Bed Headboard
-- Bed Footboard
-- Bed Side Rail
-- Bed Slat (auto-increments)
-- Bed Platform
+**Wardrobe Parts:**
+- Wardrobe Top/Bottom/Back/Left Side/Right Side
+- Wardrobe Center Divider
+- Wardrobe Door (Left/Right)
+- Wardrobe Handle (Left/Right)
+- Wardrobe Mirror Panel
+- Wardrobe Hanging Rod / Shoe Rack / Drawer / Basket / Tie Rack
 
-**Side Table:**
-- Side Table Top
-- Side Table Shelf
-- Side Table Leg (auto-increments)
+**Accessories:**
+- Hanging Rod / Rod Bracket (Left/Right) / Rod Support
+- Tie Rack / Belt Rack / Pant Rack / Shoe Rack / Shoe Tray
+- Laundry Basket / Storage Basket / Accessory Tray / Jewelry Tray
+- Divider Panel / Mirror Frame
+- Internal Light / LED Strip / Motion Sensor
 
-**General:**
-- Panel
-- Frame
-- Brace
+**Cabinet Parts:**
+- Cabinet Top/Bottom/Back/Left Side/Right Side
+- Cabinet Shelf
+- Cabinet Door (Left/Right)
+- Cabinet Handle / Cabinet Lock / Cabinet Key
+
+**Desk/Table Parts:**
+- Desk Top / Table Top / Extension Top / Drop Leaf
+- Apron (Front/Rear/Left/Right)
+- Keyboard Tray / Monitor Stand
+- Cable Tray / Cable Hole / Cable Cover
+- CPU Holder / Power Panel / Wire Organizer
+- Foot Rest / Privacy Panel / Modesty Panel
+
+**Chair Parts:**
+- Chair Seat / Seat Frame / Seat Base / Seat Cushion
+- Back Frame / Backrest / Headrest / Lumbar Support
+- Armrest (Left/Right) / Arm Pad (Left/Right)
+- Chair Base / Gas Cylinder / Tilt Mechanism / Swivel Plate
+- Wheel Caster (01-05)
+
+**Bed Parts:**
+- Headboard / Footboard
+- Side Rail (Left/Right) / Center Rail / Center Leg
+- Mattress Support / Bed Slat (auto-increments) / Bed Support Bar
+- Storage Drawer / Bed Box / Hydraulic Lift
+
+**Hardware - Fasteners:**
+- Wood Screw (auto-increments) / Machine Screw / Self-tapping Screw
+- Confirmat Screw / Drywall Screw
+- Hex Bolt / Carriage Bolt / Socket Bolt / Anchor Bolt
+- Threaded Rod / Bolt / Nut / Lock Nut / Wing Nut
+- Washer / Spring Washer
+- Nail (auto-increments) / Staple (auto-increments)
+
+**Hardware - Joining:**
+- Cam Lock / Cam Bolt / Cross Dowel / Barrel Nut
+- Dowel / Wood Dowel / Metal Dowel
+- Connector Pin / Joining Plate / Connecting Bolt
+- Joint Connector / Corner Connector
+
+**Hardware - Hinges:**
+- Concealed Hinge / Soft-close Hinge / Pivot Hinge
+- Piano Hinge / Butt Hinge / Corner Hinge
+- Glass Door Hinge / Lift Up Hinge
+
+**Hardware - Brackets:**
+- L Bracket (auto-increments) / Corner Bracket (auto-increments)
+- Angle Bracket (auto-increments) / Flat Bracket
+
+**Hardware - Handles:**
+- Handle / Pull Handle / Knob / Finger Pull
+
+**Materials - Trim:**
+- Trim / Top Trim / Bottom Trim / Side Trim
+- Decorative Strip / Molding / Skirting / Crown Molding
+- Edge Band / Veneer / Laminate
+
+**Materials - Adhesives:**
+- Wood Glue / Adhesive / Silicone / Sealant
+
+**Reference Parts:**
+- Pivot Empty / Door Pivot / Drawer Pivot
+- Assembly Point / Snap Point
+- Reference Plane / Reference Image
+- Collision Mesh / Low Poly / High Poly
+- UV Helper / Material Holder
+
+**Custom:**
 - Custom (enter your own name)
 
 ## Cut Layout Visualization
