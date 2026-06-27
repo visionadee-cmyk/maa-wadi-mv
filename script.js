@@ -338,7 +338,7 @@ function initializeFirestore() {
 async function saveProjectToFirestore(projectName) {
   if (!db) {
     if (!initializeFirestore()) {
-      alert('Failed to initialize Firestore');
+      alert('Failed to initialize Firestore. Please check your internet connection.');
       return false;
     }
   }
@@ -357,9 +357,9 @@ async function saveProjectToFirestore(projectName) {
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
 
+    console.log('Saving project to Firestore:', projectName);
     const docRef = await db.collection('projects').doc(projectName).set(projectData);
     console.log('Project saved successfully:', projectName);
-    alert(`Project "${projectName}" saved successfully!`);
     return true;
   } catch (error) {
     console.error('Error saving project:', error);
@@ -833,8 +833,18 @@ async function saveProject() {
     return;
   }
 
+  const saveBtn = document.getElementById('confirmSaveProject');
+  const originalText = saveBtn.textContent;
+  saveBtn.textContent = 'Saving...';
+  saveBtn.disabled = true;
+
   const success = await saveProjectToFirestore(projectName);
+  
+  saveBtn.textContent = originalText;
+  saveBtn.disabled = false;
+  
   if (success) {
+    alert(`Project "${projectName}" saved successfully!`);
     closeSaveProjectModal();
   }
 }
