@@ -58,6 +58,7 @@ class BCL_Settings(PropertyGroup):
     # Firebase sync properties
     enable_sync: BoolProperty(name="Enable Real-time Sync", default=False)
     sync_status: StringProperty(name="Sync Status", default="Disconnected")
+    model_base64: StringProperty(name="Model Base64", default="")
 
 
 classes = (BCL_CutListItem, BCL_Settings)

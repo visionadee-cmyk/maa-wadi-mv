@@ -1311,10 +1311,7 @@ class BCL_OT_export_3d_model(Operator):
             base64_data = base64.b64encode(glb_data).decode('utf-8')
             
             # Store Base64 data in scene properties
-            if not hasattr(st, 'model_base64'):
-                st['model_base64'] = base64_data
-            else:
-                st.model_base64 = base64_data
+            st.model_base64 = base64_data
             
             st.sync_status = f"3D model encoded ({file_size/1024:.0f}KB)"
             self.report({'INFO'}, f"3D model encoded ({file_size/1024:.0f}KB)")
