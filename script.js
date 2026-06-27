@@ -580,49 +580,64 @@ function enableBlenderSync() {
   // Set up Firebase listener for pieces
   piecesRef = firebase.database().ref('blender/pieces');
   
+  let lastPiecesData = null;
+  
   piecesRef.on('value', (snapshot) => {
     const data = snapshot.val();
     
     if (data && Object.keys(data).length > 0) {
-      updateSyncStatus('syncing', 'Syncing pieces from Blender...');
+      // Create a signature of the current data (excluding timestamp)
+      const currentSignature = JSON.stringify(Object.values(data).map(p => ({
+        name: p.name,
+        length: p.length,
+        width: p.width,
+        thickness: p.thickness,
+        position: p.position
+      })));
       
-      // Clear existing pieces
-      sheets = [];
-      pieceIdCounter = 0;
-      
-      // Clear 3D scene before adding new boxes
-      clear3DScene();
-      
-      // Add pieces from Firebase
-      const piecesArray = Object.values(data);
-      piecesArray.forEach(piece => {
-        const teakSides = [];
-        if (piece.teak_top) teakSides.push('top');
-        if (piece.teak_bottom) teakSides.push('bottom');
-        if (piece.teak_left) teakSides.push('left');
-        if (piece.teak_right) teakSides.push('right');
+      // Only update if data has actually changed
+      if (currentSignature !== lastPiecesData) {
+        updateSyncStatus('syncing', 'Syncing pieces from Blender...');
         
-        // Handle qty field from Blender Cut List addon
-        const qty = piece.qty || 1;
-        for (let i = 0; i < qty; i++) {
-          addPieceToSheetOptimized(piece.length, piece.width, teakSides);
-        }
+        // Clear existing pieces
+        sheets = [];
+        pieceIdCounter = 0;
+        
+        // Clear 3D scene before adding new boxes
+        clear3DScene();
+        
+        // Add pieces from Firebase
+        const piecesArray = Object.values(data);
+        piecesArray.forEach(piece => {
+          const teakSides = [];
+          if (piece.teak_top) teakSides.push('top');
+          if (piece.teak_bottom) teakSides.push('bottom');
+          if (piece.teak_left) teakSides.push('left');
+          if (piece.teak_right) teakSides.push('right');
+          
+          // Handle qty field from Blender Cut List addon
+          const qty = piece.qty || 1;
+          for (let i = 0; i < qty; i++) {
+            addPieceToSheetOptimized(piece.length, piece.width, teakSides);
+          }
 
-        // Generate 3D boxes from cut list data
-        if (piece.length && piece.width && piece.thickness) {
-          const position = piece.position || null;
-          generate3DBox(piece.length, piece.width, piece.thickness, piece.name, position);
-        }
-      });
-      
-      renderSheets();
-      renderPiecesList();
-      renderSheetDetails();
-      generateQuotation();
-      generateCostComparison();
- initialize3DViewer();
-      
-      updateSyncStatus('connected', `Synced ${piecesArray.length} pieces from Blender`);
+          // Generate 3D boxes from cut list data
+          if (piece.length && piece.width && piece.thickness) {
+            const position = piece.position || null;
+            generate3DBox(piece.length, piece.width, piece.thickness, piece.name, position);
+          }
+        });
+        
+        renderSheets();
+        renderPiecesList();
+        renderSheetDetails();
+        generateQuotation();
+        generateCostComparison();
+        initialize3DViewer();
+        
+        updateSyncStatus('connected', `Synced ${piecesArray.length} pieces from Blender`);
+        lastPiecesData = currentSignature;
+      }
     } else {
       updateSyncStatus('connected', 'Connected - Waiting for Blender data...');
     }
