@@ -901,6 +901,9 @@ function generatePiecesFromCabinet(cabinet) {
 
   // Generate pieces for each cabinet quantity
   for (let q = 0; q < cabinet.quantity; q++) {
+    // Calculate position for this cabinet instance
+    const offsetX = q * (cabinet.length / 1000 + 0.2); // Space between cabinets
+    
     // 1. Main cabinet body (sides)
     // Left side panel
     addPieceToSheetOptimized(cabinet.depth, cabinet.height, teakSides);
@@ -959,9 +962,139 @@ function generatePiecesFromCabinet(cabinet) {
       addPieceToSheetOptimized(cabinet.length, 80, teakSides);
       piecesCount++;
     }
+    
+    // Generate 3D cabinet model
+    generate3DCabinetModel(cabinet, offsetX);
   }
 
   return piecesCount;
+}
+
+function generate3DCabinetModel(cabinet, offsetX = 0) {
+  if (!viewerInitialized) {
+    initialize3DViewer();
+  }
+
+  // Create a group for this cabinet
+  const cabinetGroup = new THREE.Group();
+  
+  // Convert dimensions to meters
+  const length = cabinet.length / 1000;
+  const height = cabinet.height / 1000;
+  const depth = cabinet.depth / 1000;
+  const thickness = cabinet.thickness / 1000;
+  
+  // Material for cabinet
+  const material = new THREE.MeshPhongMaterial({ 
+    color: 0xFFFFFF, // White matte
+    shininess: 10,
+    transparent: true,
+    opacity: 0.9
+  });
+  
+  const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
+  
+  // 1. Left side panel
+  const leftSideGeo = new THREE.BoxGeometry(thickness, height, depth);
+  const leftSide = new THREE.Mesh(leftSideGeo, material);
+  leftSide.position.set(-length/2 + thickness/2, 0, 0);
+  addEdges(leftSide, leftSideGeo, edgeMaterial);
+  cabinetGroup.add(leftSide);
+  
+  // 2. Right side panel
+  const rightSideGeo = new THREE.BoxGeometry(thickness, height, depth);
+  const rightSide = new THREE.Mesh(rightSideGeo, material);
+  rightSide.position.set(length/2 - thickness/2, 0, 0);
+  addEdges(rightSide, rightSideGeo, edgeMaterial);
+  cabinetGroup.add(rightSide);
+  
+  // 3. Top panel
+  const topGeo = new THREE.BoxGeometry(length - thickness*2, thickness, depth);
+  const top = new THREE.Mesh(topGeo, material);
+  top.position.set(0, height/2 - thickness/2, 0);
+  addEdges(top, topGeo, edgeMaterial);
+  cabinetGroup.add(top);
+  
+  // 4. Bottom panel
+  const bottomGeo = new THREE.BoxGeometry(length - thickness*2, thickness, depth);
+  const bottom = new THREE.Mesh(bottomGeo, material);
+  bottom.position.set(0, -height/2 + thickness/2, 0);
+  addEdges(bottom, bottomGeo, edgeMaterial);
+  cabinetGroup.add(bottom);
+  
+  // 5. Back panel
+  const backGeo = new THREE.BoxGeometry(length, height, thickness);
+  const back = new THREE.Mesh(backGeo, material);
+  back.position.set(0, 0, -depth/2 + thickness/2);
+  addEdges(back, backGeo, edgeMaterial);
+  cabinetGroup.add(back);
+  
+  // 6. Middle shelf (if specified)
+  if (cabinet.hasShelves) {
+    const shelfGeo = new THREE.BoxGeometry(length - thickness*2, thickness, depth);
+    const shelf = new THREE.Mesh(shelfGeo, material);
+    shelf.position.set(0, 0, 0);
+    addEdges(shelf, shelfGeo, edgeMaterial);
+    cabinetGroup.add(shelf);
+  }
+  
+  // 7. Divider panels (if specified)
+  if (cabinet.hasDividers) {
+    const dividerHeight = (height/2) - thickness;
+    const dividerGeo = new THREE.BoxGeometry(thickness, dividerHeight, depth);
+    
+    // Divider above shelf
+    const dividerAbove = new THREE.Mesh(dividerGeo, material);
+    dividerAbove.position.set(0, height/4 + thickness/2, 0);
+    addEdges(dividerAbove, dividerGeo, edgeMaterial);
+    cabinetGroup.add(dividerAbove);
+    
+    // Divider below shelf
+    const dividerBelow = new THREE.Mesh(dividerGeo, material);
+    dividerBelow.position.set(0, -height/4 - thickness/2, 0);
+    addEdges(dividerBelow, dividerGeo, edgeMaterial);
+    cabinetGroup.add(dividerBelow);
+  }
+  
+  // 8. Doors (if specified)
+  if (cabinet.hasDoors && cabinet.doorCount > 0) {
+    const doorWidth = (length - thickness*2) / cabinet.doorCount;
+    const doorGeo = new THREE.BoxGeometry(doorWidth - 0.01, height - thickness*2, thickness);
+    const doorMaterial = new THREE.MeshPhongMaterial({ 
+      color: 0xF5F5F5, // Slightly different color for doors
+      shininess: 15
+    });
+    
+    for (let d = 0; d < cabinet.doorCount; d++) {
+      const door = new THREE.Mesh(doorGeo, doorMaterial);
+      const xPos = -length/2 + thickness + doorWidth/2 + d * doorWidth;
+      door.position.set(xPos, 0, depth/2 + thickness/2);
+      addEdges(door, doorGeo, edgeMaterial);
+      cabinetGroup.add(door);
+    }
+  }
+  
+  // 9. Bottom skirting (if specified)
+  if (cabinet.hasSkirting) {
+    const skirtingHeight = 80 / 1000; // 80mm in meters
+    const skirtingGeo = new THREE.BoxGeometry(length, skirtingHeight, thickness);
+    const skirting = new THREE.Mesh(skirtingGeo, material);
+    skirting.position.set(0, -height/2 - skirtingHeight/2, depth/2 - thickness/2);
+    addEdges(skirting, skirtingGeo, edgeMaterial);
+    cabinetGroup.add(skirting);
+  }
+  
+  // Position the cabinet group
+  cabinetGroup.position.set(offsetX, 0, 0);
+  
+  // Add to scene
+  scene.add(cabinetGroup);
+}
+
+function addEdges(mesh, geometry, material) {
+  const edges = new THREE.EdgesGeometry(geometry);
+  const line = new THREE.LineSegments(edges, material);
+  mesh.add(line);
 }
 
 // Project Modal Functions
