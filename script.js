@@ -889,25 +889,41 @@ function enableBlenderSync() {
         
         // Add pieces from Firebase
         const piecesArray = Object.values(data);
-        piecesArray.forEach(piece => {
-          const teakSides = [];
-          if (piece.teak_top) teakSides.push('top');
-          if (piece.teak_bottom) teakSides.push('bottom');
-          if (piece.teak_left) teakSides.push('left');
-          if (piece.teak_right) teakSides.push('right');
-          
-          // Handle qty field from Blender Cut List addon
-          const qty = piece.qty || 1;
-          for (let i = 0; i < qty; i++) {
-            addPieceToSheetOptimized(piece.length, piece.width, teakSides);
+        
+        // Check if Blender GLB model is available
+        let blenderModel = null;
+        for (const piece of piecesArray) {
+          if (piece.model_base64) {
+            blenderModel = piece.model_base64;
+            break;
           }
+        }
+        
+        if (blenderModel) {
+          // Load Blender GLB model instead of generating boxes
+          load3DModelFromBase64(blenderModel);
+        } else {
+          // Fall back to generating 3D boxes from cut list data
+          piecesArray.forEach(piece => {
+            const teakSides = [];
+            if (piece.teak_top) teakSides.push('top');
+            if (piece.teak_bottom) teakSides.push('bottom');
+            if (piece.teak_left) teakSides.push('left');
+            if (piece.teak_right) teakSides.push('right');
+            
+            // Handle qty field from Blender Cut List addon
+            const qty = piece.qty || 1;
+            for (let i = 0; i < qty; i++) {
+              addPieceToSheetOptimized(piece.length, piece.width, teakSides);
+            }
 
-          // Generate 3D boxes from cut list data
-          if (piece.length && piece.width && piece.thickness) {
-            const position = piece.position || null;
-            generate3DBox(piece.length, piece.width, piece.thickness, piece.name, position);
-          }
-        });
+            // Generate 3D boxes from cut list data
+            if (piece.length && piece.width && piece.thickness) {
+              const position = piece.position || null;
+              generate3DBox(piece.length, piece.width, piece.thickness, piece.name, position);
+            }
+          });
+        }
         
         renderSheets();
         renderPiecesList();
