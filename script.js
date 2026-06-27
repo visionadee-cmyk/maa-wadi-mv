@@ -1451,6 +1451,9 @@ async function loadProject(projectName) {
 
 // Event listeners for project modals
 document.addEventListener('DOMContentLoaded', function() {
+  // Initialize Firebase
+  initializeFirebase();
+  
   const saveProjectBtn = document.getElementById('saveProjectBtn');
   const loadProjectBtn = document.getElementById('loadProjectBtn');
   const addCabinetBtn = document.getElementById('addCabinetBtn');
