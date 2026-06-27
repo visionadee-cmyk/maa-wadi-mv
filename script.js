@@ -798,8 +798,6 @@ function disableBlenderSync() {
   document.getElementById('blenderSyncBtn').onclick = enableBlenderSync;
 }
 
-// Blender sync button event listener
-document.getElementById('blenderSyncBtn').addEventListener('click', enableBlenderSync);
 
 // Template Management Functions
 // Cabinet/Asset Management
@@ -1456,6 +1454,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const saveProjectBtn = document.getElementById('saveProjectBtn');
   const loadProjectBtn = document.getElementById('loadProjectBtn');
   const addCabinetBtn = document.getElementById('addCabinetBtn');
+  const blenderSyncBtn = document.getElementById('blenderSyncBtn');
   
   if (saveProjectBtn) {
     saveProjectBtn.addEventListener('click', openSaveProjectModal);
@@ -1469,29 +1468,71 @@ document.addEventListener('DOMContentLoaded', function() {
     addCabinetBtn.addEventListener('click', openCabinetModal);
   }
   
-  document.getElementById('closeSaveProjectModal').addEventListener('click', closeSaveProjectModal);
-  document.getElementById('cancelSaveProject').addEventListener('click', closeSaveProjectModal);
-  document.getElementById('confirmSaveProject').addEventListener('click', saveProject);
+  if (blenderSyncBtn) {
+    blenderSyncBtn.addEventListener('click', enableBlenderSync);
+  }
   
-  document.getElementById('closeLoadProjectModal').addEventListener('click', closeLoadProjectModal);
-  document.getElementById('cancelLoadProject').addEventListener('click', closeLoadProjectModal);
+  const closeSaveProjectModal = document.getElementById('closeSaveProjectModal');
+  if (closeSaveProjectModal) {
+    closeSaveProjectModal.addEventListener('click', closeSaveProjectModal);
+  }
   
-  document.getElementById('closeCabinetModal').addEventListener('click', closeCabinetModal);
-  document.getElementById('cancelAddCabinet').addEventListener('click', closeCabinetModal);
-  document.getElementById('confirmAddCabinet').addEventListener('click', addCabinetAndGeneratePieces);
+  const cancelSaveProject = document.getElementById('cancelSaveProject');
+  if (cancelSaveProject) {
+    cancelSaveProject.addEventListener('click', closeSaveProjectModal);
+  }
+  
+  const confirmSaveProject = document.getElementById('confirmSaveProject');
+  if (confirmSaveProject) {
+    confirmSaveProject.addEventListener('click', saveProject);
+  }
+  
+  const closeLoadProjectModal = document.getElementById('closeLoadProjectModal');
+  if (closeLoadProjectModal) {
+    closeLoadProjectModal.addEventListener('click', closeLoadProjectModal);
+  }
+  
+  const cancelLoadProject = document.getElementById('cancelLoadProject');
+  if (cancelLoadProject) {
+    cancelLoadProject.addEventListener('click', closeLoadProjectModal);
+  }
+  
+  const closeCabinetModal = document.getElementById('closeCabinetModal');
+  if (closeCabinetModal) {
+    closeCabinetModal.addEventListener('click', closeCabinetModal);
+  }
+  
+  const cancelAddCabinet = document.getElementById('cancelAddCabinet');
+  if (cancelAddCabinet) {
+    cancelAddCabinet.addEventListener('click', closeCabinetModal);
+  }
+  
+  const confirmAddCabinet = document.getElementById('confirmAddCabinet');
+  if (confirmAddCabinet) {
+    confirmAddCabinet.addEventListener('click', addCabinetAndGeneratePieces);
+  }
   
   // Close modals when clicking outside
-  document.getElementById('saveProjectModal').addEventListener('click', function(e) {
-    if (e.target === this) closeSaveProjectModal();
-  });
+  const saveProjectModal = document.getElementById('saveProjectModal');
+  if (saveProjectModal) {
+    saveProjectModal.addEventListener('click', function(e) {
+      if (e.target === this) closeSaveProjectModal();
+    });
+  }
   
-  document.getElementById('loadProjectModal').addEventListener('click', function(e) {
-    if (e.target === this) closeLoadProjectModal();
-  });
+  const loadProjectModal = document.getElementById('loadProjectModal');
+  if (loadProjectModal) {
+    loadProjectModal.addEventListener('click', function(e) {
+      if (e.target === this) closeLoadProjectModal();
+    });
+  }
   
-  document.getElementById('addCabinetModal').addEventListener('click', function(e) {
-    if (e.target === this) closeCabinetModal();
-  });
+  const addCabinetModal = document.getElementById('addCabinetModal');
+  if (addCabinetModal) {
+    addCabinetModal.addEventListener('click', function(e) {
+      if (e.target === this) closeCabinetModal();
+    });
+  }
 });
 
 document.getElementById('piece-form').addEventListener('submit', function (e) {
