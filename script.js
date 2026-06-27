@@ -3,6 +3,7 @@ const woodWaste = 10; // 10mm waste between pieces
 const cutCost = 10; // Cost per cut in RF
 const teakCost = 10; // Cost per meter of teak in RF
 let sheets = []; // Array to store sheets and their pieces
+let pieces = []; // Array to store all pieces
 let currentUnit = 'mm'; // Default unit
 let pieceIdCounter = 0; // Counter for generating unique piece IDs
 
@@ -1487,39 +1488,39 @@ document.addEventListener('DOMContentLoaded', function() {
     blenderSyncBtn.addEventListener('click', enableBlenderSync);
   }
   
-  const closeSaveProjectModal = document.getElementById('closeSaveProjectModal');
-  if (closeSaveProjectModal) {
-    closeSaveProjectModal.addEventListener('click', closeSaveProjectModal);
+  const closeSaveProjectModalBtn = document.getElementById('closeSaveProjectModal');
+  if (closeSaveProjectModalBtn) {
+    closeSaveProjectModalBtn.addEventListener('click', closeSaveProjectModal);
   }
   
-  const cancelSaveProject = document.getElementById('cancelSaveProject');
-  if (cancelSaveProject) {
-    cancelSaveProject.addEventListener('click', closeSaveProjectModal);
+  const cancelSaveProjectBtn = document.getElementById('cancelSaveProject');
+  if (cancelSaveProjectBtn) {
+    cancelSaveProjectBtn.addEventListener('click', closeSaveProjectModal);
   }
   
-  const confirmSaveProject = document.getElementById('confirmSaveProject');
-  if (confirmSaveProject) {
-    confirmSaveProject.addEventListener('click', saveProject);
+  const confirmSaveProjectBtn = document.getElementById('confirmSaveProject');
+  if (confirmSaveProjectBtn) {
+    confirmSaveProjectBtn.addEventListener('click', saveProject);
   }
   
-  const closeLoadProjectModal = document.getElementById('closeLoadProjectModal');
-  if (closeLoadProjectModal) {
-    closeLoadProjectModal.addEventListener('click', closeLoadProjectModal);
+  const closeLoadProjectModalBtn = document.getElementById('closeLoadProjectModal');
+  if (closeLoadProjectModalBtn) {
+    closeLoadProjectModalBtn.addEventListener('click', closeLoadProjectModal);
   }
   
-  const cancelLoadProject = document.getElementById('cancelLoadProject');
-  if (cancelLoadProject) {
-    cancelLoadProject.addEventListener('click', closeLoadProjectModal);
+  const cancelLoadProjectBtn = document.getElementById('cancelLoadProject');
+  if (cancelLoadProjectBtn) {
+    cancelLoadProjectBtn.addEventListener('click', closeLoadProjectModal);
   }
   
-  const closeCabinetModal = document.getElementById('closeCabinetModal');
-  if (closeCabinetModal) {
-    closeCabinetModal.addEventListener('click', closeCabinetModal);
+  const closeCabinetModalBtn = document.getElementById('closeCabinetModal');
+  if (closeCabinetModalBtn) {
+    closeCabinetModalBtn.addEventListener('click', closeCabinetModal);
   }
   
-  const cancelAddCabinet = document.getElementById('cancelAddCabinet');
-  if (cancelAddCabinet) {
-    cancelAddCabinet.addEventListener('click', closeCabinetModal);
+  const cancelAddCabinetBtn = document.getElementById('cancelAddCabinet');
+  if (cancelAddCabinetBtn) {
+    cancelAddCabinetBtn.addEventListener('click', closeCabinetModal);
   }
   
   const confirmAddCabinet = document.getElementById('confirmAddCabinet');
