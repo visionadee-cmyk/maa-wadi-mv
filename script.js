@@ -358,7 +358,11 @@ function enableBlenderSync() {
         if (piece.teak_left) teakSides.push('left');
         if (piece.teak_right) teakSides.push('right');
         
-        addPieceToSheetOptimized(piece.length, piece.width, teakSides);
+        // Handle qty field from Blender Cut List addon
+        const qty = piece.qty || 1;
+        for (let i = 0; i < qty; i++) {
+          addPieceToSheetOptimized(piece.length, piece.width, teakSides);
+        }
       });
       
       renderSheets();
