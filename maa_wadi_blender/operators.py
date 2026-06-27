@@ -1328,6 +1328,59 @@ class BCL_OT_export_3d_model(Operator):
         return {"FINISHED"}
 
 
+class BCL_OT_rename_part(Operator):
+    bl_idname = "bcl.rename_part"
+    bl_label = "Rename Selected Part"
+    bl_description = "Rename selected objects with standard part names"
+    bl_options = {"REGISTER", "UNDO"}
+    
+    def execute(self, context):
+        st = context.scene.bcl_settings
+        
+        # Get selected objects
+        selected_objects = context.selected_objects
+        
+        if not selected_objects:
+            self.report({'ERROR'}, "No objects selected")
+            return {"CANCELLED"}
+        
+        # Determine the base name
+        if st.part_name_type == "CUSTOM":
+            if not st.custom_part_name:
+                self.report({'ERROR'}, "Custom name cannot be empty")
+                return {"CANCELLED"}
+            base_name = st.custom_part_name
+        else:
+            base_name = st.part_name_type
+        
+        # Count existing objects with similar names for auto-increment
+        existing_count = 0
+        for obj in bpy.data.objects:
+            if obj.name.startswith(base_name):
+                existing_count += 1
+        
+        # Rename each selected object
+        for i, obj in enumerate(selected_objects):
+            # Auto-increment for parts that typically have multiple instances
+            auto_increment_parts = [
+                "SHELF", "TABLE_LEG", "CHAIR_LEG", "TV_SHELF_TOP", "TV_SHELF_MIDDLE", 
+                "TV_SHELF_BOTTOM", "BED_SLAT", "SIDE_TABLE_LEG"
+            ]
+            
+            if st.part_name_type in auto_increment_parts:
+                # Auto-increment these parts
+                obj.name = f"{base_name}_{existing_count + i + 1}"
+            elif st.part_name_type == "CUSTOM":
+                # Use custom name as-is for all selected
+                obj.name = f"{base_name}"
+            else:
+                # Use the standard name for all selected
+                obj.name = base_name
+        
+        self.report({'INFO'}, f"Renamed {len(selected_objects)} object(s)")
+        return {"FINISHED"}
+
+
 class BCL_OT_visualize_cut_layout(Operator):
     bl_idname = "bcl.visualize_cut_layout"
     bl_label = "Visualize Cut Layout"
@@ -1511,6 +1564,7 @@ classes = (
     BCL_OT_sync_camera,
     BCL_OT_export_3d_model,
     BCL_OT_visualize_cut_layout,
+    BCL_OT_rename_part,
 )
 
 

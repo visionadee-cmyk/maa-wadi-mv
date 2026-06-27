@@ -64,6 +64,16 @@ class BCL_PT_cut_list(Panel):
         box.operator("bcl.visualize_cut_layout", icon="VIEW3D")
 
         layout.separator()
+        
+        # Part Renamer
+        box = layout.box()
+        box.label(text="Part Renamer")
+        box.prop(st, "part_name_type")
+        if st.part_name_type == "CUSTOM":
+            box.prop(st, "custom_part_name")
+        box.operator("bcl.rename_part", icon="OUTLINER_DATA_MESH")
+
+        layout.separator()
 
         # Firebase Sync Section
         box = layout.box()

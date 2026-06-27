@@ -59,6 +59,59 @@ class BCL_Settings(PropertyGroup):
     enable_sync: BoolProperty(name="Enable Real-time Sync", default=False)
     sync_status: StringProperty(name="Sync Status", default="Disconnected")
     model_base64: StringProperty(name="Model Base64", default="")
+    
+    # Part renamer properties
+    part_name_type: EnumProperty(
+        name="Part Type",
+        items=(
+            # Cabinet/Wardrobe parts
+            ("DOOR_LEFT", "Door Left", "Left door panel"),
+            ("DOOR_RIGHT", "Door Right", "Right door panel"),
+            ("DRAWER_TOP", "Drawer Top", "Top drawer"),
+            ("DRAWER_MIDDLE", "Drawer Middle", "Middle drawer"),
+            ("DRAWER_BOTTOM", "Drawer Bottom", "Bottom drawer"),
+            ("SHELF", "Shelf", "Adjustable shelf"),
+            ("SIDE_PANEL_LEFT", "Side Panel Left", "Left side panel"),
+            ("SIDE_PANEL_RIGHT", "Side Panel Right", "Right side panel"),
+            ("TOP_PANEL", "Top Panel", "Top horizontal panel"),
+            ("BOTTOM_PANEL", "Bottom Panel", "Bottom horizontal panel"),
+            ("BACK_PANEL", "Back Panel", "Back panel"),
+            ("DIVIDER", "Divider", "Vertical divider"),
+            # Table parts
+            ("TABLE_TOP", "Table Top", "Table surface"),
+            ("TABLE_LEG", "Table Leg", "Table support leg"),
+            ("TABLE_APRON", "Table Apron", "Table frame support"),
+            ("TABLE_DRAWER", "Table Drawer", "Table storage drawer"),
+            # Chair parts
+            ("CHAIR_SEAT", "Chair Seat", "Chair seating surface"),
+            ("CHAIR_BACK", "Chair Back", "Chair backrest"),
+            ("CHAIR_LEG", "Chair Leg", "Chair support leg"),
+            ("CHAIR_ARM", "Chair Arm", "Chair armrest"),
+            # TV Rack parts
+            ("TV_SHELF_TOP", "TV Shelf Top", "Top shelf for TV"),
+            ("TV_SHELF_MIDDLE", "TV Shelf Middle", "Middle shelf"),
+            ("TV_SHELF_BOTTOM", "TV Shelf Bottom", "Bottom shelf"),
+            ("TV_BACK_PANEL", "TV Back Panel", "Back panel"),
+            ("TV_SIDE_PANEL", "TV Side Panel", "Side panel"),
+            # Bed parts
+            ("BED_HEADBOARD", "Bed Headboard", "Headboard panel"),
+            ("BED_FOOTBOARD", "Bed Footboard", "Footboard panel"),
+            ("BED_SIDE_RAIL", "Bed Side Rail", "Side rail"),
+            ("BED_SLAT", "Bed Slat", "Bed support slat"),
+            ("BED_PLATFORM", "Bed Platform", "Bed platform base"),
+            # Side Table parts
+            ("SIDE_TABLE_TOP", "Side Table Top", "Side table surface"),
+            ("SIDE_TABLE_SHELF", "Side Table Shelf", "Side table shelf"),
+            ("SIDE_TABLE_LEG", "Side Table Leg", "Side table leg"),
+            # General parts
+            ("PANEL", "Panel", "Generic panel"),
+            ("FRAME", "Frame", "Frame component"),
+            ("BRACE", "Brace", "Support brace"),
+            ("CUSTOM", "Custom", "Custom part name"),
+        ),
+        default="DOOR_LEFT",
+    )
+    custom_part_name: StringProperty(name="Custom Name", default="")
 
 
 classes = (BCL_CutListItem, BCL_Settings)
