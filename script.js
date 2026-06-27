@@ -2204,7 +2204,48 @@ function generateQuotation() {
   const sheetTotal = totalSheets * sheetCost;
   const cutsTotal = totalCuts * cutCost;
   const teakTotal = totalTeakMeters * teakCost;
-  const grandTotal = sheetTotal + cutsTotal + teakTotal;
+  
+  // Hardware costs (estimated prices)
+  const hardwarePrices = {
+    'Hinge': 15,
+    'Handle': 25,
+    'Shelf Support Pin': 2,
+    'Wood Screw': 0.5,
+    'Cam Lock': 8,
+    'Cam Bolt': 5
+  };
+  
+  let hardwareTotal = 0;
+  let hardwareRows = '';
+  
+  if (hardwareList.length > 0) {
+    // Group hardware by type
+    const groupedHardware = {};
+    hardwareList.forEach(item => {
+      const key = item.type;
+      if (!groupedHardware[key]) {
+        groupedHardware[key] = {
+          type: item.type,
+          quantity: 0,
+          unitPrice: hardwarePrices[item.type] || 5
+        };
+      }
+      groupedHardware[key].quantity += item.quantity;
+    });
+    
+    Object.values(groupedHardware).forEach(hw => {
+      const hwTotal = hw.quantity * hw.unitPrice;
+      hardwareTotal += hwTotal;
+      hardwareRows += '<tr>' +
+        '<td>' + hw.type + '</td>' +
+        '<td>' + hw.quantity + '</td>' +
+        '<td>' + hw.unitPrice.toFixed(2) + '</td>' +
+        '<td>' + hwTotal.toFixed(2) + '</td>' +
+        '</tr>';
+    });
+  }
+  
+  const grandTotal = sheetTotal + cutsTotal + teakTotal + hardwareTotal;
 
   const sheetWidthConverted = UnitConverter.fromMM(sheetWidth, currentUnit);
   const sheetHeightConverted = UnitConverter.fromMM(sheetHeight, currentUnit);
@@ -2212,42 +2253,41 @@ function generateQuotation() {
   const woodName = selectedWood ? selectedWood.name : 'Plywood';
   const shopName = selectedShop ? selectedShop.name : 'Default';
 
-  quotationDiv.innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Quantity</th>
-          <th>Unit Price (${currency})</th>
-          <th>Total (${currency})</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>${woodName} Sheets (${sheetWidthConverted}${currentUnit} × ${sheetHeightConverted}${currentUnit}) - ${shopName}</td>
-          <td>${totalSheets}</td>
-          <td>${sheetCost.toFixed(2)}</td>
-          <td>${sheetTotal.toFixed(2)}</td>
-        </tr>
-        <tr>
-          <td>Cuts (@${UnitConverter.fromMM(woodWaste, currentUnit)}${currentUnit} blade width)</td>
-          <td>${totalCuts}</td>
-          <td>${cutCost.toFixed(2)}</td>
-          <td>${cutsTotal.toFixed(2)}</td>
-        </tr>
-        <tr>
-          <td>Teak Edging</td>
-          <td>${totalTeakMeters.toFixed(2)} m</td>
-          <td>${teakCost.toFixed(2)}</td>
-          <td>${teakTotal.toFixed(2)}</td>
-        </tr>
-        <tr class="total-row">
-          <td colspan="3"><strong>Grand Total</strong></td>
-          <td><strong>${grandTotal.toFixed(2)} ${currency}</strong></td>
-        </tr>
-      </tbody>
-    </table>
-  `;
+  quotationDiv.innerHTML = '<table>' +
+    '<thead>' +
+    '<tr>' +
+    '<th>Description</th>' +
+    '<th>Quantity</th>' +
+    '<th>Unit Price (' + currency + ')</th>' +
+    '<th>Total (' + currency + ')</th>' +
+    '</tr>' +
+    '</thead>' +
+    '<tbody>' +
+    '<tr>' +
+    '<td>' + woodName + ' Sheets (' + sheetWidthConverted + currentUnit + ' × ' + sheetHeightConverted + currentUnit + ') - ' + shopName + '</td>' +
+    '<td>' + totalSheets + '</td>' +
+    '<td>' + sheetCost.toFixed(2) + '</td>' +
+    '<td>' + sheetTotal.toFixed(2) + '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td>Cuts (@' + UnitConverter.fromMM(woodWaste, currentUnit) + currentUnit + ' blade width)</td>' +
+    '<td>' + totalCuts + '</td>' +
+    '<td>' + cutCost.toFixed(2) + '</td>' +
+    '<td>' + cutsTotal.toFixed(2) + '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td>Teak Edging</td>' +
+    '<td>' + totalTeakMeters.toFixed(2) + ' m</td>' +
+    '<td>' + teakCost.toFixed(2) + '</td>' +
+    '<td>' + teakTotal.toFixed(2) + '</td>' +
+    '</tr>' +
+    hardwareRows +
+    '<tr class="total-row">' +
+    '<td colspan="3"><strong>Grand Total</strong></td>' +
+    '<td><strong>' + grandTotal.toFixed(2) + ' ' + currency + '</strong></td>' +
+    '</tr>' +
+    '</tbody>' +
+    '</table>';
 }
 
 function generateCostComparison() {
