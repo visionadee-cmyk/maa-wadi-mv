@@ -485,6 +485,30 @@ function load3DModelFromBase64(base64Data) {
   }
 }
 
+function clear3DScene() {
+  if (!scene) return;
+  
+  // Remove all meshes from scene
+  const objectsToRemove = [];
+  scene.traverse((child) => {
+    if (child.isMesh) {
+      objectsToRemove.push(child);
+    }
+  });
+  
+  objectsToRemove.forEach((obj) => {
+    scene.remove(obj);
+    if (obj.geometry) obj.geometry.dispose();
+    if (obj.material) {
+      if (Array.isArray(obj.material)) {
+        obj.material.forEach(mat => mat.dispose());
+      } else {
+        obj.material.dispose();
+      }
+    }
+  });
+}
+
 function generate3DBox(length, width, thickness, name, position) {
   if (!viewerInitialized) {
     initialize3DViewer();
@@ -565,6 +589,9 @@ function enableBlenderSync() {
       // Clear existing pieces
       sheets = [];
       pieceIdCounter = 0;
+      
+      // Clear 3D scene before adding new boxes
+      clear3DScene();
       
       // Add pieces from Firebase
       const piecesArray = Object.values(data);
