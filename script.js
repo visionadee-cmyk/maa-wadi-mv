@@ -420,10 +420,17 @@ async function loadProjectFromFirestore(projectName) {
     customerNotes = projectData.customerNotes || '';
 
     // Update UI
-    document.getElementById('customerName').value = customerName;
-    document.getElementById('customerPhone').value = customerPhone;
-    document.getElementById('customerAddress').value = customerAddress;
-    document.getElementById('customerNotes').value = customerNotes;
+    const customerNameEl = document.getElementById('customerName');
+    if (customerNameEl) customerNameEl.value = customerName;
+    
+    const customerPhoneEl = document.getElementById('customerPhone');
+    if (customerPhoneEl) customerPhoneEl.value = customerPhone;
+    
+    const customerAddressEl = document.getElementById('customerAddress');
+    if (customerAddressEl) customerAddressEl.value = customerAddress;
+    
+    const customerNotesEl = document.getElementById('customerNotes');
+    if (customerNotesEl) customerNotesEl.value = customerNotes;
 
     renderSheets();
     renderPiecesList();
