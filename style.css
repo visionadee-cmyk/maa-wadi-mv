@@ -464,6 +464,115 @@ tr.total-row td {
   border-color: var(--primary-dark);
 }
 
+.cheapest-option {
+  background-color: rgba(76, 175, 80, 0.2) !important;
+  font-weight: bold;
+}
+
+.template-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.template-item {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.template-item:hover {
+  background-color: #f5f5f5;
+}
+
+.template-item h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--primary-color);
+}
+
+.template-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.template-item .template-meta {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.template-item .delete-template {
+  float: right;
+  color: #f44336;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.template-item .delete-template:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.sync-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.sync-status.connected {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+}
+
+.sync-status.disconnected {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+}
+
+.sync-status.syncing {
+  background-color: rgba(33, 150, 243, 0.1);
+  color: #2196F3;
+}
+
+#syncIndicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.sync-status.connected #syncIndicator {
+  background-color: #4CAF50;
+  animation: pulse 2s infinite;
+}
+
+.sync-status.disconnected #syncIndicator {
+  background-color: #f44336;
+}
+
+.sync-status.syncing #syncIndicator {
+  background-color: #2196F3;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
   th, td {

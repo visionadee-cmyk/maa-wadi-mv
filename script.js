@@ -161,6 +161,7 @@ function selectWood(woodId) {
           renderPiecesList();
           renderSheetDetails();
           generateQuotation();
+          generateCostComparison();
         } else {
           // Revert selection
           woodSelector.value = '';
@@ -283,6 +284,275 @@ function loadShopsFromStorage() {
 
 loadShopsFromStorage();
 
+// Firebase Integration
+let firebaseInitialized = false;
+let blenderSyncEnabled = false;
+let piecesRef = null;
+
+function initializeFirebase() {
+  const firebaseConfig = {
+    apiKey: "AIzaSyDvIMuG6FIQWSMbN2rt4x_AUwAJAsIql24",
+    authDomain: "maa-wadi-mv.firebaseapp.com",
+    projectId: "maa-wadi-mv",
+    storageBucket: "maa-wadi-mv.firebasestorage.app",
+    messagingSenderId: "434790166445",
+    appId: "1:434790166445:web:ea1ce4da918a2ca105fb24",
+    measurementId: "G-GC0E4PX66Y",
+    databaseURL: "https://maa-wadi-mv-default-rtdb.firebaseio.com"
+  };
+
+  try {
+    firebase.initializeApp(firebaseConfig);
+    firebaseInitialized = true;
+    console.log('Firebase initialized successfully');
+  } catch (error) {
+    console.error('Firebase initialization error:', error);
+    updateSyncStatus('disconnected', 'Firebase connection failed');
+  }
+}
+
+function updateSyncStatus(status, text) {
+  const syncStatus = document.getElementById('syncStatus');
+  const syncIndicator = document.getElementById('syncIndicator');
+  const syncText = document.getElementById('syncText');
+
+  if (syncStatus && syncIndicator && syncText) {
+    syncStatus.style.display = 'flex';
+    syncStatus.className = `sync-status ${status}`;
+    syncText.textContent = text;
+  }
+}
+
+function enableBlenderSync() {
+  if (!firebaseInitialized) {
+    initializeFirebase();
+  }
+
+  if (!firebaseInitialized) {
+    alert('Failed to initialize Firebase. Sync cannot be enabled.');
+    return;
+  }
+
+  blenderSyncEnabled = true;
+  updateSyncStatus('syncing', 'Connecting to Blender...');
+
+  // Set up Firebase listener for pieces
+  piecesRef = firebase.database().ref('blender/pieces');
+  
+  piecesRef.on('value', (snapshot) => {
+    const data = snapshot.val();
+    
+    if (data && Object.keys(data).length > 0) {
+      updateSyncStatus('syncing', 'Syncing pieces from Blender...');
+      
+      // Clear existing pieces
+      sheets = [];
+      pieceIdCounter = 0;
+      
+      // Add pieces from Firebase
+      const piecesArray = Object.values(data);
+      piecesArray.forEach(piece => {
+        const teakSides = [];
+        if (piece.teak_top) teakSides.push('top');
+        if (piece.teak_bottom) teakSides.push('bottom');
+        if (piece.teak_left) teakSides.push('left');
+        if (piece.teak_right) teakSides.push('right');
+        
+        addPieceToSheetOptimized(piece.length, piece.width, teakSides);
+      });
+      
+      renderSheets();
+      renderPiecesList();
+      renderSheetDetails();
+      generateQuotation();
+      generateCostComparison();
+      
+      updateSyncStatus('connected', `Synced ${piecesArray.length} pieces from Blender`);
+    } else {
+      updateSyncStatus('connected', 'Connected - Waiting for Blender data...');
+    }
+  }, (error) => {
+    console.error('Firebase listener error:', error);
+    updateSyncStatus('disconnected', 'Sync error: ' + error.message);
+  });
+
+  document.getElementById('blenderSyncBtn').textContent = 'Disable Sync';
+  document.getElementById('blenderSyncBtn').onclick = disableBlenderSync;
+}
+
+function disableBlenderSync() {
+  blenderSyncEnabled = false;
+  
+  if (piecesRef) {
+    piecesRef.off();
+    piecesRef = null;
+  }
+  
+  updateSyncStatus('disconnected', 'Sync disabled');
+  document.getElementById('syncStatus').style.display = 'none';
+  document.getElementById('blenderSyncBtn').textContent = 'Blender Sync';
+  document.getElementById('blenderSyncBtn').onclick = enableBlenderSync;
+}
+
+// Blender sync button event listener
+document.getElementById('blenderSyncBtn').addEventListener('click', enableBlenderSync);
+
+// Template Management Functions
+function openSaveTemplateModal() {
+  if (sheets.length === 0) {
+    alert('No pieces to save as template. Add pieces first.');
+    return;
+  }
+  document.getElementById('saveTemplateModal').style.display = 'flex';
+}
+
+function closeSaveTemplateModal() {
+  document.getElementById('saveTemplateModal').style.display = 'none';
+  document.getElementById('templateName').value = '';
+  document.getElementById('templateDescription').value = '';
+}
+
+function saveTemplate() {
+  const templateName = document.getElementById('templateName').value.trim();
+  const templateDescription = document.getElementById('templateDescription').value.trim();
+
+  if (!templateName) {
+    alert('Please enter a template name');
+    return;
+  }
+
+  // Collect all pieces
+  const pieces = [];
+  sheets.forEach(sheet => {
+    sheet.pieces.forEach(piece => {
+      pieces.push({
+        width: piece.width,
+        height: piece.height,
+        teakSides: piece.teakSides
+      });
+    });
+  });
+
+  const template = {
+    id: Date.now(),
+    name: templateName,
+    description: templateDescription,
+    pieces: pieces,
+    createdAt: new Date().toISOString()
+  };
+
+  // Get existing templates
+  const templates = JSON.parse(localStorage.getItem('maaWadiTemplates') || '[]');
+  templates.push(template);
+  localStorage.setItem('maaWadiTemplates', JSON.stringify(templates));
+
+  closeSaveTemplateModal();
+  alert('Template saved successfully!');
+}
+
+function openLoadTemplateModal() {
+  const templates = JSON.parse(localStorage.getItem('maaWadiTemplates') || '[]');
+  const templateList = document.getElementById('templateList');
+
+  if (templates.length === 0) {
+    templateList.innerHTML = '<p>No templates saved yet.</p>';
+  } else {
+    templateList.innerHTML = '';
+    templates.forEach(template => {
+      const templateItem = document.createElement('div');
+      templateItem.className = 'template-item';
+      templateItem.innerHTML = `
+        <span class="delete-template" onclick="deleteTemplate(${template.id}, event)">🗑️</span>
+        <h4>${template.name}</h4>
+        <p>${template.description || 'No description'}</p>
+        <div class="template-meta">
+          ${template.pieces.length} pieces | Created: ${new Date(template.createdAt).toLocaleDateString()}
+        </div>
+      `;
+      templateItem.onclick = (e) => {
+        if (!e.target.classList.contains('delete-template')) {
+          loadTemplate(template.id);
+        }
+      };
+      templateList.appendChild(templateItem);
+    });
+  }
+
+  document.getElementById('loadTemplateModal').style.display = 'flex';
+}
+
+function closeLoadTemplateModal() {
+  document.getElementById('loadTemplateModal').style.display = 'none';
+}
+
+function loadTemplate(templateId) {
+  const templates = JSON.parse(localStorage.getItem('maaWadiTemplates') || '[]');
+  const template = templates.find(t => t.id === templateId);
+
+  if (!template) {
+    alert('Template not found');
+    return;
+  }
+
+  if (sheets.length > 0) {
+    if (!confirm('Loading template will replace existing pieces. Continue?')) {
+      return;
+    }
+  }
+
+  // Clear existing sheets
+  sheets = [];
+  pieceIdCounter = 0;
+
+  // Add pieces from template
+  template.pieces.forEach(piece => {
+    addPieceToSheetOptimized(piece.width, piece.height, piece.teakSides);
+  });
+
+  closeLoadTemplateModal();
+  renderSheets();
+  renderPiecesList();
+  renderSheetDetails();
+  generateQuotation();
+  generateCostComparison();
+
+  alert(`Template "${template.name}" loaded successfully!`);
+}
+
+function deleteTemplate(templateId, event) {
+  event.stopPropagation();
+
+  if (!confirm('Are you sure you want to delete this template?')) {
+    return;
+  }
+
+  const templates = JSON.parse(localStorage.getItem('maaWadiTemplates') || '[]');
+  const filteredTemplates = templates.filter(t => t.id !== templateId);
+  localStorage.setItem('maaWadiTemplates', JSON.stringify(filteredTemplates));
+
+  // Refresh the template list
+  openLoadTemplateModal();
+}
+
+// Event listeners for template modals
+document.getElementById('saveTemplateBtn').addEventListener('click', openSaveTemplateModal);
+document.getElementById('closeSaveTemplateModal').addEventListener('click', closeSaveTemplateModal);
+document.getElementById('cancelSaveTemplate').addEventListener('click', closeSaveTemplateModal);
+document.getElementById('confirmSaveTemplate').addEventListener('click', saveTemplate);
+
+document.getElementById('loadTemplateBtn').addEventListener('click', openLoadTemplateModal);
+document.getElementById('closeLoadTemplateModal').addEventListener('click', closeLoadTemplateModal);
+document.getElementById('cancelLoadTemplate').addEventListener('click', closeLoadTemplateModal);
+
+// Close modals when clicking outside
+document.getElementById('saveTemplateModal').addEventListener('click', function(e) {
+  if (e.target === this) closeSaveTemplateModal();
+});
+
+document.getElementById('loadTemplateModal').addEventListener('click', function(e) {
+  if (e.target === this) closeLoadTemplateModal();
+});
+
 document.getElementById('piece-form').addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -321,6 +591,7 @@ document.getElementById('piece-form').addEventListener('submit', function (e) {
   renderPiecesList();
   renderSheetDetails();
   generateQuotation();
+  generateCostComparison();
 });
 
 function clearInputFields() {
@@ -514,18 +785,18 @@ function renderSheets() {
       pieceDiv.style.left = `${pieceDisplayX}px`;
       pieceDiv.style.top = `${pieceDisplayY}px`;
       
-      // Add piece label with converted units
+      // Add piece label with converted units and ID
       const labelDiv = document.createElement('div');
       labelDiv.className = 'piece-label';
       const pieceWidthConverted = UnitConverter.fromMM(piece.width, currentUnit);
       const pieceHeightConverted = UnitConverter.fromMM(piece.height, currentUnit);
-      labelDiv.textContent = `${pieceWidthConverted} × ${pieceHeightConverted}${currentUnit}`;
+      labelDiv.textContent = `#${piece.id}: ${pieceWidthConverted} × ${pieceHeightConverted}${currentUnit}`;
       
       if (piece.isRotated) {
-        labelDiv.textContent += ' (Rotated)';
+        labelDiv.textContent += ' (R)';
       }
       if (piece.teakSides.length > 0) {
-        labelDiv.textContent += ` | Teak: ${piece.teakSides.join(', ')}`;
+        labelDiv.textContent += ` | T: ${piece.teakSides.join(',')}`;
       }
       pieceDiv.appendChild(labelDiv);
       
@@ -689,6 +960,7 @@ function removePiece(pieceId) {
   renderPiecesList();
   renderSheetDetails();
   generateQuotation();
+  generateCostComparison();
 }
 
 function rearrangePieces() {
@@ -944,6 +1216,181 @@ function generateQuotation() {
   `;
 }
 
+function generateCostComparison() {
+  const comparisonDiv = document.getElementById('costComparison');
+  
+  if (sheets.length === 0) {
+    comparisonDiv.innerHTML = '<p>No cost comparison available. Add pieces to generate.</p>';
+    return;
+  }
+
+  const totalSheets = sheets.length;
+  const totalCuts = sheets.reduce((acc, sheet) => acc + (sheet.pieces.length - 1), 0);
+  const totalTeakMeters = sheets.reduce((acc, sheet) => acc + sheet.pieces.reduce((acc, piece) => acc + calculateTeakMeters(piece), 0), 0);
+
+  let comparisonHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Shop</th>
+          <th>Wood Type</th>
+          <th>Sheet Price</th>
+          <th>Total Cost</th>
+          <th>Savings</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  // Calculate costs for all shops
+  const costs = [];
+  let minCost = Infinity;
+
+  shops.forEach(shop => {
+    shop.woodTypes.forEach(wood => {
+      const sheetTotal = totalSheets * wood.price;
+      const cutsTotal = totalCuts * cutCost;
+      const teakTotal = totalTeakMeters * teakCost;
+      const grandTotal = sheetTotal + cutsTotal + teakTotal;
+      
+      if (grandTotal < minCost) {
+        minCost = grandTotal;
+      }
+      
+      costs.push({
+        shopName: shop.name,
+        woodName: wood.name,
+        sheetPrice: wood.price,
+        grandTotal: grandTotal
+      });
+    });
+  });
+
+  // Sort by total cost
+  costs.sort((a, b) => a.grandTotal - b.grandTotal);
+
+  // Generate table rows
+  costs.forEach(cost => {
+    const savings = cost.grandTotal - minCost;
+    const savingsText = savings === 0 ? '-' : `-${savings.toFixed(2)} MVR`;
+    const isCheapest = savings === 0;
+    
+    comparisonHTML += `
+      <tr class="${isCheapest ? 'cheapest-option' : ''}">
+        <td>${cost.shopName} ${isCheapest ? '⭐' : ''}</td>
+        <td>${cost.woodName}</td>
+        <td>${cost.sheetPrice.toFixed(2)} MVR</td>
+        <td><strong>${cost.grandTotal.toFixed(2)} MVR</strong></td>
+        <td>${savingsText}</td>
+      </tr>
+    `;
+  });
+
+  comparisonHTML += `
+      </tbody>
+    </table>
+    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+      ⭐ = Best price option
+    </p>
+  `;
+
+  comparisonDiv.innerHTML = comparisonHTML;
+}
+
+// DXF Export Function
+function exportDXF() {
+  if (sheets.length === 0) {
+    alert('No sheets to export. Add pieces first.');
+    return;
+  }
+
+  let dxfContent = '';
+  
+  // DXF Header
+  dxfContent += '0\nSECTION\n2\nHEADER\n';
+  dxfContent += '9\n$INSUNITS\n70\n4\n'; // Millimeters
+  dxfContent += '0\nENDSEC\n';
+  
+  // DXF Entities
+  dxfContent += '0\nSECTION\n2\nENTITIES\n';
+  
+  sheets.forEach((sheet, sheetIndex) => {
+    const sheetX = sheetIndex * (sheetWidth + 100); // Offset each sheet
+    
+    // Draw sheet outline
+    dxfContent += drawRectangle(sheetX, 0, sheetWidth, sheetHeight, 0, 'SHEET');
+    
+    // Draw pieces
+    sheet.pieces.forEach(piece => {
+      const pieceX = sheetX + piece.x;
+      const pieceY = piece.y;
+      
+      // Draw piece rectangle
+      dxfContent += drawRectangle(pieceX, pieceY, piece.width, piece.height, 1, `PIECE #${piece.id}`);
+      
+      // Add text label for piece
+      dxfContent += drawText(pieceX + piece.width/2, pieceY + piece.height/2, `#${piece.id}`, 50);
+      dxfContent += drawText(pieceX + piece.width/2, pieceY + piece.height/2 + 60, `${piece.width}x${piece.height}`, 30);
+    });
+  });
+  
+  dxfContent += '0\nENDSEC\n';
+  dxfContent += '0\nEOF\n';
+  
+  // Download the DXF file
+  const blob = new Blob([dxfContent], { type: 'application/dxf' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `cutting_diagram_${Date.now()}.dxf`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function drawRectangle(x, y, width, height, color, layer) {
+  let dxf = '';
+  
+  // Start of polyline
+  dxf += '0\nLAYER\n2\n' + layer + '\n';
+  dxf += '0\nPOLYLINE\n8\n' + layer + '\n';
+  dxf += '70\n1\n'; // Closed polyline
+  dxf += '90\n4\n'; // Number of vertices
+  
+  // Vertex 1 (bottom-left)
+  dxf += '0\nVERTEX\n10\n' + x + '\n20\n' + y + '\n';
+  
+  // Vertex 2 (bottom-right)
+  dxf += '0\nVERTEX\n10\n' + (x + width) + '\n20\n' + y + '\n';
+  
+  // Vertex 3 (top-right)
+  dxf += '0\nVERTEX\n10\n' + (x + width) + '\n20\n' + (y + height) + '\n';
+  
+  // Vertex 4 (top-left)
+  dxf += '0\nVERTEX\n10\n' + x + '\n20\n' + (y + height) + '\n';
+  
+  // End of polyline
+  dxf += '0\nSEQEND\n';
+  
+  return dxf;
+}
+
+function drawText(x, y, text, height) {
+  let dxf = '';
+  
+  dxf += '0\nTEXT\n';
+  dxf += '8\nLABELS\n';
+  dxf += '10\n' + x + '\n'; // X position
+  dxf += '20\n' + y + '\n'; // Y position
+  dxf += '40\n' + height + '\n'; // Text height
+  dxf += '1\n' + text + '\n'; // Text content
+  dxf += '72\n1\n'; // Horizontal alignment (center)
+  dxf += '73\n2\n'; // Vertical alignment (center)
+  
+  return dxf;
+}
+
 function buildShareText() {
   if (sheets.length === 0) return 'No quotation available.';
 
@@ -975,6 +1422,7 @@ function setupActionButtons() {
   const printBtn = document.getElementById('printQuotation');
   const exportBtn = document.getElementById('exportPDF');
   const shareBtn = document.getElementById('shareQuotation');
+  const exportDXFBtn = document.getElementById('exportDXF');
 
   if (printBtn) {
     printBtn.addEventListener('click', (e) => {
@@ -1063,20 +1511,17 @@ function setupActionButtons() {
           alert('Quotation copied to clipboard.');
           return;
         }
-
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        alert('Quotation copied to clipboard.');
       } catch (err) {
         console.error(err);
-        alert('Sharing failed.');
+        alert('Failed to share quotation.');
       }
+    });
+  }
+
+  if (exportDXFBtn) {
+    exportDXFBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      exportDXF();
     });
   }
 }
