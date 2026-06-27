@@ -790,6 +790,52 @@ tr.total-row td {
   font-weight: 500;
 }
 
+.mobile-units-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  min-width: 60px;
+  cursor: pointer;
+}
+
+.mobile-units-dropdown:hover {
+  background-color: var(--primary-dark);
+}
+
+.mobile-units-dropdown i {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.mobile-units-dropdown span {
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.mobile-unit-select {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align: center;
+}
+
+.mobile-unit-select option {
+  background: var(--primary-color);
+  color: white;
+}
+
 /* Action Buttons */
 .action-buttons {
   display: grid;

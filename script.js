@@ -1564,6 +1564,54 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.target === this) closeCabinetModal();
     });
   }
+  
+  // Mobile bottom navigation event listeners
+  const mobileSaveProjectBtn = document.getElementById('mobileSaveProjectBtn');
+  if (mobileSaveProjectBtn) {
+    mobileSaveProjectBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openSaveProjectModal();
+    });
+  }
+  
+  const mobileLoadProjectBtn = document.getElementById('mobileLoadProjectBtn');
+  if (mobileLoadProjectBtn) {
+    mobileLoadProjectBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openLoadProjectModal();
+    });
+  }
+  
+  const mobileSettingsBtn = document.getElementById('mobileSettingsBtn');
+  if (mobileSettingsBtn) {
+    mobileSettingsBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('settingsBtn').click();
+    });
+  }
+  
+  // Mobile unit selector sync with desktop unit selector
+  const mobileUnitSelector = document.getElementById('mobileUnitSelector');
+  if (mobileUnitSelector) {
+    mobileUnitSelector.addEventListener('change', function(e) {
+      const unitSelector = document.getElementById('unitSelector');
+      if (unitSelector) {
+        unitSelector.value = e.target.value;
+        unitSelector.dispatchEvent(new Event('change'));
+      }
+    });
+  }
+  
+  // Sync desktop unit selector to mobile unit selector
+  const unitSelector = document.getElementById('unitSelector');
+  if (unitSelector) {
+    unitSelector.addEventListener('change', function(e) {
+      const mobileUnitSelector = document.getElementById('mobileUnitSelector');
+      if (mobileUnitSelector) {
+        mobileUnitSelector.value = e.target.value;
+      }
+    });
+  }
 });
 
 document.getElementById('piece-form').addEventListener('submit', function (e) {
