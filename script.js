@@ -1204,6 +1204,23 @@ function enableBlenderSync() {
           console.log('No Blender GLB model found, using generated boxes from cut list');
         }
         
+        // Process hardware data from Blender if available
+        if (data._hardware && Array.isArray(data._hardware)) {
+          hardwareList = data._hardware.map((hw, index) => ({
+            id: Date.now() + index,
+            cabinetName: 'Blender Import',
+            cabinetInstance: 1,
+            type: hw.type,
+            specification: hw.specification,
+            size: hw.size,
+            quantity: hw.quantity,
+            material: hw.material,
+            notes: hw.notes
+          }));
+          console.log(`Loaded ${hardwareList.length} hardware items from Blender`);
+          renderHardwareList();
+        }
+        
         renderSheets();
         renderPiecesList();
         renderSheetDetails();

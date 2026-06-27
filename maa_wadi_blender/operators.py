@@ -1092,6 +1092,15 @@ def sync_to_firebase(context):
             else:
                 print("No model_base64 found in settings")
             
+            # Add hardware list if available
+            if hasattr(st, 'hardware_list') and st.hardware_list:
+                try:
+                    hardware_data = json.loads(st.hardware_list)
+                    pieces_data['_hardware'] = hardware_data
+                    print(f"Adding hardware to sync data: {len(hardware_data)} items")
+                except json.JSONDecodeError:
+                    print("Error parsing hardware_list JSON")
+            
             # Send to Firebase
             data = json.dumps(pieces_data).encode('utf-8')
             req = urllib.request.Request(
@@ -1385,6 +1394,145 @@ class BCL_OT_rename_part(Operator):
         return {"FINISHED"}
 
 
+class BCL_OT_detect_hardware(Operator):
+    bl_idname = "bcl.detect_hardware"
+    bl_label = "Detect Hardware"
+    bl_description = "Analyze renamed parts and calculate required hardware"
+    bl_options = {"REGISTER", "UNDO"}
+    
+    def execute(self, context):
+        st = context.scene.bcl_settings
+        
+        # Get all objects in the scene
+        all_objects = [obj for obj in bpy.data.objects if obj.name not in ['CutLayout_Visualization', 'Camera', 'Light']]
+        
+        if not all_objects:
+            self.report({'WARNING'}, "No objects found in scene")
+            return {"CANCELLED"}
+        
+        # Initialize hardware list
+        hardware_list = []
+        
+        # Count parts by type
+        door_count = 0
+        drawer_count = 0
+        shelf_count = 0
+        handle_count = 0
+        hinge_count = 0
+        panel_count = 0
+        
+        # Analyze object names to determine hardware requirements
+        for obj in all_objects:
+            obj_name_upper = obj.name.upper()
+            
+            # Count doors
+            if "DOOR" in obj_name_upper or "DOOR_PANEL" in obj_name_upper or "DOOR_LEAF" in obj_name_upper:
+                door_count += 1
+            
+            # Count drawers
+            if "DRAWER" in obj_name_upper and "RUNNER" not in obj_name_upper and "SLIDE" not in obj_name_upper:
+                drawer_count += 1
+            
+            # Count shelves
+            if "SHELF" in obj_name_upper and "SHELF_PIN" not in obj_name_upper and "SHELF_BRACKET" not in obj_name_upper:
+                shelf_count += 1
+            
+            # Count handles
+            if "HANDLE" in obj_name_upper or "KNOB" in obj_name_upper:
+                handle_count += 1
+            
+            # Count structural panels
+            if "PANEL" in obj_name_upper or "SIDE_PANEL" in obj_name_upper or "TOP_PANEL" in obj_name_upper or "BOTTOM_PANEL" in obj_name_upper:
+                panel_count += 1
+        
+        # Calculate hardware requirements
+        
+        # 1. Hinges (2 per door)
+        if door_count > 0:
+            hinge_count = door_count * 2
+            hardware_list.append({
+                "type": "Hinge",
+                "specification": "Standard Cabinet Hinge",
+                "size": "35mm",
+                "quantity": hinge_count,
+                "material": "Steel/Nickel plated",
+                "notes": f"For {door_count} door(s)"
+            })
+        
+        # 2. Drawer slides (2 per drawer)
+        if drawer_count > 0:
+            hardware_list.append({
+                "type": "Drawer Slide",
+                "specification": "Standard Drawer Slide",
+                "size": "450mm",
+                "quantity": drawer_count * 2,
+                "material": "Steel",
+                "notes": f"For {drawer_count} drawer(s)"
+            })
+        
+        # 3. Shelf support pins (4 per shelf)
+        if shelf_count > 0:
+            hardware_list.append({
+                "type": "Shelf Support Pin",
+                "specification": "Adjustable Shelf Pin",
+                "size": "5mm diameter",
+                "quantity": shelf_count * 4,
+                "material": "Steel/Plastic",
+                "notes": f"For {shelf_count} shelf/shelves"
+            })
+        
+        # 4. Handles (if not already counted separately)
+        if handle_count == 0 and (door_count > 0 or drawer_count > 0):
+            handle_count = door_count + drawer_count
+            hardware_list.append({
+                "type": "Handle",
+                "specification": "Cabinet Handle",
+                "size": "128mm",
+                "quantity": handle_count,
+                "material": "Stainless Steel/Aluminum",
+                "notes": f"For {door_count} door(s) and {drawer_count} drawer(s)"
+            })
+        
+        # 5. Wood screws for assembly (estimated based on panel count)
+        if panel_count > 0:
+            # Estimate 4 screws per panel joint (simplified)
+            screw_count = panel_count * 4
+            hardware_list.append({
+                "type": "Wood Screw",
+                "specification": "Flat head wood screw",
+                "size": "4mm x 16mm",
+                "quantity": screw_count,
+                "material": "Steel/Zinc plated",
+                "notes": "For cabinet body assembly"
+            })
+        
+        # 6. Cam locks and bolts for knock-down assembly
+        if panel_count >= 4:  # Only if we have a proper cabinet structure
+            hardware_list.append({
+                "type": "Cam Lock",
+                "specification": "Standard Cam Lock",
+                "size": "15mm",
+                "quantity": panel_count // 2,
+                "material": "Steel/Zinc plated",
+                "notes": "For cabinet body assembly"
+            })
+            
+            hardware_list.append({
+                "type": "Cam Bolt",
+                "specification": "Cam Bolt",
+                "size": "50mm",
+                "quantity": panel_count // 2,
+                "material": "Steel/Zinc plated",
+                "notes": "For cabinet body assembly"
+            })
+        
+        # Store hardware list in scene settings
+        st.hardware_list = json.dumps(hardware_list)
+        
+        self.report({'INFO'}, f"Detected hardware: {len(hardware_list)} types, {sum(h['quantity'] for h in hardware_list)} total items")
+        return {"FINISHED"}
+
+
 class BCL_OT_visualize_cut_layout(Operator):
     bl_idname = "bcl.visualize_cut_layout"
     bl_label = "Visualize Cut Layout"
@@ -1569,6 +1717,7 @@ classes = (
     BCL_OT_export_3d_model,
     BCL_OT_visualize_cut_layout,
     BCL_OT_rename_part,
+    BCL_OT_detect_hardware,
 )
 
 

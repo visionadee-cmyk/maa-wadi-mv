@@ -388,6 +388,12 @@ class BCL_Settings(PropertyGroup):
         default="TOP_PANEL",
     )
     custom_part_name: StringProperty(name="Custom Name", default="")
+    
+    hardware_list: StringProperty(
+        name="Hardware List",
+        description="JSON string containing detected hardware items",
+        default="[]"
+    )
 
 
 classes = (BCL_CutListItem, BCL_Settings)

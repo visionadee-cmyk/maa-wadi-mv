@@ -72,6 +72,7 @@ class BCL_PT_cut_list(Panel):
         if st.part_name_type == "CUSTOM":
             box.prop(st, "custom_part_name")
         box.operator("bcl.rename_part", icon="OUTLINER_DATA_MESH")
+        box.operator("bcl.detect_hardware", icon="TOOL_SETTINGS")
 
         layout.separator()
 
