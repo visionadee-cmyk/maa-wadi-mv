@@ -895,14 +895,17 @@ function enableBlenderSync() {
         for (const piece of piecesArray) {
           if (piece.model_base64) {
             blenderModel = piece.model_base64;
+            console.log('Found Blender GLB model, size:', piece.model_base64.length);
             break;
           }
         }
         
         if (blenderModel) {
           // Load Blender GLB model instead of generating boxes
+          console.log('Loading Blender GLB model...');
           load3DModelFromBase64(blenderModel);
         } else {
+          console.log('No Blender GLB model found, generating boxes from cut list');
           // Fall back to generating 3D boxes from cut list data
           piecesArray.forEach(piece => {
             const teakSides = [];
