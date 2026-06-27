@@ -288,6 +288,11 @@ loadShopsFromStorage();
 let firebaseInitialized = false;
 let blenderSyncEnabled = false;
 let piecesRef = null;
+let storageRef = null;
+
+// 3D Viewer
+let scene, camera, renderer, controls;
+let viewerInitialized = false;
 
 function initializeFirebase() {
   const firebaseConfig = {
@@ -304,11 +309,218 @@ function initializeFirebase() {
   try {
     firebase.initializeApp(firebaseConfig);
     firebaseInitialized = true;
+    storageRef = firebase.storage();
     console.log('Firebase initialized successfully');
   } catch (error) {
     console.error('Firebase initialization error:', error);
     updateSyncStatus('disconnected', 'Firebase connection failed');
   }
+}
+
+// 3D Viewer Functions
+function initialize3DViewer() {
+  if (viewerInitialized) return;
+
+  const container = document.getElementById('viewer-container');
+  const placeholder = document.getElementById('viewer-placeholder');
+
+  // Remove placeholder
+  if (placeholder) {
+    placeholder.style.display = 'none';
+  }
+
+  // Scene setup
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xf0f0f0);
+
+  // Camera setup
+  camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+  camera.position.set(5, 5, 5);
+
+  // Renderer setup
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.shadowMap.enabled = true;
+  container.appendChild(renderer.domElement);
+
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(10, 10, 10);
+  directionalLight.castShadow = true;
+  scene.add(directionalLight);
+
+  // Orbit controls
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+
+  // Grid helper
+  const gridHelper = new THREE.GridHelper(10, 10);
+  scene.add(gridHelper);
+
+  // Handle resize
+  window.addEventListener('resize', onWindowResize);
+
+  viewerInitialized = true;
+  animate();
+}
+
+function onWindowResize() {
+  const container = document.getElementById('viewer-container');
+  if (!container || !camera || !renderer) return;
+
+  camera.aspect = container.clientWidth / container.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  if (controls) controls.update();
+  if (renderer && scene && camera) {
+    renderer.render(scene, camera);
+  }
+}
+
+function load3DModel(modelUrl) {
+  if (!viewerInitialized) {
+    initialize3DViewer();
+  }
+
+  const loader = new THREE.GLTFLoader();
+  loader.load(
+    modelUrl,
+    function (gltf) {
+      // Remove existing models
+      const models = scene.children.filter(child => child.type === 'Group' || child.type === 'Mesh');
+      models.forEach(model => scene.remove(model));
+
+      // Add new model
+      const model = gltf.scene;
+      
+      // Center and scale model
+      const box = new THREE.Box3().setFromObject(model);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+      
+      model.position.sub(center);
+      
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale = 5 / maxDim;
+      model.scale.setScalar(scale);
+
+      scene.add(model);
+    },
+    function (xhr) {
+      console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    function (error) {
+      console.error('Error loading 3D model:', error);
+    }
+  );
+}
+
+function load3DModelFromBase64(base64Data) {
+  if (!viewerInitialized) {
+    initialize3DViewer();
+  }
+
+  if (!base64Data) {
+    console.error('No Base64 data provided');
+    return;
+  }
+
+  try {
+    // Decode Base64 to binary
+    const binaryString = atob(base64Data);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    // Create Blob from binary data
+    const blob = new Blob([bytes], { type: 'model/gltf-binary' });
+    const url = URL.createObjectURL(blob);
+
+    // Load GLTF from Blob URL
+    const loader = new THREE.GLTFLoader();
+    loader.load(
+      url,
+      function (gltf) {
+        // Remove existing models
+        const models = scene.children.filter(child => child.type === 'Group' || child.type === 'Mesh');
+        models.forEach(model => scene.remove(model));
+
+        // Add new model
+        const model = gltf.scene;
+        
+        // Center and scale model
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        
+        model.position.sub(center);
+        
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 5 / maxDim;
+        model.scale.setScalar(scale);
+
+        scene.add(model);
+        
+        // Clean up URL
+        URL.revokeObjectURL(url);
+      },
+      function (xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+      },
+      function (error) {
+        console.error('Error loading 3D model from Base64:', error);
+        URL.revokeObjectURL(url);
+      }
+    );
+  } catch (error) {
+    console.error('Error decoding Base64:', error);
+  }
+}
+
+function generate3DBox(length, width, thickness, name) {
+  if (!viewerInitialized) {
+    initialize3DViewer();
+  }
+
+  // Create box geometry (convert to meters for Three.js)
+  const geometry = new THREE.BoxGeometry(
+    length / 1000,  // Convert mm to meters
+    thickness / 1000,
+    width / 1000
+  );
+
+  // Create material with random color
+  const colors = [0x8B4513, 0xA0522D, 0xCD853F, 0xDEB887, 0xD2691E]; // Wood tones
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  const material = new THREE.MeshPhongMaterial({ 
+    color: randomColor,
+    shininess: 30
+  });
+
+  // Create mesh
+  const box = new THREE.Mesh(geometry, material);
+  
+  // Position randomly in scene
+  box.position.x = (Math.random() - 0.5) * 4;
+  box.position.y = (Math.random() - 0.5) * 2;
+  box.position.z = (Math.random() - 0.5) * 4;
+
+  // Add to scene
+  scene.add(box);
+
+  // Add edges for better visibility
+  const edges = new THREE.EdgesGeometry(geometry);
+  const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x000000 }));
+  box.add(line);
 }
 
 function updateSyncStatus(status, text) {
@@ -363,6 +575,11 @@ function enableBlenderSync() {
         for (let i = 0; i < qty; i++) {
           addPieceToSheetOptimized(piece.length, piece.width, teakSides);
         }
+
+        // Generate 3D boxes from cut list data
+        if (piece.length && piece.width && piece.thickness) {
+          generate3DBox(piece.length, piece.width, piece.thickness, piece.name);
+        }
       });
       
       renderSheets();
@@ -370,6 +587,7 @@ function enableBlenderSync() {
       renderSheetDetails();
       generateQuotation();
       generateCostComparison();
+ initialize3DViewer();
       
       updateSyncStatus('connected', `Synced ${piecesArray.length} pieces from Blender`);
     } else {
