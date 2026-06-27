@@ -295,6 +295,11 @@ let scene, camera, renderer, controls;
 let viewerInitialized = false;
 
 function initializeFirebase() {
+  if (firebaseInitialized) {
+    console.log('Firebase already initialized');
+    return;
+  }
+
   const firebaseConfig = {
     apiKey: "AIzaSyDvIMuG6FIQWSMbN2rt4x_AUwAJAsIql24",
     authDomain: "maa-wadi-mv.firebaseapp.com",
@@ -307,12 +312,19 @@ function initializeFirebase() {
   };
 
   try {
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
     firebaseInitialized = true;
     console.log('Firebase initialized successfully');
   } catch (error) {
     console.error('Firebase initialization error:', error);
-    updateSyncStatus('disconnected', 'Firebase connection failed');
+    if (error.code === 'app/duplicate-app') {
+      console.log('Firebase app already exists, using existing instance');
+      firebaseInitialized = true;
+    } else {
+      updateSyncStatus('disconnected', 'Firebase connection failed');
+    }
   }
 }
 
