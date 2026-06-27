@@ -956,50 +956,52 @@ function generatePiecesFromCabinet(cabinet) {
 
   // Generate pieces for each cabinet quantity
   for (let q = 0; q < cabinet.quantity; q++) {
+    const cabinetInstance = q + 1;
+    
     // Calculate position for this cabinet instance
     const offsetX = q * (cabinet.length / 1000 + 0.2); // Space between cabinets
     
     // 1. Main cabinet body (sides)
     // Left side panel
-    addPieceToSheetOptimized(cabinet.depth, cabinet.height, teakSides);
+    addPieceToSheetOptimized(cabinet.depth, cabinet.height, teakSides, 'Left Side Panel', cabinet.name, cabinetInstance);
     piecesCount++;
     
     // Right side panel
-    addPieceToSheetOptimized(cabinet.depth, cabinet.height, teakSides);
+    addPieceToSheetOptimized(cabinet.depth, cabinet.height, teakSides, 'Right Side Panel', cabinet.name, cabinetInstance);
     piecesCount++;
     
     // 2. Top panel
-    addPieceToSheetOptimized(cabinet.length, cabinet.depth, teakSides);
+    addPieceToSheetOptimized(cabinet.length, cabinet.depth, teakSides, 'Top Panel', cabinet.name, cabinetInstance);
     piecesCount++;
     
     // 3. Bottom panel
-    addPieceToSheetOptimized(cabinet.length, cabinet.depth, teakSides);
+    addPieceToSheetOptimized(cabinet.length, cabinet.depth, teakSides, 'Bottom Panel', cabinet.name, cabinetInstance);
     piecesCount++;
     
     // 4. Back panel
-    addPieceToSheetOptimized(cabinet.length, cabinet.height, teakSides);
+    addPieceToSheetOptimized(cabinet.length, cabinet.height, teakSides, 'Back Panel', cabinet.name, cabinetInstance);
     piecesCount++;
     
     // 5. Front face panel (if specified)
     if (cabinet.hasDoors) {
-      addPieceToSheetOptimized(cabinet.length, cabinet.height, teakSides);
+      addPieceToSheetOptimized(cabinet.length, cabinet.height, teakSides, 'Front Face Panel', cabinet.name, cabinetInstance);
       piecesCount++;
     }
     
     // 6. Middle shelf (if specified)
     if (cabinet.hasShelves) {
-      addPieceToSheetOptimized(cabinet.length - (cabinet.thickness * 2), cabinet.depth, teakSides);
+      addPieceToSheetOptimized(cabinet.length - (cabinet.thickness * 2), cabinet.depth, teakSides, 'Middle Shelf', cabinet.name, cabinetInstance);
       piecesCount++;
     }
     
     // 7. Divider panels (if specified)
     if (cabinet.hasDividers) {
       // Divider above shelf
-      addPieceToSheetOptimized(cabinet.depth, (cabinet.height / 2) - cabinet.thickness, teakSides);
+      addPieceToSheetOptimized(cabinet.depth, (cabinet.height / 2) - cabinet.thickness, teakSides, 'Upper Divider Panel', cabinet.name, cabinetInstance);
       piecesCount++;
       
       // Divider below shelf
-      addPieceToSheetOptimized(cabinet.depth, (cabinet.height / 2) - cabinet.thickness, teakSides);
+      addPieceToSheetOptimized(cabinet.depth, (cabinet.height / 2) - cabinet.thickness, teakSides, 'Lower Divider Panel', cabinet.name, cabinetInstance);
       piecesCount++;
     }
     
@@ -1007,14 +1009,14 @@ function generatePiecesFromCabinet(cabinet) {
     if (cabinet.hasDoors && cabinet.doorCount > 0) {
       const doorWidth = cabinet.length / cabinet.doorCount;
       for (let d = 0; d < cabinet.doorCount; d++) {
-        addPieceToSheetOptimized(doorWidth, cabinet.height, teakSides);
+        addPieceToSheetOptimized(doorWidth, cabinet.height, teakSides, `Door ${d + 1}`, cabinet.name, cabinetInstance);
         piecesCount++;
       }
     }
     
     // 9. Bottom skirting (if specified - 80mm height)
     if (cabinet.hasSkirting) {
-      addPieceToSheetOptimized(cabinet.length, 80, teakSides);
+      addPieceToSheetOptimized(cabinet.length, 80, teakSides, 'Bottom Skirting', cabinet.name, cabinetInstance);
       piecesCount++;
     }
     
@@ -1690,7 +1692,7 @@ function isOverlapping(sheet, x, y, pieceWidth, pieceHeight) {
   return false;
 }
 
-function placePiece(sheet, pieceWidth, pieceHeight, isRotated, teakSides) {
+function placePiece(sheet, pieceWidth, pieceHeight, isRotated, teakSides, pieceType = '', cabinetName = '', cabinetInstance = 0) {
   for (let y = 0; y <= sheet.height - pieceHeight; y++) {
     for (let x = 0; x <= sheet.width - pieceWidth; x++) {
       if (!isOverlapping(sheet, x, y, pieceWidth, pieceHeight)) {
@@ -1702,6 +1704,9 @@ function placePiece(sheet, pieceWidth, pieceHeight, isRotated, teakSides) {
           height: pieceHeight,
           isRotated,
           teakSides: teakSides || [],
+          pieceType: pieceType || '',
+          cabinetName: cabinetName || '',
+          cabinetInstance: cabinetInstance || 0
         });
         return;
       }
@@ -2000,12 +2005,12 @@ function rearrangePieces() {
   });
 }
 
-function addPieceToSheetOptimized(length, width, teakSides) {
+function addPieceToSheetOptimized(length, width, teakSides, pieceType = '', cabinetName = '', cabinetInstance = 0) {
   let added = false;
 
   // Try to add the piece to an existing sheet, prioritizing full-height placement
   for (const sheet of sheets) {
-    const didFit = tryFitPieceOptimized(sheet, length, width, teakSides);
+    const didFit = tryFitPieceOptimized(sheet, length, width, teakSides, pieceType, cabinetName, cabinetInstance);
     if (didFit) {
       added = true;
       break;
@@ -2020,7 +2025,7 @@ function addPieceToSheetOptimized(length, width, teakSides) {
       pieces: [],
     };
 
-    const didFit = tryFitPieceOptimized(newSheet, length, width, teakSides);
+    const didFit = tryFitPieceOptimized(newSheet, length, width, teakSides, pieceType, cabinetName, cabinetInstance);
     if (!didFit) {
       return false;
     }
@@ -2031,36 +2036,36 @@ function addPieceToSheetOptimized(length, width, teakSides) {
   return true;
 }
 
-function tryFitPieceOptimized(sheet, length, width, teakSides) {
+function tryFitPieceOptimized(sheet, length, width, teakSides, pieceType = '', cabinetName = '', cabinetInstance = 0) {
   // Try full-height placement first (if piece height is close to sheet height)
   const isFullHeight = Math.abs(length - sheetHeight) < 50 || Math.abs(width - sheetHeight) < 50;
   
   if (isFullHeight) {
     // Try to place at the rightmost edge to create clean vertical cuts
     if (canFit(sheet, length, width)) {
-      if (placePieceAtEdge(sheet, length, width, false, teakSides)) return true;
+      if (placePieceAtEdge(sheet, length, width, false, teakSides, pieceType, cabinetName, cabinetInstance)) return true;
     }
     if (canFit(sheet, width, length)) {
-      if (placePieceAtEdge(sheet, width, length, true, teakSides)) return true;
+      if (placePieceAtEdge(sheet, width, length, true, teakSides, pieceType, cabinetName, cabinetInstance)) return true;
     }
   }
   
   // Try original orientation
   if (canFit(sheet, length, width)) {
-    placePiece(sheet, length, width, false, teakSides);
+    placePiece(sheet, length, width, false, teakSides, pieceType, cabinetName, cabinetInstance);
     return true;
   }
 
   // Try rotated orientation
   if (canFit(sheet, width, length)) {
-    placePiece(sheet, width, length, true, teakSides);
+    placePiece(sheet, width, length, true, teakSides, pieceType, cabinetName, cabinetInstance);
     return true;
   }
 
   return false;
 }
 
-function placePieceAtEdge(sheet, pieceWidth, pieceHeight, isRotated, teakSides) {
+function placePieceAtEdge(sheet, pieceWidth, pieceHeight, isRotated, teakSides, pieceType = '', cabinetName = '', cabinetInstance = 0) {
   // Try to place at the rightmost edge to create clean vertical strips
   const targetX = sheet.width - pieceWidth;
   
@@ -2074,6 +2079,9 @@ function placePieceAtEdge(sheet, pieceWidth, pieceHeight, isRotated, teakSides) 
         height: pieceHeight,
         isRotated,
         teakSides: teakSides || [],
+        pieceType: pieceType || '',
+        cabinetName: cabinetName || '',
+        cabinetInstance: cabinetInstance || 0
       });
       return true;
     }
@@ -2090,6 +2098,9 @@ function placePieceAtEdge(sheet, pieceWidth, pieceHeight, isRotated, teakSides) 
         height: pieceHeight,
         isRotated,
         teakSides: teakSides || [],
+        pieceType: pieceType || '',
+        cabinetName: cabinetName || '',
+        cabinetInstance: cabinetInstance || 0
       });
       return true;
     }
@@ -2103,7 +2114,7 @@ function renderPiecesList() {
   tableBody.innerHTML = '';
   
   if (sheets.length === 0) {
-    tableBody.innerHTML = '<tr><td colspan="5">No pieces added yet.</td></tr>';
+    tableBody.innerHTML = '<tr><td colspan="6">No pieces added yet.</td></tr>';
     return;
   }
   
@@ -2114,17 +2125,29 @@ function renderPiecesList() {
       const pieceWidthConverted = UnitConverter.fromMM(piece.width, currentUnit);
       const pieceHeightConverted = UnitConverter.fromMM(piece.height, currentUnit);
       
-      row.innerHTML = `
-        <td>#${piece.id}</td>
-        <td>${pieceWidthConverted} × ${pieceHeightConverted}${currentUnit}</td>
-        <td>Sheet ${sheetIndex + 1}</td>
-        <td>${piece.teakSides.length > 0 ? piece.teakSides.join(', ') : 'None'}</td>
-        <td>
-          <button class="btn-remove" onclick="removePiece(${piece.id})">
-            <i class="fas fa-trash"></i> Remove
-          </button>
-        </td>
-      `;
+      // Build piece description with type and cabinet info
+      let pieceDescription = '';
+      if (piece.pieceType) {
+        pieceDescription = piece.pieceType;
+      }
+      if (piece.cabinetName) {
+        if (pieceDescription) pieceDescription += ' - ';
+        pieceDescription += piece.cabinetName;
+        if (piece.cabinetInstance) {
+          pieceDescription += ` #${piece.cabinetInstance}`;
+        }
+      }
+      
+      row.innerHTML = '<td>#' + piece.id + '</td>' +
+        '<td>' + pieceWidthConverted + ' × ' + pieceHeightConverted + currentUnit + '</td>' +
+        '<td>' + (pieceDescription || 'Custom Piece') + '</td>' +
+        '<td>Sheet ' + (sheetIndex + 1) + '</td>' +
+        '<td>' + (piece.teakSides.length > 0 ? piece.teakSides.join(', ') : 'None') + '</td>' +
+        '<td>' +
+          '<button class="btn-remove" onclick="removePiece(' + piece.id + ')">' +
+            '<i class="fas fa-trash"></i> Remove' +
+          '</button>' +
+        '</td>';
       
       tableBody.appendChild(row);
     });
