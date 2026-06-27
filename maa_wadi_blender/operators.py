@@ -1081,11 +1081,16 @@ def sync_to_firebase(context):
                         'z': item.pos_z
                     }
                 
-                # Add Base64 model data if available (only send once for first item)
-                if i == 0 and hasattr(st, 'model_base64') and st.model_base64:
-                    piece_data['model_base64'] = st.model_base64
-                
                 pieces_data[str(i)] = piece_data
+            
+            # Add model data separately if available
+            if hasattr(st, 'model_base64') and st.model_base64:
+                pieces_data['_model'] = {
+                    'model_base64': st.model_base64
+                }
+                print(f"Adding model to sync data, size: {len(st.model_base64)}")
+            else:
+                print("No model_base64 found in settings")
             
             # Send to Firebase
             data = json.dumps(pieces_data).encode('utf-8')

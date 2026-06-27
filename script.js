@@ -890,13 +890,21 @@ function enableBlenderSync() {
         // Add pieces from Firebase
         const piecesArray = Object.values(data);
         
-        // Check if Blender GLB model is available
+        // Check if Blender GLB model is available (new _model key or old model_base64 in pieces)
         let blenderModel = null;
-        for (const piece of piecesArray) {
-          if (piece.model_base64) {
-            blenderModel = piece.model_base64;
-            console.log('Found Blender GLB model, size:', piece.model_base64.length);
-            break;
+        
+        // Check for new _model key
+        if (data._model && data._model.model_base64) {
+          blenderModel = data._model.model_base64;
+          console.log('Found Blender GLB model in _model key, size:', blenderModel.length);
+        } else {
+          // Fall back to checking individual pieces (old method)
+          for (const piece of piecesArray) {
+            if (piece.model_base64) {
+              blenderModel = piece.model_base64;
+              console.log('Found Blender GLB model in piece, size:', piece.model_base64.length);
+              break;
+            }
           }
         }
         
