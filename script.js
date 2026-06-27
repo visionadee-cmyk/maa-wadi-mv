@@ -350,6 +350,7 @@ async function saveProjectToFirestore(projectName) {
       pieces: pieces,
       pieceIdCounter: pieceIdCounter,
       cabinets: cabinets,
+      hardwareList: hardwareList,
       customerName: customerName,
       customerPhone: customerPhone,
       customerAddress: customerAddress,
@@ -393,6 +394,7 @@ async function loadProjectFromFirestore(projectName) {
     pieces = projectData.pieces || [];
     pieceIdCounter = projectData.pieceIdCounter || 0;
     cabinets = projectData.cabinets || [];
+    hardwareList = projectData.hardwareList || [];
     customerName = projectData.customerName || '';
     customerPhone = projectData.customerPhone || '';
     customerAddress = projectData.customerAddress || '';
@@ -409,6 +411,7 @@ async function loadProjectFromFirestore(projectName) {
     renderSheetDetails();
     generateQuotation();
     generateCostComparison();
+    renderHardwareList();
 
     console.log('Project loaded successfully:', projectName);
     alert(`Project "${projectName}" loaded successfully!`);
@@ -801,6 +804,7 @@ document.getElementById('blenderSyncBtn').addEventListener('click', enableBlende
 // Template Management Functions
 // Cabinet/Asset Management
 let cabinets = [];
+let hardwareList = [];
 
 function openCabinetModal() {
   document.getElementById('addCabinetModal').style.display = 'flex';
@@ -823,6 +827,11 @@ function closeCabinetModal() {
   document.getElementById('cabinetSkirting').checked = false;
   document.getElementById('cabinetDoorCount').value = '2';
   document.getElementById('cabinetNotes').value = '';
+  
+  // Reset teak checkboxes
+  document.querySelectorAll('input[name="cabinetTeak"]').forEach(checkbox => {
+    checkbox.checked = false;
+  });
 }
 
 function addCabinetAndGeneratePieces() {
@@ -840,6 +849,9 @@ function addCabinetAndGeneratePieces() {
   const hasSkirting = document.getElementById('cabinetSkirting').checked;
   const doorCount = parseInt(document.getElementById('cabinetDoorCount').value);
   const notes = document.getElementById('cabinetNotes').value.trim();
+  
+  // Get teak finishing sides
+  const teakSides = Array.from(document.querySelectorAll('input[name="cabinetTeak"]:checked')).map(input => input.value);
 
   if (!cabinetName || !length || !height || !depth) {
     alert('Please fill in cabinet name and dimensions');
@@ -861,7 +873,23 @@ function addCabinetAndGeneratePieces() {
     hasHandles,
     hasSkirting,
     doorCount,
-    notes
+    notes,
+    teakSides
+  });
+
+  // Generate hardware requirements
+  const hardwareGenerated = generateHardwareForCabinet({
+    name: cabinetName,
+    length,
+    height,
+    depth,
+    quantity,
+    hasDoors,
+    hasShelves,
+    hasDividers,
+    hasHandles,
+    doorCount,
+    thickness
   });
 
   // Save cabinet specification
@@ -881,23 +909,26 @@ function addCabinetAndGeneratePieces() {
     hasSkirting,
     doorCount,
     notes,
+    teakSides,
     piecesCount: piecesGenerated,
+    hardwareCount: hardwareGenerated,
     createdAt: new Date().toISOString()
   });
 
   closeCabinetModal();
-  alert(`Added ${quantity} cabinet(s) and generated ${piecesGenerated} pieces`);
+  alert(`Added ${quantity} cabinet(s)\nGenerated ${piecesGenerated} pieces\nGenerated ${hardwareGenerated} hardware items`);
   
   renderSheets();
   renderPiecesList();
   renderSheetDetails();
   generateQuotation();
   generateCostComparison();
+  renderHardwareList();
 }
 
 function generatePiecesFromCabinet(cabinet) {
   let piecesCount = 0;
-  const teakSides = []; // No teak by default for cabinets
+  const teakSides = cabinet.teakSides || []; // Use teak sides from cabinet spec
 
   // Generate pieces for each cabinet quantity
   for (let q = 0; q < cabinet.quantity; q++) {
@@ -1095,6 +1126,252 @@ function addEdges(mesh, geometry, material) {
   const edges = new THREE.EdgesGeometry(geometry);
   const line = new THREE.LineSegments(edges, material);
   mesh.add(line);
+}
+
+function generateHardwareForCabinet(cabinet) {
+  let hardwareCount = 0;
+  
+  // Generate hardware for each cabinet quantity
+  for (let q = 0; q < cabinet.quantity; q++) {
+    // 1. Hinges for doors
+    if (cabinet.hasDoors && cabinet.doorCount > 0) {
+      const hingesPerDoor = 2; // Standard: 2 hinges per door
+      const totalHinges = cabinet.doorCount * hingesPerDoor;
+      
+      hardwareList.push({
+        id: Date.now() + hardwareCount,
+        cabinetName: cabinet.name,
+        cabinetInstance: q + 1,
+        type: 'Hinge',
+        specification: 'Standard Cabinet Hinge',
+        size: '35mm',
+        quantity: totalHinges,
+        material: 'Steel/Nickel plated',
+        notes: 'For door mounting'
+      });
+      hardwareCount++;
+    }
+    
+    // 2. Door handles
+    if (cabinet.hasHandles && cabinet.hasDoors && cabinet.doorCount > 0) {
+      const handlePerDoor = 1; // Standard: 1 handle per door
+      const totalHandles = cabinet.doorCount * handlePerDoor;
+      
+      hardwareList.push({
+        id: Date.now() + hardwareCount,
+        cabinetName: cabinet.name,
+        cabinetInstance: q + 1,
+        type: 'Handle',
+        specification: 'Cabinet Door Handle',
+        size: '128mm or 160mm',
+        quantity: totalHandles,
+        material: 'Stainless Steel/Aluminum',
+        notes: 'For door operation'
+      });
+      hardwareCount++;
+    }
+    
+    // 3. Shelf support pins (if shelves)
+    if (cabinet.hasShelves) {
+      const pinsPerShelf = 4; // 4 pins per shelf (2 per side)
+      
+      hardwareList.push({
+        id: Date.now() + hardwareCount,
+        cabinetName: cabinet.name,
+        cabinetInstance: q + 1,
+        type: 'Shelf Support Pin',
+        specification: 'Adjustable Shelf Pin',
+        size: '5mm diameter',
+        quantity: pinsPerShelf,
+        material: 'Steel/Plastic',
+        notes: 'For middle shelf support'
+      });
+      hardwareCount++;
+    }
+    
+    // 4. Screws for assembly
+    const screwTypes = [
+      {
+        type: 'Wood Screw',
+        specification: 'Flat head wood screw',
+        size: '4mm x 16mm',
+        quantity: 24, // For side panels and top/bottom
+        material: 'Steel/Zinc plated',
+        notes: 'For cabinet body assembly'
+      },
+      {
+        type: 'Wood Screw',
+        specification: 'Flat head wood screw',
+        size: '4mm x 25mm',
+        quantity: 8, // For back panel
+        material: 'Steel/Zinc plated',
+        notes: 'For back panel mounting'
+      },
+      {
+        type: 'Wood Screw',
+        specification: 'Flat head wood screw',
+        size: '3.5mm x 12mm',
+        quantity: 8, // For hinges
+        material: 'Steel/Zinc plated',
+        notes: 'For hinge mounting'
+      }
+    ];
+    
+    screwTypes.forEach(screw => {
+      hardwareList.push({
+        id: Date.now() + hardwareCount,
+        cabinetName: cabinet.name,
+        cabinetInstance: q + 1,
+        type: screw.type,
+        specification: screw.specification,
+        size: screw.size,
+        quantity: screw.quantity,
+        material: screw.material,
+        notes: screw.notes
+      });
+      hardwareCount++;
+    });
+    
+    // 5. Cam locks and bolts (for knock-down assembly)
+    hardwareList.push({
+      id: Date.now() + hardwareCount,
+      cabinetName: cabinet.name,
+      cabinetInstance: q + 1,
+      type: 'Cam Lock',
+      specification: 'Cam lock assembly',
+      size: '15mm diameter',
+      quantity: 8,
+      material: 'Steel/Zinc plated',
+      notes: 'For cabinet body assembly'
+    });
+    hardwareCount++;
+    
+    hardwareList.push({
+      id: Date.now() + hardwareCount,
+      cabinetName: cabinet.name,
+      cabinetInstance: q + 1,
+      type: 'Cam Bolt',
+      specification: 'Cam bolt with nut',
+      size: '7mm x 50mm',
+      quantity: 8,
+      material: 'Steel/Zinc plated',
+      notes: 'For cabinet body assembly'
+    });
+    hardwareCount++;
+    
+    // 6. Divider panel hardware (if dividers)
+    if (cabinet.hasDividers) {
+      hardwareList.push({
+        id: Date.now() + hardwareCount,
+        cabinetName: cabinet.name,
+        cabinetInstance: q + 1,
+        type: 'Wood Screw',
+        specification: 'Flat head wood screw',
+        size: '4mm x 20mm',
+        quantity: 8,
+        material: 'Steel/Zinc plated',
+        notes: 'For divider panel mounting'
+      });
+      hardwareCount++;
+    }
+    
+    // 7. Skirting screws (if skirting)
+    if (cabinet.hasSkirting) {
+      hardwareList.push({
+        id: Date.now() + hardwareCount,
+        cabinetName: cabinet.name,
+        cabinetInstance: q + 1,
+        type: 'Wood Screw',
+        specification: 'Flat head wood screw',
+        size: '4mm x 30mm',
+        quantity: 6,
+        material: 'Steel/Zinc plated',
+        notes: 'For bottom skirting mounting'
+      });
+      hardwareCount++;
+    }
+  }
+  
+  return hardwareCount;
+}
+
+function renderHardwareList() {
+  const hardwareSection = document.getElementById('hardwareSection');
+  if (!hardwareSection) {
+    // Create hardware section if it doesn't exist
+    const outputSection = document.querySelector('.output-section');
+    const hardwareDiv = document.createElement('div');
+    hardwareDiv.id = 'hardwareSection';
+    hardwareDiv.className = 'card';
+    hardwareDiv.style.marginTop = '2rem';
+    hardwareDiv.innerHTML = `
+      <h2><i class="fas fa-tools"></i> Hardware & Accessories</h2>
+      <div id="hardwareList" class="hardware-list"></div>
+    `;
+    outputSection.appendChild(hardwareDiv);
+  }
+  
+  const hardwareListEl = document.getElementById('hardwareList');
+  
+  if (hardwareList.length === 0) {
+    hardwareListEl.innerHTML = '<p>No hardware items generated yet. Add cabinets to generate hardware requirements.</p>';
+    return;
+  }
+  
+  // Group hardware by type and specification
+  const groupedHardware = {};
+  hardwareList.forEach(item => {
+    const key = `${item.type}-${item.specification}-${item.size}-${item.material}`;
+    if (!groupedHardware[key]) {
+      groupedHardware[key] = {
+        type: item.type,
+        specification: item.specification,
+        size: item.size,
+        material: item.material,
+        notes: item.notes,
+        quantity: 0,
+        cabinets: new Set()
+      };
+    }
+    groupedHardware[key].quantity += item.quantity;
+    groupedHardware[key].cabinets.add(item.cabinetName + ' #' + item.cabinetInstance);
+  });
+  
+  let html = '<table class="hardware-table">' +
+    '<thead>' +
+    '<tr>' +
+    '<th>Type</th>' +
+    '<th>Specification</th>' +
+    '<th>Size</th>' +
+    '<th>Material</th>' +
+    '<th>Total Quantity</th>' +
+    '<th>Used In</th>' +
+    '<th>Notes</th>' +
+    '</tr>' +
+    '</thead>' +
+    '<tbody>';
+  
+  Object.values(groupedHardware).forEach(item => {
+    html += '<tr>' +
+      '<td><strong>' + item.type + '</strong></td>' +
+      '<td>' + item.specification + '</td>' +
+      '<td>' + item.size + '</td>' +
+      '<td>' + item.material + '</td>' +
+      '<td><span class="quantity-badge">' + item.quantity + '</span></td>' +
+      '<td>' + Array.from(item.cabinets).join(', ') + '</td>' +
+      '<td>' + item.notes + '</td>' +
+      '</tr>';
+  });
+  
+  html += '</tbody></table>';
+  
+  // Add total summary
+  const totalItems = hardwareList.reduce((sum, item) => sum + item.quantity, 0);
+  html += '<div class="hardware-summary">' +
+    '<strong>Total Hardware Items:</strong> ' + totalItems +
+    '</div>';
+  
+  hardwareListEl.innerHTML = html;
 }
 
 // Project Modal Functions
