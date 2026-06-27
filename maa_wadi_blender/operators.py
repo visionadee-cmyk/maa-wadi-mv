@@ -139,6 +139,9 @@ class BCL_OT_generate_cut_list(Operator):
                         "width": width,
                         "thickness": thickness,
                         "material": mat,
+                        "pos_x": obj.location.x,
+                        "pos_y": obj.location.y,
+                        "pos_z": obj.location.z,
                     }
                 parts[key]["qty"] += 1
             else:
@@ -150,6 +153,9 @@ class BCL_OT_generate_cut_list(Operator):
                     "width": width,
                     "thickness": thickness,
                     "material": mat,
+                    "pos_x": obj.location.x,
+                    "pos_y": obj.location.y,
+                    "pos_z": obj.location.z,
                 }
 
         if st.group_identical:
@@ -165,6 +171,9 @@ class BCL_OT_generate_cut_list(Operator):
             it.width = rec["width"]
             it.thickness = rec["thickness"]
             it.material = rec["material"]
+            it.pos_x = rec.get("pos_x", 0.0)
+            it.pos_y = rec.get("pos_y", 0.0)
+            it.pos_z = rec.get("pos_z", 0.0)
 
         st.active_index = 0
         return {"FINISHED"}
@@ -941,7 +950,7 @@ class BCL_OT_export_manual(Operator):
                 note = ""
 
             step_sort = step if step > 0 else 10**9
-            rows.append((step_sort, step, obj.name, length, width, thickness, mat, note))
+            rows.append((step_sort, step, obj.name, length, width, thickness, mat, note, obj.location.x, obj.location.y, obj.location.z))
 
         if not rows:
             self.report({"WARNING"}, "No mesh objects found")
@@ -952,7 +961,7 @@ class BCL_OT_export_manual(Operator):
         try:
             with open(self.filepath, "w", encoding="utf-8", newline="") as f:
                 f.write("\t".join(["Step", "Part", f"Length ({unit_label})", f"Width ({unit_label})", f"Thickness ({unit_label})", "Material", "Note"]) + "\n")
-                for _, step, name, length, width, thickness, mat, note in rows:
+                for _, step, name, length, width, thickness, mat, note, _, _, _ in rows:
                     f.write("\t".join([str(step), name, str(length), str(width), str(thickness), mat, note]) + "\n")
         except Exception as e:
             self.report({"ERROR"}, f"Export failed: {e}")
@@ -1046,6 +1055,14 @@ def sync_to_firebase(context):
                     'qty': item.qty,
                     'timestamp': time.time()
                 }
+                
+                # Add position data from cut list item
+                if hasattr(item, 'pos_x') and hasattr(item, 'pos_y') and hasattr(item, 'pos_z'):
+                    piece_data['position'] = {
+                        'x': item.pos_x,
+                        'y': item.pos_y,
+                        'z': item.pos_z
+                    }
                 
                 # Add Base64 model data if available (only send once for first item)
                 if i == 0 and hasattr(st, 'model_base64') and st.model_base64:

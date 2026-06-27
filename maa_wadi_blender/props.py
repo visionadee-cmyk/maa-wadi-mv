@@ -19,6 +19,9 @@ class BCL_CutListItem(PropertyGroup):
     width: FloatProperty(name="Width")
     thickness: FloatProperty(name="Thickness")
     material: StringProperty(name="Material")
+    pos_x: FloatProperty(name="Position X", default=0.0)
+    pos_y: FloatProperty(name="Position Y", default=0.0)
+    pos_z: FloatProperty(name="Position Z", default=0.0)
 
 
 class BCL_Settings(PropertyGroup):

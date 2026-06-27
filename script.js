@@ -486,7 +486,7 @@ function load3DModelFromBase64(base64Data) {
   }
 }
 
-function generate3DBox(length, width, thickness, name) {
+function generate3DBox(length, width, thickness, name, position) {
   if (!viewerInitialized) {
     initialize3DViewer();
   }
@@ -509,10 +509,16 @@ function generate3DBox(length, width, thickness, name) {
   // Create mesh
   const box = new THREE.Mesh(geometry, material);
   
-  // Position randomly in scene
-  box.position.x = (Math.random() - 0.5) * 4;
-  box.position.y = (Math.random() - 0.5) * 2;
-  box.position.z = (Math.random() - 0.5) * 4;
+  // Use position from Blender if available, otherwise random
+  if (position) {
+    box.position.x = position.x;
+    box.position.y = position.y;
+    box.position.z = position.z;
+  } else {
+    box.position.x = (Math.random() - 0.5) * 4;
+    box.position.y = (Math.random() - 0.5) * 2;
+    box.position.z = (Math.random() - 0.5) * 4;
+  }
 
   // Add to scene
   scene.add(box);
@@ -578,7 +584,8 @@ function enableBlenderSync() {
 
         // Generate 3D boxes from cut list data
         if (piece.length && piece.width && piece.thickness) {
-          generate3DBox(piece.length, piece.width, piece.thickness, piece.name);
+          const position = piece.position || null;
+          generate3DBox(piece.length, piece.width, piece.thickness, piece.name, position);
         }
       });
       
