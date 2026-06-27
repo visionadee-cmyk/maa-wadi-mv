@@ -511,6 +511,26 @@ function initialize3DViewer() {
   directionalLight.castShadow = true;
   scene.add(directionalLight);
 
+  // Store lights for sync
+  window.sceneLights = {
+    ambient: ambientLight,
+    directional: directionalLight
+  };
+
+  // Listen for camera sync from Blender
+  if (typeof firebase !== 'undefined' && firebase.database) {
+    const cameraRef = firebase.database().ref('blender/camera');
+    cameraRef.on('value', (snapshot) => {
+      const data = snapshot.val();
+      if (data && data.camera) {
+        applyCameraData(data.camera);
+      }
+      if (data && data.lighting) {
+        applyLightingData(data.lighting);
+      }
+    });
+  }
+
   // Orbit controls
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
@@ -534,6 +554,107 @@ function onWindowResize() {
   camera.aspect = container.clientWidth / container.clientHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(container.clientWidth, container.clientHeight);
+}
+
+function applyCameraData(cameraData) {
+  if (!camera) return;
+
+  // Apply position
+  if (cameraData.position) {
+    camera.position.set(
+      cameraData.position.x || 5,
+      cameraData.position.y || 5,
+      cameraData.position.z || 5
+    );
+  }
+
+  // Apply rotation (convert Blender Euler to Three.js)
+  if (cameraData.rotation) {
+    camera.rotation.set(
+      cameraData.rotation.x || 0,
+      cameraData.rotation.y || 0,
+      cameraData.rotation.z || 0
+    );
+  }
+
+  // Apply FOV
+  if (cameraData.fov) {
+    camera.fov = cameraData.fov * (180 / Math.PI); // Convert radians to degrees
+    camera.updateProjectionMatrix();
+  }
+
+  // Update controls target to look at origin
+  if (controls) {
+    controls.target.set(0, 0, 0);
+    controls.update();
+  }
+}
+
+function applyLightingData(lightingData) {
+  if (!scene) return;
+
+  // Apply world background color
+  if (lightingData.world_color) {
+    scene.background = new THREE.Color(
+      lightingData.world_color.r,
+      lightingData.world_color.g,
+      lightingData.world_color.b
+    );
+  }
+
+  // Apply light objects from Blender
+  if (lightingData.lights && Array.isArray(lightingData.lights)) {
+    // Remove existing Blender lights (keep default lights)
+    scene.children = scene.children.filter(child => {
+      return !child.userData.isBlenderLight;
+    });
+
+    // Add Blender lights
+    lightingData.lights.forEach(blenderLight => {
+      let threeLight;
+
+      switch (blenderLight.type) {
+        case 'SUN':
+          threeLight = new THREE.DirectionalLight(0xffffff, blenderLight.energy / 100);
+          break;
+        case 'POINT':
+          threeLight = new THREE.PointLight(0xffffff, blenderLight.energy / 100);
+          break;
+        case 'SPOT':
+          threeLight = new THREE.SpotLight(0xffffff, blenderLight.energy / 100);
+          break;
+        case 'AREA':
+          threeLight = new THREE.RectAreaLight(0xffffff, blenderLight.energy / 100);
+          break;
+        default:
+          threeLight = new THREE.DirectionalLight(0xffffff, blenderLight.energy / 100);
+      }
+
+      if (threeLight) {
+        threeLight.position.set(
+          blenderLight.position.x,
+          blenderLight.position.y,
+          blenderLight.position.z
+        );
+        threeLight.rotation.set(
+          blenderLight.rotation.x,
+          blenderLight.rotation.y,
+          blenderLight.rotation.z
+        );
+
+        if (blenderLight.color) {
+          threeLight.color.setRGB(
+            blenderLight.color.r,
+            blenderLight.color.g,
+            blenderLight.color.b
+          );
+        }
+
+        threeLight.userData.isBlenderLight = true;
+        scene.add(threeLight);
+      }
+    });
+  }
 }
 
 function animate() {

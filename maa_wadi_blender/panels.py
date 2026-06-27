@@ -75,6 +75,7 @@ class BCL_PT_cut_list(Panel):
         else:
             row.operator("bcl.enable_sync")
         row.operator("bcl.sync_now")
+        row.operator("bcl.sync_camera")
         row.operator("bcl.export_3d_model")
         
         box.label(text=f"Status: {st.sync_status}")

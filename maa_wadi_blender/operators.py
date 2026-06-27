@@ -1022,6 +1022,23 @@ class BCL_OT_sync_now(Operator):
         return {"FINISHED"}
 
 
+class BCL_OT_sync_camera(Operator):
+    bl_idname = "bcl.sync_camera"
+    bl_label = "Sync Camera"
+    bl_description = "Sync camera position and lighting to web app"
+    
+    def execute(self, context):
+        st = context.scene.bcl_settings
+        st.sync_status = "Syncing camera..."
+        
+        # Sync camera in background thread
+        thread = threading.Thread(target=sync_camera_to_firebase, args=(context,))
+        thread.daemon = True
+        thread.start()
+        
+        return {"FINISHED"}
+
+
 def sync_to_firebase(context):
     """Sync cut list items to Firebase Realtime Database"""
     st = context.scene.bcl_settings
@@ -1101,6 +1118,134 @@ def sync_to_firebase(context):
             time.sleep(0.1)
     
     st.sync_status = "Disconnected"
+
+
+def sync_camera_to_firebase(context):
+    """Sync camera position, rotation, and lighting to Firebase"""
+    st = context.scene.bcl_settings
+    scene = context.scene
+    
+    # Firebase REST API endpoint for camera data
+    firebase_url = "https://maa-wadi-mv-default-rtdb.firebaseio.com/blender/camera.json"
+    
+    try:
+        # Get camera data
+        camera_data = {}
+        
+        # Camera position and rotation
+        if scene.camera:
+            cam = scene.camera
+            camera_data['position'] = {
+                'x': cam.location.x,
+                'y': cam.location.y,
+                'z': cam.location.z
+            }
+            camera_data['rotation'] = {
+                'x': cam.rotation_euler.x,
+                'y': cam.rotation_euler.y,
+                'z': cam.rotation_euler.z
+            }
+            
+            # Camera properties
+            try:
+                camera_data['fov'] = cam.data.angle
+            except:
+                camera_data['fov'] = 0.785  # Default 45 degrees
+            
+            try:
+                camera_data['ortho_scale'] = cam.data.ortho_scale
+                camera_data['is_ortho'] = cam.data.type == 'ORTHO'
+            except:
+                camera_data['is_ortho'] = False
+                camera_data['ortho_scale'] = 1.0
+        else:
+            # Default camera if none exists
+            camera_data['position'] = {'x': 5, 'y': 5, 'z': 5}
+            camera_data['rotation'] = {'x': 0.785, 'y': 0, 'z': 0.785}
+            camera_data['fov'] = 0.785
+            camera_data['is_ortho'] = False
+            camera_data['ortho_scale'] = 1.0
+        
+        # Lighting data
+        lighting_data = {}
+        
+        # World environment
+        if scene.world:
+            try:
+                lighting_data['world_color'] = {
+                    'r': scene.world.color.r,
+                    'g': scene.world.color.g,
+                    'b': scene.world.color.b
+                }
+            except:
+                lighting_data['world_color'] = {'r': 0.2, 'g': 0.2, 'b': 0.2}
+        else:
+            lighting_data['world_color'] = {'r': 0.2, 'g': 0.2, 'b': 0.2}
+        
+        # Light objects
+        lights = []
+        for obj in scene.objects:
+            if obj.type == 'LIGHT':
+                light_info = {
+                    'name': obj.name,
+                    'type': obj.data.type,
+                    'position': {
+                        'x': obj.location.x,
+                        'y': obj.location.y,
+                        'z': obj.location.z
+                    },
+                    'rotation': {
+                        'x': obj.rotation_euler.x,
+                        'y': obj.rotation_euler.y,
+                        'z': obj.rotation_euler.z
+                    }
+                }
+                
+                # Light-specific properties
+                try:
+                    light_info['energy'] = obj.data.energy
+                except:
+                    light_info['energy'] = 100.0
+                
+                try:
+                    light_info['color'] = {
+                        'r': obj.data.color.r,
+                        'g': obj.data.color.g,
+                        'b': obj.data.color.b
+                    }
+                except:
+                    light_info['color'] = {'r': 1.0, 'g': 1.0, 'b': 1.0}
+                
+                lights.append(light_info)
+        
+        lighting_data['lights'] = lights
+        
+        # Combine camera and lighting data
+        sync_data = {
+            'camera': camera_data,
+            'lighting': lighting_data,
+            'timestamp': time.time()
+        }
+        
+        # Send to Firebase
+        data = json.dumps(sync_data).encode('utf-8')
+        req = urllib.request.Request(
+            firebase_url,
+            data=data,
+            method='PUT',
+            headers={'Content-Type': 'application/json'}
+        )
+        
+        with urllib.request.urlopen(req, timeout=10) as response:
+            if response.getcode() == 200:
+                st.sync_status = f"Camera synced ({len(lights)} lights)"
+            else:
+                st.sync_status = "Sync error"
+                
+    except urllib.error.URLError as e:
+        st.sync_status = "Network error"
+    except Exception as e:
+        st.sync_status = f"Error: {str(e)[:30]}"
 
 
 class BCL_OT_export_3d_model(Operator):
@@ -1361,6 +1506,7 @@ classes = (
     BCL_OT_enable_sync,
     BCL_OT_disable_sync,
     BCL_OT_sync_now,
+    BCL_OT_sync_camera,
     BCL_OT_export_3d_model,
     BCL_OT_visualize_cut_layout,
 )
