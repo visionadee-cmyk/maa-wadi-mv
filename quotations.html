@@ -510,6 +510,8 @@
         function calculateProjectCosts() {
             if (!projectData) return;
             
+            console.log('Project data:', projectData);
+            
             // Calculate wood cost
             const sheetCost = projectData.sheetCost || 1500;
             const totalSheets = projectData.sheets?.length || 0;
@@ -518,11 +520,15 @@
             // Calculate hardware cost
             let hardwareCost = 0;
             if (projectData._hardware && Array.isArray(projectData._hardware)) {
+                console.log('Hardware data found:', projectData._hardware);
                 projectData._hardware.forEach(hw => {
                     const hwKey = mapHardwareTypeToKey(hw.type, hw.specification);
                     const pricing = hardwarePrices[hwKey] || { price: 5 };
+                    console.log(`Hardware: ${hw.type}, Key: ${hwKey}, Price: ${pricing.price}, Qty: ${hw.quantity}`);
                     hardwareCost += hw.quantity * pricing.price;
                 });
+            } else {
+                console.log('No hardware data found in project');
             }
             
             // Update display
