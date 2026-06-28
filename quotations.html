@@ -431,28 +431,15 @@
     
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script>
-        // Initialize Firebase for quotations page
-        const firebaseConfig = {
-            apiKey: "AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-            authDomain: "maa-wadi-mv.firebaseapp.com",
-            projectId: "maa-wadi-mv",
-            storageBucket: "maa-wadi-mv.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef123456"
-        };
-        
-        // Check if Firebase is already initialized
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        
-        const db = firebase.firestore();
-    </script>
     <script src="script.js"></script>
     <script>
         let selectedProject = null;
         let projectData = null;
+        
+        // Initialize Firestore if not already done
+        if (!db && typeof initializeFirestore === 'function') {
+            initializeFirestore();
+        }
         
         // Load saved projects
         function loadProjects() {
