@@ -436,17 +436,7 @@
         let selectedProject = null;
         let projectData = null;
         
-        // Initialize Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-            authDomain: "maa-wadi-mv.firebaseapp.com",
-            projectId: "maa-wadi-mv",
-            storageBucket: "maa-wadi-mv.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef123456"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
+        // Use existing Firebase instance from script.js
         const db = firebase.firestore();
         
         // Load saved projects

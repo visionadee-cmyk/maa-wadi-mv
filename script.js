@@ -350,10 +350,13 @@ function updateDisplayScale() {
 let uniformScale = updateDisplayScale();
 
 // Unit conversion event listener
-document.getElementById('unitSelector').addEventListener('change', function(e) {
-  currentUnit = e.target.value;
-  updateDisplayUnits();
-});
+const unitSelector = document.getElementById('unitSelector');
+if (unitSelector) {
+  unitSelector.addEventListener('change', function(e) {
+    currentUnit = e.target.value;
+    updateDisplayUnits();
+  });
+}
 
 // Window resize listener to update scale
 window.addEventListener('resize', function() {
