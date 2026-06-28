@@ -452,15 +452,22 @@ function selectWood(woodId) {
 }
 
 // Event listeners for shop and wood selection
-document.getElementById('shopSelector').addEventListener('change', function(e) {
-  selectedShop = shops.find(s => s.id === parseInt(e.target.value)) || null;
-  populateWoodSelector(e.target.value);
-  document.getElementById('woodSelector').value = '';
-});
+const shopSelector = document.getElementById('shopSelector');
+if (shopSelector) {
+  shopSelector.addEventListener('change', function(e) {
+    selectedShop = shops.find(s => s.id === parseInt(e.target.value)) || null;
+    populateWoodSelector(e.target.value);
+    const woodSelector = document.getElementById('woodSelector');
+    if (woodSelector) woodSelector.value = '';
+  });
+}
 
-document.getElementById('woodSelector').addEventListener('change', function(e) {
-  selectWood(e.target.value);
-});
+const woodSelector = document.getElementById('woodSelector');
+if (woodSelector) {
+  woodSelector.addEventListener('change', function(e) {
+    selectWood(e.target.value);
+  });
+}
 
 // Initialize shop selector
 populateShopSelector();
@@ -534,17 +541,27 @@ function saveNewShop() {
 }
 
 // Event listeners for modal
-document.getElementById('addShopBtn').addEventListener('click', openAddShopModal);
-document.getElementById('closeShopModal').addEventListener('click', closeAddShopModal);
-document.getElementById('cancelAddShop').addEventListener('click', closeAddShopModal);
-document.getElementById('saveShop').addEventListener('click', saveNewShop);
+const addShopBtn = document.getElementById('addShopBtn');
+if (addShopBtn) addShopBtn.addEventListener('click', openAddShopModal);
+
+const closeShopModalBtn = document.getElementById('closeShopModal');
+if (closeShopModalBtn) closeShopModalBtn.addEventListener('click', closeAddShopModal);
+
+const cancelAddShopBtn = document.getElementById('cancelAddShop');
+if (cancelAddShopBtn) cancelAddShopBtn.addEventListener('click', closeAddShopModal);
+
+const saveShopBtn = document.getElementById('saveShop');
+if (saveShopBtn) saveShopBtn.addEventListener('click', saveNewShop);
 
 // Close modal when clicking outside
-document.getElementById('addShopModal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closeAddShopModal();
-  }
-});
+const addShopModal = document.getElementById('addShopModal');
+if (addShopModal) {
+  addShopModal.addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeAddShopModal();
+    }
+  });
+}
 
 // Load shops from localStorage on startup
 function loadShopsFromStorage() {
@@ -2063,8 +2080,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-document.getElementById('piece-form').addEventListener('submit', function (e) {
-  e.preventDefault();
+const pieceForm = document.getElementById('piece-form');
+if (pieceForm) {
+  pieceForm.addEventListener('submit', function (e) {
+    e.preventDefault();
 
   // Get user input and convert to mm
   const length = UnitConverter.toMM(parseFloat(document.getElementById('length').value), currentUnit);
@@ -2102,7 +2121,8 @@ document.getElementById('piece-form').addEventListener('submit', function (e) {
   renderSheetDetails();
   generateQuotation();
   generateCostComparison();
-});
+  });
+}
 
 function clearInputFields() {
   document.getElementById('length').value = '';
@@ -3362,5 +3382,10 @@ renderSheets();
 renderPiecesList();
 renderSheetDetails();
 generateQuotation();
-setupActionButtons();
+
+// Only call setupActionButtons if on selection.html
+if (document.getElementById('printQuotation') || document.getElementById('exportPDF')) {
+  setupActionButtons();
+}
+
 setupCsvImport();
