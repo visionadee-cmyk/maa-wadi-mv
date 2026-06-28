@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="description" content="Create and manage quotations for furniture projects">
+    <title>Quotations - Maa Wadi Mv</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/assets/icon-192.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .quotation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .quotation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .quotation-header h1 {
+            margin: 0;
+            color: #333;
+        }
+        
+        .back-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .project-selector {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .project-selector h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .project-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .project-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .project-card:hover {
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+        }
+        
+        .project-card.selected {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        
+        .project-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        
+        .project-card p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .quotation-form {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .quotation-form h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .additional-costs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .cost-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .cost-summary h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .cost-row:last-child {
+            border-bottom: none;
+        }
+        
+        .cost-row.total {
+            font-weight: bold;
+            font-size: 18px;
+            color: #4CAF50;
+            border-top: 2px solid #4CAF50;
+            margin-top: 10px;
+            padding-top: 15px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+        }
+        
+        .quotation-preview {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .quotation-preview h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .quotation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .quotation-table th,
+        .quotation-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .quotation-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .quotation-table .total-row {
+            font-weight: bold;
+            background: #e8f5e9;
+        }
+        
+        @media (max-width: 768px) {
+            .quotation-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .additional-costs {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quotation-container">
+        <div class="quotation-header">
+            <h1><i class="fas fa-file-invoice-dollar"></i> Quotations</h1>
+            <button class="back-btn" onclick="window.location.href='selection.html'">
+                <i class="fas fa-arrow-left"></i> Back to Calculator
+            </button>
+        </div>
+        
+        <!-- Project Selection -->
+        <div class="project-selector">
+            <h2><i class="fas fa-folder-open"></i> Select Project</h2>
+            <p>Choose a saved project to create a quotation from</p>
+            <div id="projectList" class="project-list">
+                <p>Loading projects...</p>
+            </div>
+        </div>
+        
+        <!-- Saved Quotations -->
+        <div class="project-selector">
+            <h2><i class="fas fa-file-invoice"></i> Saved Quotations</h2>
+            <p>View and manage your saved quotations</p>
+            <div id="quotationList" class="project-list">
+                <p>Loading quotations...</p>
+            </div>
+        </div>
+        
+        <!-- Quotation Form -->
+        <div class="quotation-form" id="quotationForm" style="display: none;">
+            <h2><i class="fas fa-edit"></i> Quotation Details</h2>
+            
+            <div class="form-group">
+                <label for="customerName">Customer Name</label>
+                <input type="text" id="customerName" placeholder="Enter customer name">
+            </div>
+            
+            <div class="form-group">
+                <label for="customerAddress">Customer Address</label>
+                <textarea id="customerAddress" placeholder="Enter customer address"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="customerPhone">Customer Phone</label>
+                <input type="tel" id="customerPhone" placeholder="Enter customer phone number">
+            </div>
+            
+            <div class="form-group">
+                <label for="quotationNotes">Notes</label>
+                <textarea id="quotationNotes" placeholder="Additional notes for the quotation"></textarea>
+            </div>
+            
+            <h3>Additional Costs</h3>
+            <div class="additional-costs">
+                <div class="form-group">
+                    <label for="labourCost">Labour Cost (MVR)</label>
+                    <input type="number" id="labourCost" value="0" min="0" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="foodCost">Food Cost (MVR)</label>
+                    <input type="number" id="foodCost" value="0" min="0" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="accommodationCost">Accommodation Cost (MVR)</label>
+                    <input type="number" id="accommodationCost" value="0" min="0" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="toolRentCost">Tool Rent (MVR)</label>
+                    <input type="number" id="toolRentCost" value="0" min="0" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="transportCost">Transport Cost (MVR)</label>
+                    <input type="number" id="transportCost" value="0" min="0" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="otherCost">Other Cost (MVR)</label>
+                    <input type="number" id="otherCost" value="0" min="0" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="otherCostDescription">Other Cost Description</label>
+                    <input type="text" id="otherCostDescription" placeholder="Describe other cost">
+                </div>
+            </div>
+            
+            <!-- Cost Summary -->
+            <div class="cost-summary">
+                <h3>Cost Summary</h3>
+                <div class="cost-row">
+                    <span>Wood Cost:</span>
+                    <span id="woodCostDisplay">0.00 MVR</span>
+                </div>
+                <div class="cost-row">
+                    <span>Hardware Cost:</span>
+                    <span id="hardwareCostDisplay">0.00 MVR</span>
+                </div>
+                <div class="cost-row">
+                    <span>Labour Cost:</span>
+                    <span id="labourCostDisplay">0.00 MVR</span>
+                </div>
+                <div class="cost-row">
+                    <span>Food Cost:</span>
+                    <span id="foodCostDisplay">0.00 MVR</span>
+                </div>
+                <div class="cost-row">
+                    <span>Accommodation Cost:</span>
+                    <span id="accommodationCostDisplay">0.00 MVR</span>
+                </div>
+                <div class="cost-row">
+                    <span>Tool Rent:</span>
+                    <span id="toolRentCostDisplay">0.00 MVR</span>
+                </div>
+                <div class="cost-row">
+                    <span>Transport Cost:</span>
+                    <span id="transportCostDisplay">0.00 MVR</span>
+                </div>
+                <div class="cost-row" id="otherCostRow" style="display: none;">
+                    <span id="otherCostLabel">Other Cost:</span>
+                    <span id="otherCostDisplay">0.00 MVR</span>
+                </div>
+                <div class="cost-row total">
+                    <span>Grand Total:</span>
+                    <span id="grandTotalDisplay">0.00 MVR</span>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="generateQuotation()">
+                    <i class="fas fa-file-invoice"></i> Generate Quotation
+                </button>
+                <button class="btn btn-secondary" onclick="saveQuotation()">
+                    <i class="fas fa-save"></i> Save Quotation
+                </button>
+                <button class="btn btn-danger" onclick="resetForm()">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+            </div>
+        </div>
+        
+        <!-- Quotation Preview -->
+        <div class="quotation-preview" id="quotationPreview" style="display: none;">
+            <h2><i class="fas fa-eye"></i> Quotation Preview</h2>
+            <div id="quotationContent"></div>
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="printQuotation()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn btn-secondary" onclick="exportPDF()">
+                    <i class="fas fa-file-pdf"></i> Export PDF
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+    <script>
+        let selectedProject = null;
+        let projectData = null;
+        
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            authDomain: "maa-wadi-mv.firebaseapp.com",
+            projectId: "maa-wadi-mv",
+            storageBucket: "maa-wadi-mv.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef123456"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        // Load saved projects
+        function loadProjects() {
+            const projectList = document.getElementById('projectList');
+            projectList.innerHTML = '<p>Loading projects...</p>';
+            
+            db.collection('projects').get()
+                .then((snapshot) => {
+                    if (snapshot.empty) {
+                        projectList.innerHTML = '<p>No saved projects found. Create a project first.</p>';
+                        return;
+                    }
+                    
+                    projectList.innerHTML = '';
+                    snapshot.forEach((doc) => {
+                        const project = doc.data();
+                        const card = document.createElement('div');
+                        card.className = 'project-card';
+                        card.dataset.projectId = doc.id;
+                        card.innerHTML = `
+                            <h3>${project.name || 'Unnamed Project'}</h3>
+                            <p><i class="fas fa-calendar"></i> ${new Date(project.createdAt?.toDate() || Date.now()).toLocaleDateString()}</p>
+                            <p><i class="fas fa-layer-group"></i> ${project.pieces?.length || 0} pieces</p>
+                            <p><i class="fas fa-th-large"></i> ${project.sheets?.length || 0} sheets</p>
+                        `;
+                        card.onclick = () => selectProject(doc.id, project);
+                        projectList.appendChild(card);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error loading projects:', error);
+                    projectList.innerHTML = '<p>Error loading projects. Please try again.</p>';
+                });
+        }
+        
+        // Select project
+        function selectProject(projectId, project) {
+            selectedProject = projectId;
+            projectData = project;
+            
+            // Update UI
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`[data-project-id="${projectId}"]`).classList.add('selected');
+            
+            // Show quotation form
+            document.getElementById('quotationForm').style.display = 'block';
+            
+            // Calculate costs from project
+            calculateProjectCosts();
+        }
+        
+        // Calculate costs from project
+        function calculateProjectCosts() {
+            if (!projectData) return;
+            
+            // Calculate wood cost
+            const sheetCost = projectData.sheetCost || 1500;
+            const totalSheets = projectData.sheets?.length || 0;
+            const woodCost = totalSheets * sheetCost;
+            
+            // Calculate hardware cost
+            let hardwareCost = 0;
+            if (projectData._hardware && Array.isArray(projectData._hardware)) {
+                projectData._hardware.forEach(hw => {
+                    const hwKey = mapHardwareTypeToKey(hw.type, hw.specification);
+                    const pricing = hardwarePrices[hwKey] || { price: 5 };
+                    hardwareCost += hw.quantity * pricing.price;
+                });
+            }
+            
+            // Update display
+            document.getElementById('woodCostDisplay').textContent = woodCost.toFixed(2) + ' MVR';
+            document.getElementById('hardwareCostDisplay').textContent = hardwareCost.toFixed(2) + ' MVR';
+            
+            updateCostSummary();
+        }
+        
+        // Update cost summary
+        function updateCostSummary() {
+            const woodCost = parseFloat(document.getElementById('woodCostDisplay').textContent) || 0;
+            const hardwareCost = parseFloat(document.getElementById('hardwareCostDisplay').textContent) || 0;
+            const labourCost = parseFloat(document.getElementById('labourCost').value) || 0;
+            const foodCost = parseFloat(document.getElementById('foodCost').value) || 0;
+            const accommodationCost = parseFloat(document.getElementById('accommodationCost').value) || 0;
+            const toolRentCost = parseFloat(document.getElementById('toolRentCost').value) || 0;
+            const transportCost = parseFloat(document.getElementById('transportCost').value) || 0;
+            const otherCost = parseFloat(document.getElementById('otherCost').value) || 0;
+            
+            document.getElementById('labourCostDisplay').textContent = labourCost.toFixed(2) + ' MVR';
+            document.getElementById('foodCostDisplay').textContent = foodCost.toFixed(2) + ' MVR';
+            document.getElementById('accommodationCostDisplay').textContent = accommodationCost.toFixed(2) + ' MVR';
+            document.getElementById('toolRentCostDisplay').textContent = toolRentCost.toFixed(2) + ' MVR';
+            document.getElementById('transportCostDisplay').textContent = transportCost.toFixed(2) + ' MVR';
+            
+            if (otherCost > 0) {
+                const description = document.getElementById('otherCostDescription').value || 'Other Cost';
+                document.getElementById('otherCostRow').style.display = 'flex';
+                document.getElementById('otherCostLabel').textContent = description + ':';
+                document.getElementById('otherCostDisplay').textContent = otherCost.toFixed(2) + ' MVR';
+            } else {
+                document.getElementById('otherCostRow').style.display = 'none';
+            }
+            
+            const grandTotal = woodCost + hardwareCost + labourCost + foodCost + accommodationCost + toolRentCost + transportCost + otherCost;
+            document.getElementById('grandTotalDisplay').textContent = grandTotal.toFixed(2) + ' MVR';
+        }
+        
+        // Add event listeners for cost inputs
+        document.querySelectorAll('.additional-costs input[type="number"]').forEach(input => {
+            input.addEventListener('input', updateCostSummary);
+        });
+        
+        document.getElementById('otherCostDescription').addEventListener('input', updateCostSummary);
+        
+        // Generate quotation
+        function generateQuotation() {
+            if (!selectedProject || !projectData) {
+                alert('Please select a project first');
+                return;
+            }
+            
+            const customerName = document.getElementById('customerName').value;
+            if (!customerName) {
+                alert('Please enter customer name');
+                return;
+            }
+            
+            const quotation = {
+                projectId: selectedProject,
+                projectName: projectData.name || 'Unnamed Project',
+                customerName: customerName,
+                customerAddress: document.getElementById('customerAddress').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                notes: document.getElementById('quotationNotes').value,
+                woodCost: parseFloat(document.getElementById('woodCostDisplay').textContent),
+                hardwareCost: parseFloat(document.getElementById('hardwareCostDisplay').textContent),
+                labourCost: parseFloat(document.getElementById('labourCost').value) || 0,
+                foodCost: parseFloat(document.getElementById('foodCost').value) || 0,
+                accommodationCost: parseFloat(document.getElementById('accommodationCost').value) || 0,
+                toolRentCost: parseFloat(document.getElementById('toolRentCost').value) || 0,
+                transportCost: parseFloat(document.getElementById('transportCost').value) || 0,
+                otherCost: parseFloat(document.getElementById('otherCost').value) || 0,
+                otherCostDescription: document.getElementById('otherCostDescription').value,
+                grandTotal: parseFloat(document.getElementById('grandTotalDisplay').textContent),
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'pending'
+            };
+            
+            displayQuotation(quotation);
+        }
+        
+        // Display quotation
+        function displayQuotation(quotation) {
+            const preview = document.getElementById('quotationPreview');
+            const content = document.getElementById('quotationContent');
+            
+            let html = `
+                <div style="margin-bottom: 20px;">
+                    <h3>Quotation #${Date.now()}</h3>
+                    <p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+                    <p><strong>Customer:</strong> ${quotation.customerName}</p>
+                    ${quotation.customerAddress ? `<p><strong>Address:</strong> ${quotation.customerAddress}</p>` : ''}
+                    ${quotation.customerPhone ? `<p><strong>Phone:</strong> ${quotation.customerPhone}</p>` : ''}
+                    <p><strong>Project:</strong> ${quotation.projectName}</p>
+                </div>
+                
+                <table class="quotation-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount (MVR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Wood Cost (${projectData.sheets?.length || 0} sheets)</td>
+                            <td>${quotation.woodCost.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>Hardware Cost</td>
+                            <td>${quotation.hardwareCost.toFixed(2)}</td>
+                        </tr>
+            `;
+            
+            if (quotation.labourCost > 0) {
+                html += `<tr><td>Labour Cost</td><td>${quotation.labourCost.toFixed(2)}</td></tr>`;
+            }
+            if (quotation.foodCost > 0) {
+                html += `<tr><td>Food Cost</td><td>${quotation.foodCost.toFixed(2)}</td></tr>`;
+            }
+            if (quotation.accommodationCost > 0) {
+                html += `<tr><td>Accommodation Cost</td><td>${quotation.accommodationCost.toFixed(2)}</td></tr>`;
+            }
+            if (quotation.toolRentCost > 0) {
+                html += `<tr><td>Tool Rent</td><td>${quotation.toolRentCost.toFixed(2)}</td></tr>`;
+            }
+            if (quotation.transportCost > 0) {
+                html += `<tr><td>Transport Cost</td><td>${quotation.transportCost.toFixed(2)}</td></tr>`;
+            }
+            if (quotation.otherCost > 0) {
+                html += `<tr><td>${quotation.otherCostDescription || 'Other Cost'}</td><td>${quotation.otherCost.toFixed(2)}</td></tr>`;
+            }
+            
+            html += `
+                        <tr class="total-row">
+                            <td><strong>Grand Total</strong></td>
+                            <td><strong>${quotation.grandTotal.toFixed(2)}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+            
+            if (quotation.notes) {
+                html += `<div style="margin-top: 20px;"><strong>Notes:</strong><p>${quotation.notes}</p></div>`;
+            }
+            
+            content.innerHTML = html;
+            preview.style.display = 'block';
+            
+            // Store current quotation for saving
+            window.currentQuotation = quotation;
+        }
+        
+        // Save quotation
+        function saveQuotation() {
+            if (!window.currentQuotation) {
+                alert('Please generate a quotation first');
+                return;
+            }
+            
+            db.collection('quotations').add(window.currentQuotation)
+                .then((docRef) => {
+                    alert('Quotation saved successfully!');
+                    console.log('Quotation saved with ID:', docRef.id);
+                })
+                .catch((error) => {
+                    console.error('Error saving quotation:', error);
+                    alert('Error saving quotation. Please try again.');
+                });
+        }
+        
+        // Reset form
+        function resetForm() {
+            document.getElementById('customerName').value = '';
+            document.getElementById('customerAddress').value = '';
+            document.getElementById('customerPhone').value = '';
+            document.getElementById('quotationNotes').value = '';
+            document.getElementById('labourCost').value = '0';
+            document.getElementById('foodCost').value = '0';
+            document.getElementById('accommodationCost').value = '0';
+            document.getElementById('toolRentCost').value = '0';
+            document.getElementById('transportCost').value = '0';
+            document.getElementById('otherCost').value = '0';
+            document.getElementById('otherCostDescription').value = '';
+            
+            document.getElementById('quotationPreview').style.display = 'none';
+            window.currentQuotation = null;
+            
+            updateCostSummary();
+        }
+        
+        // Print quotation
+        function printQuotation() {
+            window.print();
+        }
+        
+        // Export PDF (placeholder - would need a PDF library)
+        function exportPDF() {
+            alert('PDF export feature coming soon. Use Print to save as PDF.');
+        }
+        
+        // Load saved quotations
+        function loadQuotations() {
+            const quotationList = document.getElementById('quotationList');
+            quotationList.innerHTML = '<p>Loading quotations...</p>';
+            
+            db.collection('quotations').orderBy('createdAt', 'desc').get()
+                .then((snapshot) => {
+                    if (snapshot.empty) {
+                        quotationList.innerHTML = '<p>No saved quotations found.</p>';
+                        return;
+                    }
+                    
+                    quotationList.innerHTML = '';
+                    snapshot.forEach((doc) => {
+                        const quotation = doc.data();
+                        const card = document.createElement('div');
+                        card.className = 'project-card';
+                        card.dataset.quotationId = doc.id;
+                        card.innerHTML = `
+                            <h3>${quotation.customerName || 'Unnamed Customer'}</h3>
+                            <p><i class="fas fa-calendar"></i> ${new Date(quotation.createdAt?.toDate() || Date.now()).toLocaleDateString()}</p>
+                            <p><i class="fas fa-folder"></i> ${quotation.projectName || 'Unknown Project'}</p>
+                            <p><i class="fas fa-money-bill-wave"></i> ${quotation.grandTotal?.toFixed(2) || '0.00'} MVR</p>
+                            <p><i class="fas fa-info-circle"></i> Status: ${quotation.status || 'pending'}</p>
+                        `;
+                        card.onclick = () => viewQuotation(doc.id, quotation);
+                        quotationList.appendChild(card);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error loading quotations:', error);
+                    quotationList.innerHTML = '<p>Error loading quotations. Please try again.</p>';
+                });
+        }
+        
+        // View saved quotation
+        function viewQuotation(quotationId, quotation) {
+            // Load the project data for this quotation
+            if (quotation.projectId) {
+                db.collection('projects').doc(quotation.projectId).get()
+                    .then((doc) => {
+                        if (doc.exists) {
+                            projectData = doc.data();
+                            selectedProject = quotationId;
+                            displayQuotation(quotation);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error loading project:', error);
+                        displayQuotation(quotation);
+                    });
+            } else {
+                displayQuotation(quotation);
+            }
+        }
+        
+        // Initialize
+        loadProjects();
+        loadQuotations();
+    </script>
+</body>
+</html>

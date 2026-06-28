@@ -1533,6 +1533,37 @@ class BCL_OT_detect_hardware(Operator):
         return {"FINISHED"}
 
 
+class BCL_OT_search_part_type(Operator):
+    bl_idname = "bcl.search_part_type"
+    bl_label = "Search Part Type"
+    bl_description = "Search and select a part type from the filtered list"
+    bl_options = {"REGISTER", "UNDO"}
+    
+    def execute(self, context):
+        st = context.scene.bcl_settings
+        search_term = st.part_search.lower()
+        
+        if not search_term:
+            self.report({'WARNING'}, "Enter a search term first")
+            return {"CANCELLED"}
+        
+        # Import ALL_PART_TYPES from props
+        from maa_wadi_blender.props import ALL_PART_TYPES
+        
+        # Filter part types based on search
+        filtered = [item for item in ALL_PART_TYPES 
+                    if search_term in item[1].lower() or search_term in item[2].lower()]
+        
+        if filtered:
+            # Set to first matching item
+            st.part_name_type = filtered[0][0]
+            self.report({'INFO'}, f"Found {len(filtered)} matching part types. Selected: {filtered[0][1]}")
+        else:
+            self.report({'WARNING'}, f"No part types found matching '{search_term}'")
+        
+        return {"FINISHED"}
+
+
 class BCL_OT_visualize_cut_layout(Operator):
     bl_idname = "bcl.visualize_cut_layout"
     bl_label = "Visualize Cut Layout"
@@ -1715,6 +1746,7 @@ classes = (
     BCL_OT_sync_now,
     BCL_OT_sync_camera,
     BCL_OT_export_3d_model,
+    BCL_OT_search_part_type,
     BCL_OT_visualize_cut_layout,
     BCL_OT_rename_part,
     BCL_OT_detect_hardware,

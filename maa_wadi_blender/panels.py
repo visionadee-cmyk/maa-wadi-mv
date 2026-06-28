@@ -68,11 +68,25 @@ class BCL_PT_cut_list(Panel):
         # Part Renamer
         box = layout.box()
         box.label(text="Part Renamer")
+        box.prop(st, "part_search", icon="VIEWZOOM")
+        row = box.row(align=True)
+        row.operator("bcl.search_part_type", icon="VIEWZOOM")
         box.prop(st, "part_name_type")
         if st.part_name_type == "CUSTOM":
             box.prop(st, "custom_part_name")
         box.operator("bcl.rename_part", icon="OUTLINER_DATA_MESH")
         box.operator("bcl.detect_hardware", icon="TOOL_SETTINGS")
+        
+        # Display hardware list if available
+        if st.hardware_list and st.hardware_list != "[]":
+            try:
+                import json
+                hardware_data = json.loads(st.hardware_list)
+                box.label(text=f"Hardware Detected: {len(hardware_data)} types")
+                for hw in hardware_data:
+                    box.label(text=f"  • {hw['type']}: {hw['quantity']} x {hw['size']}")
+            except:
+                box.label(text="Hardware data available (parse error)")
 
         layout.separator()
 
