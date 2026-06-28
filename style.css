@@ -543,6 +543,58 @@ input:focus {
   margin-bottom: 1rem;
 }
 
+/* Hardware Styles */
+.hardware-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.hardware-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.hardware-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background: #f8f9fa;
+}
+
+.hardware-item:last-child {
+  border-bottom: none;
+}
+
+.hardware-item-info {
+  flex: 1;
+}
+
+.hardware-item-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.hardware-item-details {
+  font-size: 14px;
+  color: #666;
+}
+
+.hardware-item-quantity {
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-left: 15px;
+}
+
+.hardware-item-price {
+  font-weight: bold;
+  color: #28a745;
+  margin-left: 15px;
+}
+
 .table-responsive {
   overflow-x: auto;
   margin: 0;

@@ -6,6 +6,7 @@ let sheets = []; // Array to store sheets and their pieces
 let pieces = []; // Array to store all pieces
 let currentUnit = 'mm'; // Default unit
 let pieceIdCounter = 0; // Counter for generating unique piece IDs
+let hardwareList = []; // Array to store hardware items
 
 // Customer information
 let customerName = '';
@@ -1281,7 +1282,6 @@ function disableBlenderSync() {
 // Template Management Functions
 // Cabinet/Asset Management
 let cabinets = [];
-let hardwareList = [];
 
 function openCabinetModal() {
   document.getElementById('addCabinetModal').style.display = 'flex';
@@ -1775,95 +1775,171 @@ function generateHardwareForCabinet(cabinet) {
 }
 
 function renderHardwareList() {
-  const hardwareSection = document.getElementById('hardwareSection');
-  if (!hardwareSection) {
-    // Create hardware section if it doesn't exist
-    const outputSection = document.querySelector('.output-section');
-    const hardwareDiv = document.createElement('div');
-    hardwareDiv.id = 'hardwareSection';
-    hardwareDiv.className = 'card';
-    hardwareDiv.style.marginTop = '2rem';
-    hardwareDiv.innerHTML = `
-      <h2><i class="fas fa-tools"></i> Hardware & Accessories</h2>
-      <div id="hardwareList" class="hardware-list"></div>
-    `;
-    outputSection.appendChild(hardwareDiv);
-  }
-  
-  const hardwareListEl = document.getElementById('hardwareList');
+  const hardwareListEl = document.getElementById('hardware-list');
+  if (!hardwareListEl) return;
   
   if (hardwareList.length === 0) {
-    hardwareListEl.innerHTML = '<p>No hardware items generated yet. Add cabinets to generate hardware requirements.</p>';
+    hardwareListEl.innerHTML = '<p style="color: #666; padding: 20px; text-align: center;">No hardware detected. Click "Detect Hardware" to calculate hardware requirements.</p>';
     return;
   }
   
-  // Group hardware by type and specification
-  const groupedHardware = {};
-  hardwareList.forEach(item => {
-    const key = `${item.type}-${item.specification}-${item.size}-${item.material}`;
-    if (!groupedHardware[key]) {
-      groupedHardware[key] = {
-        type: item.type,
-        specification: item.specification,
-        size: item.size,
-        material: item.material,
-        notes: item.notes,
-        quantity: 0,
-        cabinets: new Set()
-      };
-    }
-    groupedHardware[key].quantity += item.quantity;
-    groupedHardware[key].cabinets.add(item.cabinetName + ' #' + item.cabinetInstance);
-  });
-  
-  let html = '<table class="hardware-table">' +
-    '<thead>' +
-    '<tr>' +
-    '<th>Type</th>' +
-    '<th>Specification</th>' +
-    '<th>Size</th>' +
-    '<th>Material</th>' +
-    '<th>Total Quantity</th>' +
-    '<th>Unit Price (MVR)</th>' +
-    '<th>Total (MVR)</th>' +
-    '<th>Used In</th>' +
-    '<th>Notes</th>' +
-    '</tr>' +
-    '</thead>' +
-    '<tbody>';
-  
-  let hardwareTotalCost = 0;
-  
-  Object.values(groupedHardware).forEach(item => {
-    // Map to pricing database
-    const hardwareKey = mapHardwareTypeToKey(item.type, item.specification);
-    const pricing = hardwarePrices[hardwareKey] || { name: item.type, price: 5, unit: 'each' };
-    const itemTotal = item.quantity * pricing.price;
-    hardwareTotalCost += itemTotal;
+  let html = '';
+  hardwareList.forEach(hw => {
+    const hwKey = mapHardwareTypeToKey(hw.type, hw.specification);
+    const pricing = hardwarePrices[hwKey] || { price: 5, unit: 'each' };
+    const totalPrice = hw.quantity * pricing.price;
     
-    html += '<tr>' +
-      '<td><strong>' + item.type + '</strong></td>' +
-      '<td>' + item.specification + '</td>' +
-      '<td>' + item.size + '</td>' +
-      '<td>' + item.material + '</td>' +
-      '<td><span class="quantity-badge">' + item.quantity + '</span></td>' +
-      '<td>' + pricing.price.toFixed(2) + '</td>' +
-      '<td><strong>' + itemTotal.toFixed(2) + '</strong></td>' +
-      '<td>' + Array.from(item.cabinets).join(', ') + '</td>' +
-      '<td>' + item.notes + '</td>' +
-      '</tr>';
+    html += `
+      <div class="hardware-item">
+        <div class="hardware-item-info">
+          <div class="hardware-item-name">${hw.type}</div>
+          <div class="hardware-item-details">${hw.specification} - ${hw.size}</div>
+          ${hw.notes ? `<div class="hardware-item-details" style="font-size: 12px;">${hw.notes}</div>` : ''}
+        </div>
+        <div class="hardware-item-quantity">${hw.quantity} ${pricing.unit}</div>
+        <div class="hardware-item-price">${totalPrice.toFixed(2)} MVR</div>
+      </div>
+    `;
   });
-  
-  html += '</tbody></table>';
-  
-  // Add total summary
-  const totalItems = hardwareList.reduce((sum, item) => sum + item.quantity, 0);
-  html += '<div class="hardware-summary">' +
-    '<strong>Total Hardware Items:</strong> ' + totalItems +
-    ' | <strong>Total Hardware Cost:</strong> ' + hardwareTotalCost.toFixed(2) + ' MVR' +
-    '</div>';
   
   hardwareListEl.innerHTML = html;
+}
+
+function detectHardwareFromPieces() {
+  hardwareList = [];
+  
+  if (pieces.length === 0) {
+    renderHardwareList();
+    return;
+  }
+  
+  // Count pieces by size to estimate hardware needs
+  let doorCount = 0;
+  let drawerCount = 0;
+  let shelfCount = 0;
+  let panelCount = pieces.length;
+  
+  pieces.forEach(piece => {
+    // Estimate piece type based on dimensions
+    const area = piece.width * piece.height;
+    const aspectRatio = piece.width / piece.height;
+    
+    // Doors: typically taller than wide, medium size
+    if (aspectRatio < 0.8 && area > 200000 && area < 600000) {
+      doorCount++;
+    }
+    // Drawers: typically wider than tall, smaller height
+    else if (aspectRatio > 1.2 && piece.height < 300) {
+      drawerCount++;
+    }
+    // Shelves: typically long and thin
+    else if (aspectRatio > 2 && piece.height < 200) {
+      shelfCount++;
+    }
+  });
+  
+  // Calculate hardware based on estimates
+  const detectedHardware = [];
+  
+  // 1. Hinges (2 per door)
+  if (doorCount > 0) {
+    detectedHardware.push({
+      id: Date.now() + 1,
+      type: 'Hinge',
+      specification: 'Standard Cabinet Hinge',
+      size: '35mm',
+      material: 'Steel',
+      quantity: doorCount * 2,
+      notes: '2 hinges per door'
+    });
+  }
+  
+  // 2. Drawer slides (2 per drawer)
+  if (drawerCount > 0) {
+    detectedHardware.push({
+      id: Date.now() + 2,
+      type: 'Drawer Slide',
+      specification: 'Standard Drawer Slide',
+      size: '450mm',
+      material: 'Steel',
+      quantity: drawerCount * 2,
+      notes: '2 slides per drawer'
+    });
+  }
+  
+  // 3. Shelf support pins (4 per shelf)
+  if (shelfCount > 0) {
+    detectedHardware.push({
+      id: Date.now() + 3,
+      type: 'Shelf Support Pin',
+      specification: 'Adjustable Shelf Pin',
+      size: '5mm diameter',
+      material: 'Plastic',
+      quantity: shelfCount * 4,
+      notes: '4 pins per shelf'
+    });
+  }
+  
+  // 4. Handles (1 per door/drawer)
+  if (doorCount > 0 || drawerCount > 0) {
+    detectedHardware.push({
+      id: Date.now() + 4,
+      type: 'Handle',
+      specification: 'Cabinet Handle',
+      size: '128mm',
+      material: 'Aluminum',
+      quantity: doorCount + drawerCount,
+      notes: '1 handle per door/drawer'
+    });
+  }
+  
+  // 5. Wood screws (estimate 4 per panel joint)
+  if (panelCount > 0) {
+    detectedHardware.push({
+      id: Date.now() + 5,
+      type: 'Wood Screw',
+      specification: 'Flat head wood screw',
+      size: '4mm x 16mm',
+      material: 'Steel',
+      quantity: panelCount * 4,
+      notes: 'Estimated 4 screws per panel'
+    });
+  }
+  
+  // 6. Cam locks and bolts for knock-down assembly
+  if (panelCount >= 4) {
+    detectedHardware.push({
+      id: Date.now() + 6,
+      type: 'Cam Lock',
+      specification: 'Standard Cam Lock',
+      size: '15mm',
+      material: 'Steel',
+      quantity: panelCount,
+      notes: 'For cabinet body assembly'
+    });
+    
+    detectedHardware.push({
+      id: Date.now() + 7,
+      type: 'Cam Bolt',
+      specification: 'Cam Bolt',
+      size: '50mm',
+      material: 'Steel',
+      quantity: panelCount,
+      notes: 'For cabinet body assembly'
+    });
+  }
+  
+  hardwareList = detectedHardware;
+  renderHardwareList();
+  generateQuotation();
+  
+  console.log(`Detected ${detectedHardware.length} hardware types, ${detectedHardware.reduce((sum, h) => sum + h.quantity, 0)} total items`);
+}
+
+function clearHardware() {
+  hardwareList = [];
+  renderHardwareList();
+  generateQuotation();
 }
 
 // Project Modal Functions
@@ -2029,6 +2105,17 @@ document.addEventListener('DOMContentLoaded', function() {
     addCabinetModal.addEventListener('click', function(e) {
       if (e.target === this) closeCabinetModal();
     });
+  }
+  
+  // Hardware detection event listeners
+  const detectHardwareBtn = document.getElementById('detectHardwareBtn');
+  if (detectHardwareBtn) {
+    detectHardwareBtn.addEventListener('click', detectHardwareFromPieces);
+  }
+  
+  const clearHardwareBtn = document.getElementById('clearHardwareBtn');
+  if (clearHardwareBtn) {
+    clearHardwareBtn.addEventListener('click', clearHardware);
   }
   
   // Mobile bottom navigation event listeners
