@@ -69,6 +69,11 @@ const hardwarePrices = {
   "ROLLER_SLIDE": { name: "Roller Slide", price: 30, unit: "pair" },
   "SOFT_CLOSE_SLIDER": { name: "Soft-close Slider", price: 70, unit: "pair" },
   
+  // Sliding door hardware
+  "SLIDING_ROLLER_SET": { name: "Sliding Roller Set", price: 120, unit: "set" },
+  "SLIDING_TRACK_TOP": { name: "Sliding Track (Top)", price: 85, unit: "each" },
+  "SLIDING_TRACK_BOTTOM": { name: "Sliding Track (Bottom)", price: 85, unit: "each" },
+  
   // Handles and knobs
   "HANDLE": { name: "Standard Handle", price: 25, unit: "each" },
   "PULL_HANDLE": { name: "Pull Handle", price: 35, unit: "each" },
@@ -79,6 +84,15 @@ const hardwarePrices = {
   "SHELF_SUPPORT_PIN": { name: "Shelf Support Pin", price: 5, unit: "each" },
   "SHELF_BRACKET": { name: "Shelf Bracket", price: 15, unit: "each" },
   "SHELF_CLIP": { name: "Shelf Clip", price: 8, unit: "each" },
+  
+  // Door accessories
+  "MAGNETIC_CATCH": { name: "Magnetic Catch", price: 8, unit: "each" },
+  "DOOR_LOCK": { name: "Door Lock", price: 45, unit: "each" },
+  "CAM_LOCK": { name: "Cam Lock", price: 35, unit: "each" },
+  
+  // Back panel hardware
+  "BACK_PANEL_FASTENER": { name: "Back Panel Fastener", price: 3, unit: "each" },
+  "BACK_PANEL_CLIP": { name: "Back Panel Clip", price: 2.5, unit: "each" },
   
   // Fasteners
   "WOOD_SCREW": { name: "Wood Screw", price: 1, unit: "each" },
@@ -99,7 +113,7 @@ const hardwarePrices = {
   "STAPLE": { name: "Staple", price: 0.3, unit: "each" },
   
   // Joining hardware
-  "CAM_LOCK": { name: "Cam Lock", price: 8, unit: "each" },
+  "CAM_LOCK": { name: "Cam Lock (Assembly)", price: 8, unit: "each" },
   "CAM_BOLT": { name: "Cam Bolt", price: 5, unit: "each" },
   "CROSS_DOWEL": { name: "Cross Dowel", price: 3, unit: "each" },
   "BARREL_NUT": { name: "Barrel Nut", price: 4, unit: "each" },
@@ -1612,7 +1626,7 @@ function generateHardwareForCabinet(cabinet) {
   
   // Generate hardware for each cabinet quantity
   for (let q = 0; q < cabinet.quantity; q++) {
-    // 1. Hinges for doors
+    // 1. Concealed hinges for doors
     if (cabinet.hasDoors && cabinet.doorCount > 0) {
       const hingesPerDoor = 2; // Standard: 2 hinges per door
       const totalHinges = cabinet.doorCount * hingesPerDoor;
@@ -1621,8 +1635,8 @@ function generateHardwareForCabinet(cabinet) {
         id: Date.now() + hardwareCount,
         cabinetName: cabinet.name,
         cabinetInstance: q + 1,
-        type: 'Hinge',
-        specification: 'Standard Cabinet Hinge',
+        type: 'Concealed Hinge',
+        specification: 'Concealed Cabinet Hinge',
         size: '35mm',
         quantity: totalHinges,
         material: 'Steel/Nickel plated',
@@ -1711,14 +1725,14 @@ function generateHardwareForCabinet(cabinet) {
       hardwareCount++;
     });
     
-    // 5. Cam locks and bolts (for knock-down assembly)
+    // 5. Confirmat screws (for knock-down assembly)
     hardwareList.push({
       id: Date.now() + hardwareCount,
       cabinetName: cabinet.name,
       cabinetInstance: q + 1,
-      type: 'Cam Lock',
-      specification: 'Cam lock assembly',
-      size: '15mm diameter',
+      type: 'Confirmat Screw',
+      specification: 'Confirmat screw',
+      size: '7mm x 50mm',
       quantity: 8,
       material: 'Steel/Zinc plated',
       notes: 'For cabinet body assembly'
@@ -1754,17 +1768,78 @@ function generateHardwareForCabinet(cabinet) {
       hardwareCount++;
     }
     
-    // 7. Skirting screws (if skirting)
+    // 7. Magnetic catches (if doors)
+    if (cabinet.hasDoors && cabinet.doorCount > 0) {
+      hardwareList.push({
+        id: Date.now() + hardwareCount,
+        cabinetName: cabinet.name,
+        cabinetInstance: q + 1,
+        type: 'Magnetic Catch',
+        specification: 'Magnetic door catch',
+        size: 'Standard',
+        quantity: cabinet.doorCount,
+        material: 'Metal/Plastic',
+        notes: 'For door closure'
+      });
+      hardwareCount++;
+    }
+    
+    // 8. Corner brackets (for cabinet corners)
+    hardwareList.push({
+      id: Date.now() + hardwareCount,
+      cabinetName: cabinet.name,
+      cabinetInstance: q + 1,
+      type: 'Corner Bracket',
+      specification: 'L-shaped corner bracket',
+      size: '50mm x 50mm',
+      quantity: 4,
+      material: 'Steel',
+      notes: 'For cabinet corner reinforcement'
+    });
+    hardwareCount++;
+    
+    // 9. Back panel fasteners
+    hardwareList.push({
+      id: Date.now() + hardwareCount,
+      cabinetName: cabinet.name,
+      cabinetInstance: q + 1,
+      type: 'Back Panel Fastener',
+      specification: 'Back panel fastener',
+      size: 'Standard',
+      quantity: 8,
+      material: 'Steel',
+      notes: 'For back panel attachment'
+    });
+    hardwareCount++;
+    
+    // 10. Optional locks (estimate 20% of doors)
+    if (cabinet.hasDoors && cabinet.doorCount > 0) {
+      const lockCount = Math.ceil(cabinet.doorCount * 0.2);
+      hardwareList.push({
+        id: Date.now() + hardwareCount,
+        cabinetName: cabinet.name,
+        cabinetInstance: q + 1,
+        type: 'Door Lock',
+        specification: 'Optional cabinet lock',
+        size: 'Standard',
+        quantity: lockCount,
+        material: 'Steel',
+        notes: 'Optional: 1 lock per 5 doors'
+      });
+      hardwareCount++;
+    }
+    
+    // 11. Adjustable feet (for cabinet base)
     if (cabinet.hasSkirting) {
       hardwareList.push({
         id: Date.now() + hardwareCount,
         cabinetName: cabinet.name,
         cabinetInstance: q + 1,
-        type: 'Wood Screw',
-        specification: 'Flat head wood screw',
-        size: '4mm x 30mm',
-        quantity: 6,
-        material: 'Steel/Zinc plated',
+        type: 'Adjustable Foot',
+        specification: 'Adjustable cabinet foot',
+        size: 'Standard',
+        quantity: 4,
+        material: 'Plastic/Metal',
         notes: 'For bottom skirting mounting'
       });
       hardwareCount++;
@@ -1817,7 +1892,9 @@ function detectHardwareFromPieces() {
   let doorCount = 0;
   let drawerCount = 0;
   let shelfCount = 0;
+  let slidingDoorCount = 0;
   let panelCount = pieces.length;
+  let cabinetCount = Math.ceil(panelCount / 6); // Estimate cabinets from panels
   
   pieces.forEach(piece => {
     // Estimate piece type based on dimensions
@@ -1827,6 +1904,10 @@ function detectHardwareFromPieces() {
     // Doors: typically taller than wide, medium size
     if (aspectRatio < 0.8 && area > 200000 && area < 600000) {
       doorCount++;
+    }
+    // Sliding doors: wider, medium height
+    else if (aspectRatio > 1.5 && piece.height > 400 && piece.height < 800) {
+      slidingDoorCount++;
     }
     // Drawers: typically wider than tall, smaller height
     else if (aspectRatio > 1.2 && piece.height < 300) {
@@ -1841,12 +1922,12 @@ function detectHardwareFromPieces() {
   // Calculate hardware based on estimates
   const detectedHardware = [];
   
-  // 1. Hinges (2 per door)
+  // 1. Concerted hinges (2 per door)
   if (doorCount > 0) {
     detectedHardware.push({
       id: Date.now() + 1,
-      type: 'Hinge',
-      specification: 'Standard Cabinet Hinge',
+      type: 'Concealed Hinge',
+      specification: 'Concealed Cabinet Hinge',
       size: '35mm',
       material: 'Steel',
       quantity: doorCount * 2,
@@ -1854,10 +1935,44 @@ function detectHardwareFromPieces() {
     });
   }
   
-  // 2. Drawer slides (2 per drawer)
-  if (drawerCount > 0) {
+  // 2. Sliding door hardware (rollers and tracks)
+  if (slidingDoorCount > 0) {
+    const slidingDoorSets = Math.ceil(slidingDoorCount / 2); // 2 doors per set
     detectedHardware.push({
       id: Date.now() + 2,
+      type: 'Sliding Roller Set',
+      specification: 'Sliding Door Roller Set',
+      size: 'Standard',
+      material: 'Steel/Plastic',
+      quantity: slidingDoorSets,
+      notes: '1 set per 2 sliding doors'
+    });
+    
+    detectedHardware.push({
+      id: Date.now() + 3,
+      type: 'Sliding Track',
+      specification: 'Sliding Door Track (Top)',
+      size: 'Standard',
+      material: 'Aluminum',
+      quantity: slidingDoorSets,
+      notes: '1 top track per sliding door set'
+    });
+    
+    detectedHardware.push({
+      id: Date.now() + 4,
+      type: 'Sliding Track',
+      specification: 'Sliding Door Track (Bottom)',
+      size: 'Standard',
+      material: 'Aluminum',
+      quantity: slidingDoorSets,
+      notes: '1 bottom track per sliding door set'
+    });
+  }
+  
+  // 3. Drawer slides (2 per drawer)
+  if (drawerCount > 0) {
+    detectedHardware.push({
+      id: Date.now() + 5,
       type: 'Drawer Slide',
       specification: 'Standard Drawer Slide',
       size: '450mm',
@@ -1867,10 +1982,10 @@ function detectHardwareFromPieces() {
     });
   }
   
-  // 3. Shelf support pins (4 per shelf)
+  // 4. Shelf support pins (4 per shelf)
   if (shelfCount > 0) {
     detectedHardware.push({
-      id: Date.now() + 3,
+      id: Date.now() + 6,
       type: 'Shelf Support Pin',
       specification: 'Adjustable Shelf Pin',
       size: '5mm diameter',
@@ -1880,23 +1995,36 @@ function detectHardwareFromPieces() {
     });
   }
   
-  // 4. Handles (1 per door/drawer)
-  if (doorCount > 0 || drawerCount > 0) {
+  // 5. Handles (1 per door/drawer)
+  if (doorCount > 0 || drawerCount > 0 || slidingDoorCount > 0) {
     detectedHardware.push({
-      id: Date.now() + 4,
+      id: Date.now() + 7,
       type: 'Handle',
       specification: 'Cabinet Handle',
       size: '128mm',
       material: 'Aluminum',
-      quantity: doorCount + drawerCount,
+      quantity: doorCount + drawerCount + slidingDoorCount,
       notes: '1 handle per door/drawer'
     });
   }
   
-  // 5. Wood screws (estimate 4 per panel joint)
+  // 6. Magnetic catches (1 per door)
+  if (doorCount > 0) {
+    detectedHardware.push({
+      id: Date.now() + 8,
+      type: 'Magnetic Catch',
+      specification: 'Magnetic Door Catch',
+      size: 'Standard',
+      material: 'Metal/Plastic',
+      quantity: doorCount,
+      notes: '1 catch per door'
+    });
+  }
+  
+  // 7. Wood screws (estimate 4 per panel joint)
   if (panelCount > 0) {
     detectedHardware.push({
-      id: Date.now() + 5,
+      id: Date.now() + 9,
       type: 'Wood Screw',
       specification: 'Flat head wood screw',
       size: '4mm x 16mm',
@@ -1906,26 +2034,69 @@ function detectHardwareFromPieces() {
     });
   }
   
-  // 6. Cam locks and bolts for knock-down assembly
+  // 8. Confirmat screws (for knock-down assembly)
   if (panelCount >= 4) {
     detectedHardware.push({
-      id: Date.now() + 6,
-      type: 'Cam Lock',
-      specification: 'Standard Cam Lock',
-      size: '15mm',
+      id: Date.now() + 10,
+      type: 'Confirmat Screw',
+      specification: 'Confirmat Screw',
+      size: '7mm x 50mm',
       material: 'Steel',
-      quantity: panelCount,
-      notes: 'For cabinet body assembly'
+      quantity: panelCount * 2,
+      notes: '2 confirmat screws per panel for assembly'
     });
-    
+  }
+  
+  // 9. Corner brackets (for cabinet corners)
+  if (cabinetCount > 0) {
     detectedHardware.push({
-      id: Date.now() + 7,
-      type: 'Cam Bolt',
-      specification: 'Cam Bolt',
-      size: '50mm',
+      id: Date.now() + 11,
+      type: 'Corner Bracket',
+      specification: 'L-shaped Corner Bracket',
+      size: '50mm x 50mm',
       material: 'Steel',
-      quantity: panelCount,
-      notes: 'For cabinet body assembly'
+      quantity: cabinetCount * 4,
+      notes: '4 brackets per cabinet'
+    });
+  }
+  
+  // 10. Back panel fasteners
+  if (cabinetCount > 0) {
+    detectedHardware.push({
+      id: Date.now() + 12,
+      type: 'Back Panel Fastener',
+      specification: 'Back Panel Fastener',
+      size: 'Standard',
+      material: 'Steel',
+      quantity: cabinetCount * 8,
+      notes: '8 fasteners per cabinet back panel'
+    });
+  }
+  
+  // 11. Optional locks (for security doors - estimate 20% of doors)
+  if (doorCount > 0) {
+    const lockCount = Math.ceil(doorCount * 0.2);
+    detectedHardware.push({
+      id: Date.now() + 13,
+      type: 'Door Lock',
+      specification: 'Optional Cabinet Lock',
+      size: 'Standard',
+      material: 'Steel',
+      quantity: lockCount,
+      notes: 'Optional: 1 lock per 5 doors'
+    });
+  }
+  
+  // 12. Adjustable feet (for cabinet bases)
+  if (cabinetCount > 0) {
+    detectedHardware.push({
+      id: Date.now() + 14,
+      type: 'Adjustable Foot',
+      specification: 'Adjustable Cabinet Foot',
+      size: 'Standard',
+      material: 'Plastic/Metal',
+      quantity: cabinetCount * 4,
+      notes: '4 feet per cabinet'
     });
   }
   
