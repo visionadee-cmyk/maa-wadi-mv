@@ -1260,6 +1260,9 @@ function enableBlenderSync() {
           renderHardwareList();
         }
         
+        // Auto-generate teak sides after Blender sync
+        autoGenerateTeakSides();
+        
         renderSheets();
         renderPiecesList();
         renderSheetDetails();
@@ -1419,6 +1422,7 @@ function addCabinetAndGeneratePieces() {
   generateQuotation();
   generateCostComparison();
   renderHardwareList();
+  autoGenerateTeakSides();
 }
 
 function generatePiecesFromCabinet(cabinet) {
@@ -2548,6 +2552,7 @@ if (pieceForm) {
   renderSheetDetails();
   generateQuotation();
   generateCostComparison();
+  autoGenerateTeakSides();
   });
 }
 
@@ -3795,6 +3800,7 @@ function setupCsvImport() {
       renderPiecesList();
       renderSheetDetails();
       generateQuotation();
+      autoGenerateTeakSides();
 
       const parts = [`Imported ${addedCount} piece(s).`];
       if (skippedCount) parts.push(`Skipped ${skippedCount} oversized piece(s).`);
