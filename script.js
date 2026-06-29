@@ -2191,27 +2191,21 @@ function autoGenerateTeakSides() {
     }
   });
   
-  // If no cabinets, generate from pieces (estimate based on piece dimensions)
+  // If no cabinets, generate from pieces (all pieces as potential teak candidates)
   if (cabinets.length === 0 && pieces.length > 0) {
     pieces.forEach((piece, index) => {
-      // Estimate if piece could be a side panel based on aspect ratio
-      const aspectRatio = piece.width / piece.height;
-      const area = piece.width * piece.height;
-      
-      // Side panels: typically taller than wide, medium area
-      if (aspectRatio < 0.8 && area > 100000 && area < 800000) {
-        teakSides.push({
-          id: Date.now() + teakSides.length,
-          cabinetName: 'Manual Piece',
-          cabinetInstance: index + 1,
-          side: 'Side Panel',
-          width: piece.width,
-          height: piece.height,
-          enabled: false,
-          meters: (piece.width / 1000),
-          notes: `${piece.width}mm x ${piece.height}mm`
-        });
-      }
+      // Generate teak side options for all pieces
+      teakSides.push({
+        id: Date.now() + teakSides.length,
+        cabinetName: piece.pieceType || 'Manual Piece',
+        cabinetInstance: index + 1,
+        side: 'Edge',
+        width: piece.width,
+        height: piece.height,
+        enabled: false,
+        meters: (piece.width / 1000),
+        notes: `${piece.width}mm x ${piece.height}mm`
+      });
     });
   }
   
