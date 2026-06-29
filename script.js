@@ -7,6 +7,7 @@ let pieces = []; // Array to store all pieces
 let currentUnit = 'mm'; // Default unit
 let pieceIdCounter = 0; // Counter for generating unique piece IDs
 let hardwareList = []; // Array to store hardware items
+let teakSides = []; // Array to store teak side requirements
 
 // Customer information
 let customerName = '';
@@ -672,6 +673,7 @@ async function saveProjectToFirestore(projectName) {
       pieceIdCounter: pieceIdCounter,
       cabinets: cabinets,
       hardwareList: hardwareList,
+      teakSides: teakSides,
       customerName: customerName,
       customerPhone: customerPhone,
       customerAddress: customerAddress,
@@ -716,6 +718,7 @@ async function loadProjectFromFirestore(projectName) {
     pieceIdCounter = projectData.pieceIdCounter || 0;
     cabinets = projectData.cabinets || [];
     hardwareList = projectData.hardwareList || [];
+    teakSides = projectData.teakSides || [];
     customerName = projectData.customerName || '';
     customerPhone = projectData.customerPhone || '';
     customerAddress = projectData.customerAddress || '';
@@ -740,6 +743,7 @@ async function loadProjectFromFirestore(projectName) {
     generateQuotation();
     generateCostComparison();
     renderHardwareList();
+    renderTeakList();
 
     console.log('Project loaded successfully:', projectName);
     alert(`Project "${projectName}" loaded successfully!`);
@@ -2113,6 +2117,160 @@ function clearHardware() {
   generateQuotation();
 }
 
+// Teak Sides Functions
+function autoGenerateTeakSides() {
+  teakSides = [];
+  
+  if (cabinets.length === 0 && pieces.length === 0) {
+    renderTeakList();
+    return;
+  }
+  
+  // Generate teak sides from cabinets
+  cabinets.forEach((cabinet, cabinetIndex) => {
+    for (let q = 0; q < cabinet.quantity; q++) {
+      const instance = q + 1;
+      
+      // Left side panel (height x depth)
+      teakSides.push({
+        id: Date.now() + teakSides.length,
+        cabinetName: cabinet.name,
+        cabinetInstance: instance,
+        side: 'Left Side',
+        width: cabinet.height,
+        height: cabinet.depth,
+        enabled: cabinet.teakSides?.left || false,
+        meters: (cabinet.height / 1000),
+        notes: `${cabinet.height}mm x ${cabinet.depth}mm`
+      });
+      
+      // Right side panel (height x depth)
+      teakSides.push({
+        id: Date.now() + teakSides.length,
+        cabinetName: cabinet.name,
+        cabinetInstance: instance,
+        side: 'Right Side',
+        width: cabinet.height,
+        height: cabinet.depth,
+        enabled: cabinet.teakSides?.right || false,
+        meters: (cabinet.height / 1000),
+        notes: `${cabinet.height}mm x ${cabinet.depth}mm`
+      });
+      
+      // Top panel (length x depth) - if doors present
+      if (cabinet.hasDoors) {
+        teakSides.push({
+          id: Date.now() + teakSides.length,
+          cabinetName: cabinet.name,
+          cabinetInstance: instance,
+          side: 'Top Edge',
+          width: cabinet.length,
+          height: cabinet.thickness,
+          enabled: cabinet.teakSides?.top || false,
+          meters: (cabinet.length / 1000),
+          notes: `${cabinet.length}mm x ${cabinet.thickness}mm`
+        });
+      }
+      
+      // Bottom panel (length x depth)
+      teakSides.push({
+        id: Date.now() + teakSides.length,
+        cabinetName: cabinet.name,
+        cabinetInstance: instance,
+        side: 'Bottom Edge',
+        width: cabinet.length,
+        height: cabinet.thickness,
+        enabled: cabinet.teakSides?.bottom || false,
+        meters: (cabinet.length / 1000),
+        notes: `${cabinet.length}mm x ${cabinet.thickness}mm`
+      });
+    }
+  });
+  
+  // If no cabinets, generate from pieces (estimate based on piece dimensions)
+  if (cabinets.length === 0 && pieces.length > 0) {
+    pieces.forEach((piece, index) => {
+      // Estimate if piece could be a side panel based on aspect ratio
+      const aspectRatio = piece.width / piece.height;
+      const area = piece.width * piece.height;
+      
+      // Side panels: typically taller than wide, medium area
+      if (aspectRatio < 0.8 && area > 100000 && area < 800000) {
+        teakSides.push({
+          id: Date.now() + teakSides.length,
+          cabinetName: 'Manual Piece',
+          cabinetInstance: index + 1,
+          side: 'Side Panel',
+          width: piece.width,
+          height: piece.height,
+          enabled: false,
+          meters: (piece.width / 1000),
+          notes: `${piece.width}mm x ${piece.height}mm`
+        });
+      }
+    });
+  }
+  
+  renderTeakList();
+  generateQuotation();
+  
+  console.log(`Generated ${teakSides.length} teak side options`);
+}
+
+function clearTeakSides() {
+  teakSides = [];
+  renderTeakList();
+  generateQuotation();
+}
+
+function toggleTeakSide(id) {
+  const teakSide = teakSides.find(t => t.id === id);
+  if (teakSide) {
+    teakSide.enabled = !teakSide.enabled;
+    renderTeakList();
+    generateQuotation();
+  }
+}
+
+function renderTeakList() {
+  const teakListEl = document.getElementById('teak-list');
+  const teakSummaryEl = document.getElementById('teak-summary');
+  
+  if (!teakListEl || !teakSummaryEl) return;
+  
+  if (teakSides.length === 0) {
+    teakListEl.innerHTML = '<p style="color: #666; padding: 20px; text-align: center;">No teak sides available. Click "Auto-Generate" to create teak side options.</p>';
+    teakSummaryEl.innerHTML = 'Total Teak: 0 meters (0 MVR)';
+    return;
+  }
+  
+  // Calculate total meters and cost
+  const totalMeters = teakSides.filter(t => t.enabled).reduce((sum, t) => sum + t.meters, 0);
+  const totalCost = totalMeters * teakCost;
+  
+  teakSummaryEl.innerHTML = `Total Teak: ${totalMeters.toFixed(2)} meters (${totalCost.toFixed(2)} MVR)`;
+  
+  let html = '';
+  teakSides.forEach(teak => {
+    const cost = teak.meters * teakCost;
+    html += `
+      <div class="teak-item">
+        <input type="checkbox" class="teak-item-checkbox" 
+               ${teak.enabled ? 'checked' : ''} 
+               onchange="toggleTeakSide(${teak.id})">
+        <div class="teak-item-info">
+          <div class="teak-item-name">${teak.cabinetName} - ${teak.side} (Inst ${teak.cabinetInstance})</div>
+          <div class="teak-item-details">${teak.notes}</div>
+        </div>
+        <div class="teak-item-meters">${teak.meters.toFixed(2)} m</div>
+        <div class="teak-item-cost">${cost.toFixed(2)} MVR</div>
+      </div>
+    `;
+  });
+  
+  teakListEl.innerHTML = html;
+}
+
 // Project Modal Functions
 function openSaveProjectModal() {
   if (sheets.length === 0) {
@@ -2287,6 +2445,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const clearHardwareBtn = document.getElementById('clearHardwareBtn');
   if (clearHardwareBtn) {
     clearHardwareBtn.addEventListener('click', clearHardware);
+  }
+  
+  // Teak sides event listeners
+  const autoGenerateTeakBtn = document.getElementById('autoGenerateTeakBtn');
+  if (autoGenerateTeakBtn) {
+    autoGenerateTeakBtn.addEventListener('click', autoGenerateTeakSides);
+  }
+  
+  const clearTeakBtn = document.getElementById('clearTeakBtn');
+  if (clearTeakBtn) {
+    clearTeakBtn.addEventListener('click', clearTeakSides);
   }
   
   // Mobile bottom navigation event listeners
@@ -2981,7 +3150,14 @@ function generateQuotation() {
 
   const totalSheets = sheets.length;
   const totalCuts = sheets.reduce((acc, sheet) => acc + (sheet.pieces.length - 1), 0);
-  const totalTeakMeters = sheets.reduce((acc, sheet) => acc + sheet.pieces.reduce((acc, piece) => acc + calculateTeakMeters(piece), 0), 0);
+  
+  // Calculate teak from pieces
+  const teakMetersFromPieces = sheets.reduce((acc, sheet) => acc + sheet.pieces.reduce((acc, piece) => acc + calculateTeakMeters(piece), 0), 0);
+  
+  // Calculate teak from teak sides array
+  const teakMetersFromSides = teakSides.filter(t => t.enabled).reduce((sum, t) => sum + t.meters, 0);
+  
+  const totalTeakMeters = teakMetersFromPieces + teakMetersFromSides;
 
   const sheetTotal = totalSheets * sheetCost;
   const cutsTotal = totalCuts * cutCost;

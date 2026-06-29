@@ -595,6 +595,72 @@ input:focus {
   margin-left: 15px;
 }
 
+/* Teak Styles */
+.teak-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.teak-summary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.teak-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.teak-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background: #f8f9fa;
+}
+
+.teak-item:last-child {
+  border-bottom: none;
+}
+
+.teak-item-info {
+  flex: 1;
+}
+
+.teak-item-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.teak-item-details {
+  font-size: 14px;
+  color: #666;
+}
+
+.teak-item-checkbox {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.teak-item-meters {
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-left: 15px;
+}
+
+.teak-item-cost {
+  font-weight: bold;
+  color: #28a745;
+  margin-left: 15px;
+}
+
 .table-responsive {
   overflow-x: auto;
   margin: 0;
