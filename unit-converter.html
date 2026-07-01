@@ -534,7 +534,8 @@
                 }
                 
                 const input = document.createElement('input');
-                input.type = 'number';
+                // Use text type for feet field to allow "X ft Y in" format
+                input.type = (category === 'length' && unitKey === 'ft') ? 'text' : 'number';
                 input.id = `unit-${unitKey}`;
                 input.placeholder = '0';
                 input.step = 'any';
@@ -558,9 +559,16 @@
         // Handle unit input
         function handleUnitInput(e) {
             const input = e.target;
-            const value = parseFloat(input.value);
             const category = input.dataset.category;
             const sourceUnit = input.dataset.unit;
+            
+            let value;
+            // Parse feet+inches format for feet field
+            if (category === 'length' && sourceUnit === 'ft') {
+                value = parseFeetInches(input.value);
+            } else {
+                value = parseFloat(input.value);
+            }
             
             if (isNaN(value)) {
                 // Clear all inputs if value is invalid
@@ -837,6 +845,38 @@
             } else {
                 return `${feet} ft ${inches} in`;
             }
+        }
+
+        // Parse feet+inches format (e.g., "1 ft 3 in") to decimal feet
+        function parseFeetInches(value) {
+            if (!value || value === '') return NaN;
+            
+            // If it's already a number, return it
+            if (!isNaN(parseFloat(value))) {
+                return parseFloat(value);
+            }
+            
+            // Parse "X ft Y in" format
+            const parts = value.toLowerCase().split(' ');
+            let feet = 0;
+            let inches = 0;
+            
+            for (let i = 0; i < parts.length; i++) {
+                const num = parseFloat(parts[i]);
+                if (isNaN(num)) continue;
+                
+                if (parts[i + 1] && parts[i + 1].includes('ft')) {
+                    feet = num;
+                } else if (parts[i + 1] && parts[i + 1].includes('in')) {
+                    inches = num;
+                } else if (!parts[i + 1]) {
+                    // Just a number with no unit, assume inches if < 12, else feet
+                    inches = num < 12 ? num : 0;
+                    feet = num >= 12 ? num : 0;
+                }
+            }
+            
+            return feet + (inches / 12);
         }
 
         // Update category instructions
