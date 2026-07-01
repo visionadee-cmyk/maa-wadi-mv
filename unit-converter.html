@@ -232,8 +232,10 @@
 
             <div class="converter-info">
                 <h3><i class="fas fa-info-circle"></i> How to Use</h3>
-                <p>Type a value in any unit field, and all other units will automatically convert to the equivalent value. No need to select a "from" or "to" unit - just type and see instant results.</p>
-                <p><strong>Example:</strong> Type "100" in the mm field, and you'll immediately see "10" in cm, "0.1" in m, "3.94" in inches, etc.</p>
+                <div id="categoryInstructions">
+                    <p>Type a value in any unit field, and all other units will automatically convert to the equivalent value. No need to select a "from" or "to" unit - just type and see instant results.</p>
+                    <p><strong>Example:</strong> Type "100" in the mm field, and you'll immediately see "10" in cm, "0.1" in m, "3.94" in inches, etc.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -388,6 +390,75 @@
 
         let currentCategory = 'length';
         let activeInputId = null;
+
+        // Category-specific instructions
+        const categoryInstructions = {
+            length: {
+                title: 'Length Conversion',
+                description: 'Type a value in any unit field, and all other units will automatically convert to the equivalent value.',
+                example: 'Type "100" in the mm field, and you\'ll immediately see "10" in cm, "0.1" in m, "3.94" in inches, etc.'
+            },
+            weight: {
+                title: 'Weight Conversion',
+                description: 'Convert between different weight units instantly.',
+                example: 'Type "1000" in the g field to see "1" in kg, "35.27" in oz, "2.2" in lb, etc.'
+            },
+            area: {
+                title: 'Area Conversion',
+                description: 'Convert between different area units for surface measurements.',
+                example: 'Type "10000" in sqcm to see "1" in sqm, "10.76" in sqft, "0.00247" in acre, etc.'
+            },
+            volume: {
+                title: 'Volume Conversion',
+                description: 'Convert between different volume units for liquid and solid measurements.',
+                example: 'Type "1000" in ml to see "1" in L, "33.81" in fl oz, "4.23" in cups, etc.'
+            },
+            temperature: {
+                title: 'Temperature Conversion',
+                description: 'Convert between Celsius, Fahrenheit, and Kelvin.',
+                example: 'Type "100" in °C to see "212" in °F and "373.15" in K.'
+            },
+            boardfoot: {
+                title: 'Board Foot Calculator',
+                description: 'Calculate board feet from lumber dimensions. Board foot = (Length × Width × Thickness) ÷ 144.',
+                example: 'Enter length 96", width 6", thickness 1" to get 4 board feet.'
+            },
+            woodthickness: {
+                title: 'Wood Thickness (Nominal vs Actual)',
+                description: 'See actual dimensions for nominal lumber sizes. Click on any field to copy the actual dimensions.',
+                example: '2×4 nominal is actually 1.5×3.5 inches. Click to copy.'
+            },
+            angle: {
+                title: 'Angle Conversion',
+                description: 'Convert between different angle units for miter cuts and measurements.',
+                example: 'Type "45" in degrees to see "0.785" radians, "50" gradians, "0.125" turns.'
+            },
+            materialcost: {
+                title: 'Material Cost Calculator',
+                description: 'Calculate total material cost based on dimensions and price per board foot.',
+                example: 'Enter 8ft × 1ft × 1in at MVR 50/BF = MVR 2.78 total cost.'
+            },
+            paintfinish: {
+                title: 'Paint/Finish Calculator',
+                description: 'Calculate how much paint or finish you need based on surface area.',
+                example: '10ft × 10ft area, 350 sqft/gal coverage, 2 coats = 0.57 gallons needed.'
+            },
+            crownmolding: {
+                title: 'Crown Molding Calculator',
+                description: 'Calculate miter and bevel angles for crown molding installation.',
+                example: 'Spring angle 45°, Wall angle 90° = Miter 35.3°, Bevel 30°.'
+            },
+            stair: {
+                title: 'Stair Calculator',
+                description: 'Calculate stair dimensions including risers, treads, and stringer length.',
+                example: 'Total rise 84", total run 105" = 11 risers, 10 treads, 7.6" riser height, 10.5" tread depth.'
+            },
+            woodweight: {
+                title: 'Wood Weight Calculator',
+                description: 'Calculate the weight of lumber based on dimensions and wood species.',
+                example: 'Teak: 96" × 6" × 1" = 0.33 cubic feet × 45 lbs/cf = 14.85 lbs.'
+            }
+        };
 
         // Generate unit inputs for a category
         function generateUnitInputs(category) {
@@ -553,7 +624,13 @@
                     convertedValue = baseValue / targetFactor;
                 }
                 
-                targetInput.value = formatNumber(convertedValue);
+                // Format feet as feet + inches for length category
+                if (category === 'length' && unitKey === 'ft') {
+                    // convertedValue is already in feet (factor 304.8)
+                    targetInput.value = formatFeetInches(convertedValue);
+                } else {
+                    targetInput.value = formatNumber(convertedValue);
+                }
             });
         }
 
@@ -746,6 +823,34 @@
             return parseFloat(num.toPrecision(10));
         }
 
+        // Format feet as feet + inches (e.g., "1 ft 3 in")
+        function formatFeetInches(decimalFeet) {
+            if (isNaN(decimalFeet)) return '';
+            
+            const feet = Math.floor(decimalFeet);
+            const inches = Math.round((decimalFeet - feet) * 12);
+            
+            if (feet === 0) {
+                return `${inches} in`;
+            } else if (inches === 0) {
+                return `${feet} ft`;
+            } else {
+                return `${feet} ft ${inches} in`;
+            }
+        }
+
+        // Update category instructions
+        function updateCategoryInstructions(category) {
+            const instructionsDiv = document.getElementById('categoryInstructions');
+            const instructions = categoryInstructions[category] || categoryInstructions['length'];
+            
+            instructionsDiv.innerHTML = `
+                <h4>${instructions.title}</h4>
+                <p>${instructions.description}</p>
+                <p><strong>Example:</strong> ${instructions.example}</p>
+            `;
+        }
+
         // Handle category tab clicks
         document.querySelectorAll('.category-tab').forEach(tab => {
             tab.addEventListener('click', () => {
@@ -756,6 +861,9 @@
                 // Update current category
                 currentCategory = tab.dataset.category;
                 
+                // Update instructions
+                updateCategoryInstructions(currentCategory);
+                
                 // Generate new inputs
                 generateUnitInputs(currentCategory);
             });
@@ -763,6 +871,7 @@
 
         // Initialize with length category
         generateUnitInputs('length');
+        updateCategoryInstructions('length');
     </script>
 </body>
 </html>
