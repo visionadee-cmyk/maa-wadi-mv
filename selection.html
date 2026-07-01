@@ -19,6 +19,11 @@
                 <img src="assets/logo.png" alt="Maa Wadi Mv" class="logo">
                 <span class="brand-name">Maa Wadi Mv</span>
             </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <nav>
                 <ul>
                     <li><a href="#" class="active" title="Calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
@@ -487,6 +492,26 @@
             <span>Settings</span>
         </a>
     </nav>
+
+    <script>
+        // Hamburger menu toggle
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            const hamburger = document.querySelector('.hamburger');
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const hamburger = document.querySelector('.hamburger');
+            if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
 
     <!-- PWA Support -->
     <script>
