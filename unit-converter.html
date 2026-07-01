@@ -215,6 +215,14 @@
             <button class="category-tab" data-category="area">Area</button>
             <button class="category-tab" data-category="volume">Volume</button>
             <button class="category-tab" data-category="temperature">Temperature</button>
+            <button class="category-tab" data-category="boardfoot">Board Foot</button>
+            <button class="category-tab" data-category="woodthickness">Wood Thickness</button>
+            <button class="category-tab" data-category="angle">Angle</button>
+            <button class="category-tab" data-category="materialcost">Material Cost</button>
+            <button class="category-tab" data-category="paintfinish">Paint/Finish</button>
+            <button class="category-tab" data-category="crownmolding">Crown Molding</button>
+            <button class="category-tab" data-category="stair">Stair</button>
+            <button class="category-tab" data-category="woodweight">Wood Weight</button>
         </div>
 
         <div class="converter-card" id="converterCard">
@@ -292,6 +300,89 @@
                     f: { name: 'Fahrenheit (°F)', special: true },
                     k: { name: 'Kelvin (K)', special: true }
                 }
+            },
+            boardfoot: {
+                name: 'Board Foot Calculator',
+                units: {
+                    length: { name: 'Length (inches)', special: true },
+                    width: { name: 'Width (inches)', special: true },
+                    thickness: { name: 'Thickness (inches)', special: true },
+                    boardfeet: { name: 'Board Feet', special: true }
+                }
+            },
+            woodthickness: {
+                name: 'Wood Thickness (Nominal vs Actual)',
+                units: {
+                    nominal2x4: { name: '2×4 (Nominal)', actual: '1.5×3.5 inches' },
+                    nominal2x6: { name: '2×6 (Nominal)', actual: '1.5×5.5 inches' },
+                    nominal2x8: { name: '2×8 (Nominal)', actual: '1.5×7.25 inches' },
+                    nominal1x2: { name: '1×2 (Nominal)', actual: '0.75×1.5 inches' },
+                    nominal1x4: { name: '1×4 (Nominal)', actual: '0.75×3.5 inches' },
+                    nominal1x6: { name: '1×6 (Nominal)', actual: '0.75×5.5 inches' },
+                    nominal1x8: { name: '1×8 (Nominal)', actual: '0.75×7.25 inches' },
+                    nominal4x4: { name: '4×4 (Nominal)', actual: '3.5×3.5 inches' },
+                    nominal6x6: { name: '6×6 (Nominal)', actual: '5.5×5.5 inches' }
+                }
+            },
+            angle: {
+                name: 'Angle Converter',
+                units: {
+                    degrees: { name: 'Degrees (°)', factor: 1 },
+                    radians: { name: 'Radians (rad)', factor: 57.2957795131 },
+                    gradians: { name: 'Gradians (gon)', factor: 0.9 },
+                    turns: { name: 'Turns', factor: 360 }
+                }
+            },
+            materialcost: {
+                name: 'Material Cost Calculator',
+                units: {
+                    length: { name: 'Length (ft)', special: true },
+                    width: { name: 'Width (ft)', special: true },
+                    thickness: { name: 'Thickness (in)', special: true },
+                    priceperbf: { name: 'Price per Board Foot (MVR)', special: true },
+                    totalcost: { name: 'Total Cost (MVR)', special: true }
+                }
+            },
+            paintfinish: {
+                name: 'Paint/Finish Calculator',
+                units: {
+                    length: { name: 'Length (ft)', special: true },
+                    width: { name: 'Width (ft)', special: true },
+                    coverage: { name: 'Coverage (sq ft per gallon)', special: true },
+                    coats: { name: 'Number of Coats', special: true },
+                    totalgallons: { name: 'Total Gallons Needed', special: true }
+                }
+            },
+            crownmolding: {
+                name: 'Crown Molding Calculator',
+                units: {
+                    springangle: { name: 'Spring Angle (°)', special: true },
+                    wallangle: { name: 'Wall Angle (°)', special: true },
+                    miterangle: { name: 'Miter Angle (°)', special: true },
+                    bevelangle: { name: 'Bevel Angle (°)', special: true }
+                }
+            },
+            stair: {
+                name: 'Stair Calculator',
+                units: {
+                    totalrise: { name: 'Total Rise (in)', special: true },
+                    totalrun: { name: 'Total Run (in)', special: true },
+                    risers: { name: 'Number of Risers', special: true },
+                    treads: { name: 'Number of Treads', special: true },
+                    riserheight: { name: 'Riser Height (in)', special: true },
+                    treaddepth: { name: 'Tread Depth (in)', special: true },
+                    stringerlength: { name: 'Stringer Length (in)', special: true }
+                }
+            },
+            woodweight: {
+                name: 'Wood Weight Calculator',
+                units: {
+                    length: { name: 'Length (in)', special: true },
+                    width: { name: 'Width (in)', special: true },
+                    thickness: { name: 'Thickness (in)', special: true },
+                    species: { name: 'Wood Species', special: true },
+                    weight: { name: 'Weight (lbs)', special: true }
+                }
             }
         };
 
@@ -305,6 +396,37 @@
 
             const categoryData = unitData[category];
             
+            // Handle wood species dropdown
+            if (category === 'woodweight') {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'unit-input-wrapper';
+                
+                const label = document.createElement('label');
+                label.textContent = 'Wood Species';
+                
+                const select = document.createElement('select');
+                select.id = 'unit-species';
+                select.className = 'unit-select';
+                select.dataset.unit = 'species';
+                select.dataset.category = category;
+                
+                const species = ['pine', 'oak', 'maple', 'cherry', 'walnut', 'mahogany', 'teak', 'cedar', 'fir', 'birch'];
+                species.forEach(s => {
+                    const option = document.createElement('option');
+                    option.value = s;
+                    option.textContent = s.charAt(0).toUpperCase() + s.slice(1);
+                    select.appendChild(option);
+                });
+                
+                select.addEventListener('change', () => {
+                    calculateWoodWeight('species', select.value);
+                });
+                
+                wrapper.appendChild(label);
+                wrapper.appendChild(select);
+                container.appendChild(wrapper);
+            }
+            
             Object.keys(categoryData.units).forEach(unitKey => {
                 const unit = categoryData.units[unitKey];
                 
@@ -313,6 +435,32 @@
                 
                 const label = document.createElement('label');
                 label.textContent = unit.name;
+                
+                // For wood thickness, show as display only (not editable)
+                if (category === 'woodthickness' && unit.actual) {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.id = `unit-${unitKey}`;
+                    input.value = unit.actual;
+                    input.readOnly = true;
+                    input.dataset.unit = unitKey;
+                    input.dataset.category = category;
+                    
+                    input.addEventListener('click', () => {
+                        // When clicked, copy the actual dimensions
+                        navigator.clipboard.writeText(unit.actual);
+                    });
+                    
+                    const unitLabel = document.createElement('span');
+                    unitLabel.className = 'unit-label';
+                    unitLabel.textContent = 'ACTUAL';
+                    
+                    wrapper.appendChild(label);
+                    wrapper.appendChild(input);
+                    wrapper.appendChild(unitLabel);
+                    container.appendChild(wrapper);
+                    return;
+                }
                 
                 const input = document.createElement('input');
                 input.type = 'number';
@@ -353,7 +501,37 @@
                 return;
             }
 
-            // Convert to all other units
+            // Handle special calculator categories
+            if (category === 'boardfoot') {
+                calculateBoardFoot(sourceUnit, value);
+                return;
+            }
+            if (category === 'woodthickness') {
+                convertWoodThickness(sourceUnit, value);
+                return;
+            }
+            if (category === 'materialcost') {
+                calculateMaterialCost(sourceUnit, value);
+                return;
+            }
+            if (category === 'paintfinish') {
+                calculatePaintFinish(sourceUnit, value);
+                return;
+            }
+            if (category === 'crownmolding') {
+                calculateCrownMolding(sourceUnit, value);
+                return;
+            }
+            if (category === 'stair') {
+                calculateStair(sourceUnit, value);
+                return;
+            }
+            if (category === 'woodweight') {
+                calculateWoodWeight(sourceUnit, value);
+                return;
+            }
+
+            // Convert to all other units for standard categories
             const categoryData = unitData[category];
             
             Object.keys(categoryData.units).forEach(unitKey => {
@@ -377,6 +555,151 @@
                 
                 targetInput.value = formatNumber(convertedValue);
             });
+        }
+
+        // Board Foot Calculator
+        function calculateBoardFoot(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const thickness = parseFloat(document.getElementById('unit-thickness').value) || 0;
+            
+            const boardFeet = (length * width * thickness) / 144;
+            
+            if (sourceUnit !== 'boardfeet') {
+                document.getElementById('unit-boardfeet').value = formatNumber(boardFeet);
+            }
+        }
+
+        // Wood Thickness Converter
+        function convertWoodThickness(sourceUnit, value) {
+            const categoryData = unitData['woodthickness'];
+            const selectedSize = categoryData.units[sourceUnit];
+            
+            if (selectedSize && selectedSize.actual) {
+                // Show actual dimensions for all nominal sizes
+                Object.keys(categoryData.units).forEach(unitKey => {
+                    const targetInput = document.getElementById(`unit-${unitKey}`);
+                    if (targetInput && unitKey !== sourceUnit) {
+                        const size = categoryData.units[unitKey];
+                        if (size.actual) {
+                            targetInput.value = size.actual;
+                            targetInput.readOnly = true;
+                        }
+                    }
+                });
+            }
+        }
+
+        // Material Cost Calculator
+        function calculateMaterialCost(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const thickness = parseFloat(document.getElementById('unit-thickness').value) || 0;
+            const pricePerBF = parseFloat(document.getElementById('unit-priceperbf').value) || 0;
+            
+            const boardFeet = (length * width * thickness) / 144;
+            const totalCost = boardFeet * pricePerBF;
+            
+            if (sourceUnit !== 'totalcost') {
+                document.getElementById('unit-totalcost').value = formatNumber(totalCost);
+            }
+        }
+
+        // Paint/Finish Calculator
+        function calculatePaintFinish(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const coverage = parseFloat(document.getElementById('unit-coverage').value) || 350;
+            const coats = parseFloat(document.getElementById('unit-coats').value) || 2;
+            
+            const area = length * width;
+            const totalGallons = (area * coats) / coverage;
+            
+            if (sourceUnit !== 'totalgallons') {
+                document.getElementById('unit-totalgallons').value = formatNumber(totalGallons);
+            }
+        }
+
+        // Crown Molding Calculator
+        function calculateCrownMolding(sourceUnit, value) {
+            const springAngle = parseFloat(document.getElementById('unit-springangle').value) || 45;
+            const wallAngle = parseFloat(document.getElementById('unit-wallangle').value) || 90;
+            
+            // Calculate miter and bevel angles
+            const springRad = springAngle * Math.PI / 180;
+            const wallRad = wallAngle * Math.PI / 180;
+            
+            const miterAngle = Math.atan(Math.tan(springRad) * Math.sin(wallRad)) * 180 / Math.PI;
+            const bevelAngle = Math.atan(Math.tan(springRad) * Math.cos(wallRad)) * 180 / Math.PI;
+            
+            if (sourceUnit !== 'miterangle') {
+                document.getElementById('unit-miterangle').value = formatNumber(miterAngle);
+            }
+            if (sourceUnit !== 'bevelangle') {
+                document.getElementById('unit-bevelangle').value = formatNumber(bevelAngle);
+            }
+        }
+
+        // Stair Calculator
+        function calculateStair(sourceUnit, value) {
+            const totalRise = parseFloat(document.getElementById('unit-totalrise').value) || 0;
+            const totalRun = parseFloat(document.getElementById('unit-totalrun').value) || 0;
+            
+            // Standard riser height is around 7.5 inches
+            const idealRiserHeight = 7.5;
+            const numRisers = Math.round(totalRise / idealRiserHeight);
+            const actualRiserHeight = totalRise / numRisers;
+            const numTreads = numRisers - 1;
+            const treadDepth = totalRun / numTreads;
+            const stringerLength = Math.sqrt(Math.pow(totalRise, 2) + Math.pow(totalRun, 2));
+            
+            if (sourceUnit !== 'risers') {
+                document.getElementById('unit-risers').value = numRisers;
+            }
+            if (sourceUnit !== 'treads') {
+                document.getElementById('unit-treads').value = numTreads;
+            }
+            if (sourceUnit !== 'riserheight') {
+                document.getElementById('unit-riserheight').value = formatNumber(actualRiserHeight);
+            }
+            if (sourceUnit !== 'treaddepth') {
+                document.getElementById('unit-treaddepth').value = formatNumber(treadDepth);
+            }
+            if (sourceUnit !== 'stringerlength') {
+                document.getElementById('unit-stringerlength').value = formatNumber(stringerLength);
+            }
+        }
+
+        // Wood Weight Calculator
+        function calculateWoodWeight(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const thickness = parseFloat(document.getElementById('unit-thickness').value) || 0;
+            const speciesSelect = document.getElementById('unit-species');
+            
+            // Wood species density (lbs per cubic foot)
+            const woodDensities = {
+                'pine': 35,
+                'oak': 45,
+                'maple': 44,
+                'cherry': 43,
+                'walnut': 40,
+                'mahogany': 38,
+                'teak': 45,
+                'cedar': 23,
+                'fir': 28,
+                'birch': 42
+            };
+            
+            const species = speciesSelect.value || 'pine';
+            const density = woodDensities[species] || 35;
+            
+            const volume = (length * width * thickness) / 1728; // cubic feet
+            const weight = volume * density;
+            
+            if (sourceUnit !== 'weight') {
+                document.getElementById('unit-weight').value = formatNumber(weight);
+            }
         }
 
         // Convert temperature (special case)
