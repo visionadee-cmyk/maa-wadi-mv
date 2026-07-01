@@ -210,3 +210,75 @@ This file contains detailed prompts for generating illustrative images for each 
 ## Compound Miter Calculator
 **Image Size:** 1024x768 pixels
 **Prompt:** Create a professional 3D-style illustration showing a multi-sided project (hexagonal table) with compound miter joints. Display: number of sides (6), spring angle (45°). Show the formulas in boxes: Wall angle = 360 ÷ Sides = 60°, Miter = arctan(tan(spring) × sin(wall)) = 30°, Bevel = arctan(tan(spring) × cos(wall)) = 35.3°. Show a miter saw with angle settings for compound cuts visible. Display the 3D perspective of the hexagonal table with compound miter joints clearly marked. Use dimension lines and angle measurements highlighted. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for angle highlights. Style: Technical illustration with professional aesthetic and 3D perspective. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Silicone/Sealant Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional illustration showing a carpenter applying silicone sealant to a joint. Display: joint length (10ft), joint width (0.25"), joint depth (0.25"). Show the formula in a box: Volume = Length × Width × Depth, Tubes needed = Volume ÷ 18.5 cubic inches. Show a silicone tube being applied to a joint with the bead clearly visible. Display different joint sizes and their tube requirements compared. Include a silicone tube with size labeled (10.1 fl oz). Use purple (#667eea) and blue (#764ba2) gradient accents with white (#ffffff) for silicone elements. Style: Clean illustration with professional aesthetic and sealant application details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## TV Height Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional room layout illustration showing a TV mounted on a wall with viewing distance. Display: TV size (55"), viewing distance (8ft), eye level (42"). Show the formula in a box: Mount height = Eye level + (TV size × 0.15) = 50.25". Show the TV mounted on the wall with optimal viewing angle marked. Display different TV sizes (40", 55", 65") with their recommended mount heights compared. Include a person sitting on a sofa watching TV with viewing distance marked. Use purple (#667eea) and blue (#764ba2) gradient accents with gray (#6b7280) for TV elements. Style: Room layout illustration with professional aesthetic and viewing angle details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Mirror Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional illustration showing a person standing in front of a mirror with full reflection. Display: person height (68"), mirror height (68"), distance from mirror (24"). Show the formula in a box: Mirror height = Person height, Placement height = Person height ÷ 2 = 34". Show the mirror mounted on the wall with optimal placement height marked. Display different person heights and their required mirror sizes compared. Include a person standing in front of the mirror with reflection visible. Use purple (#667eea) and blue (#764ba2) gradient accents with silver (#9ca3af) for mirror elements. Style: Clean illustration with professional aesthetic and mirror placement details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Toilet Accessories Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional bathroom layout illustration showing optimal placement of toilet accessories. Display: room dimensions (8ft × 5ft), toilet paper holder location (12" from wall), hand soap dispenser location (18" from wall), toilet brush holder location (24" from wall). Show the placement formula in a box: Optimal spacing = 6" increments. Show a bathroom layout with all accessories clearly labeled and positioned. Display different room sizes and their accessory placement recommendations compared. Include a toilet, sink, and accessories with their locations marked. Use purple (#667eea) and blue (#764ba2) gradient accents with teal (#14b8a6) for bathroom elements. Style: Room layout illustration with professional aesthetic and placement details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Room Accessories Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional room layout illustration showing optimal placement of room accessories. Display: room dimensions (12ft × 10ft × 8ft), light position at center (6ft, 5ft), switch position near door (4ft from door). Show the placement formula in a box: Light center = Room length ÷ 2, Room width ÷ 2. Show a room layout with light fixture and switch clearly labeled and positioned. Display different room sizes and their accessory placement recommendations compared. Include a ceiling light, wall switch, and room furniture with positions marked. Use purple (#667eea) and blue (#764ba2) gradient accents with yellow (#f59e0b) for light elements. Style: Room layout illustration with professional aesthetic and placement details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Wall Watch Height Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional illustration showing a wall clock mounted at optimal height. Display: wall height (9ft), eye height (5.5ft), watch mount height (6ft). Show the formula in a box: Mount height = Eye height + 0.5ft. Show a wall clock mounted on the wall with optimal viewing height marked. Display different wall heights and their recommended clock mount heights compared. Include a person looking at the clock with eye level marked. Use purple (#667eea) and blue (#764ba2) gradient accents with brown (#8b5a2b) for clock elements. Style: Clean illustration with professional aesthetic and clock placement details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Light Location Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional room layout illustration showing optimal light placement coordinates. Display: room dimensions (12ft × 10ft × 8ft), Light 1 position (4ft, 3ft), Light 2 position (8ft, 7ft). Show the placement formula in a box: Light positions divide room into quadrants. Show a room layout with two light fixtures clearly labeled and positioned with coordinates. Display different room sizes and their light placement recommendations compared. Include ceiling lights with their X, Y coordinates marked on a grid. Use purple (#667eea) and blue (#764ba2) gradient accents with yellow (#f59e0b) for light elements. Style: Room layout illustration with professional aesthetic and coordinate placement details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Switch Location Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional room layout illustration showing optimal switch placement based on door location. Display: room dimensions (12ft × 10ft), door position (2ft from corner), switch position (4ft from door, 4ft from floor). Show the placement formula in a box: Switch distance = Door position + 4ft, Switch height = 4ft. Show a room layout with door and switch clearly labeled and positioned. Display different door positions and their corresponding switch locations compared. Include a door, wall switch, and room layout with positions marked. Use purple (#667eea) and blue (#764ba2) gradient accents with gray (#6b7280) for switch elements. Style: Room layout illustration with professional aesthetic and placement details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Outlet Location Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional room layout illustration showing optimal outlet placement and spacing. Display: room dimensions (12ft × 10ft), outlet spacing (6ft along walls), outlet position (6ft from corner, 1ft from floor). Show the placement formula in a box: Outlet spacing = 6ft intervals, Outlet height = 1ft. Show a room layout with multiple outlets clearly labeled and positioned along walls. Display different room sizes and their outlet placement recommendations compared. Include wall outlets with their spacing and positions marked. Use purple (#667eea) and blue (#764ba2) gradient accents with gray (#6b7280) for outlet elements. Style: Room layout illustration with professional aesthetic and placement details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Thermostat Location Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional room layout illustration showing optimal thermostat placement. Display: room dimensions (12ft × 10ft), thermostat position (6ft, 5ft center of room, 5ft from floor). Show the placement formula in a box: Thermostat center = Room length ÷ 2, Room width ÷ 2, Height = 5ft. Show a room layout with thermostat clearly labeled and positioned at center. Display different room sizes and their thermostat placement recommendations compared. Include a wall thermostat with its position marked. Use purple (#667eea) and blue (#764ba2) gradient accents with white (#ffffff) for thermostat elements. Style: Room layout illustration with professional aesthetic and placement details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Curtains/Blinds Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional window illustration showing curtains with optimal dimensions. Display: window width (4ft), window height (5ft), curtain width (8ft), curtain length (6ft). Show the formula in a box: Curtain width = Window width × 2, Curtain length = Window height + 1ft. Show a window with curtains mounted and hung with all dimensions clearly labeled. Display different window sizes and their curtain requirements compared. Include curtains, curtain rod, and window with measurements marked. Use purple (#667eea) and blue (#764ba2) gradient accents with fabric colors for curtain elements. Style: Window illustration with professional aesthetic and curtain details. Background: Light gray (#f8f9fa). High contrast text labels.
+
+---
+
+## Art/Decor Placement Calculator
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional wall illustration showing art placement at optimal height and position. Display: wall dimensions (12ft × 8ft), art dimensions (3ft × 4ft), art position (centered at 6ft horizontal, 5ft vertical). Show the placement formula in a box: Art X = (Wall width - Art width) ÷ 2, Art Y = 5ft (eye level). Show a wall with artwork clearly labeled and positioned at center. Display different wall and art sizes with their placement recommendations compared. Include artwork frame, wall, and position coordinates marked. Use purple (#667eea) and blue (#764ba2) gradient accents with artistic colors for art elements. Style: Wall illustration with professional aesthetic and art placement details. Background: Light gray (#f8f9fa). High contrast text labels.

@@ -271,6 +271,11 @@
             <button class="category-tab" data-category="room">Room</button>
             <button class="category-tab" data-category="watch">Watch</button>
             <button class="category-tab" data-category="light">Light</button>
+            <button class="category-tab" data-category="switch">Switch</button>
+            <button class="category-tab" data-category="outlet">Outlet</button>
+            <button class="category-tab" data-category="thermostat">Thermostat</button>
+            <button class="category-tab" data-category="curtains">Curtains</button>
+            <button class="category-tab" data-category="art">Art</button>
         </div>
 
         <div class="converter-card" id="converterCard">
@@ -661,10 +666,11 @@
             toilet: {
                 name: 'Toilet Accessories Calculator',
                 units: {
-                    toiltpaper: { name: 'Toilet Paper Rolls (per month)', special: true },
-                    handsoap: { name: 'Hand Soap (oz per month)', special: true },
-                    cleaning: { name: 'Cleaning Supplies (MVR per month)', special: true },
-                    total: { name: 'Total Cost (MVR per month)', special: true }
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    toiltpaperloc: { name: 'Toilet Paper Location (in from wall)', special: true },
+                    soaploc: { name: 'Hand Soap Location (in from wall)', special: true },
+                    brushloc: { name: 'Toilet Brush Location (in from wall)', special: true }
                 }
             },
             room: {
@@ -673,15 +679,18 @@
                     roomlength: { name: 'Room Length (ft)', special: true },
                     roomwidth: { name: 'Room Width (ft)', special: true },
                     ceilingheight: { name: 'Ceiling Height (ft)', special: true },
-                    lights: { name: 'Lights Needed', special: true }
+                    lightx: { name: 'Light X Position (ft)', special: true },
+                    lighty: { name: 'Light Y Position (ft)', special: true },
+                    switchx: { name: 'Switch X Position (ft)', special: true },
+                    switchy: { name: 'Switch Y Position (ft)', special: true }
                 }
             },
             watch: {
-                name: 'Watch Height Calculator',
+                name: 'Wall Watch Height Calculator',
                 units: {
-                    watchsize: { name: 'Watch Size (mm)', special: true },
-                    wristwidth: { name: 'Wrist Width (mm)', special: true },
-                    recommended: { name: 'Recommended Size (mm)', special: true }
+                    wallheight: { name: 'Wall Height (ft)', special: true },
+                    eyeheight: { name: 'Eye Height (ft)', special: true },
+                    watchheight: { name: 'Watch Mount Height (ft)', special: true }
                 }
             },
             light: {
@@ -690,7 +699,59 @@
                     roomlength: { name: 'Room Length (ft)', special: true },
                     roomwidth: { name: 'Room Width (ft)', special: true },
                     ceilingheight: { name: 'Ceiling Height (ft)', special: true },
-                    spacing: { name: 'Light Spacing (ft)', special: true }
+                    light1x: { name: 'Light 1 X Position (ft)', special: true },
+                    light1y: { name: 'Light 1 Y Position (ft)', special: true },
+                    light2x: { name: 'Light 2 X Position (ft)', special: true },
+                    light2y: { name: 'Light 2 Y Position (ft)', special: true }
+                }
+            },
+            switch: {
+                name: 'Switch Location Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    doorx: { name: 'Door X Position (ft)', special: true },
+                    switchx: { name: 'Switch X Position (ft)', special: true },
+                    switchy: { name: 'Switch Y Position (ft)', special: true }
+                }
+            },
+            outlet: {
+                name: 'Outlet Location Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    outletx: { name: 'Outlet X Position (ft)', special: true },
+                    outlety: { name: 'Outlet Y Position (ft)', special: true },
+                    spacing: { name: 'Outlet Spacing (ft)', special: true }
+                }
+            },
+            thermostat: {
+                name: 'Thermostat Location Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    thermostatx: { name: 'Thermostat X Position (ft)', special: true },
+                    thermostaty: { name: 'Thermostat Y Position (ft)', special: true }
+                }
+            },
+            curtains: {
+                name: 'Curtains/Blinds Calculator',
+                units: {
+                    windowwidth: { name: 'Window Width (ft)', special: true },
+                    windowheight: { name: 'Window Height (ft)', special: true },
+                    curtainwidth: { name: 'Curtain Width (ft)', special: true },
+                    curtainlength: { name: 'Curtain Length (ft)', special: true }
+                }
+            },
+            art: {
+                name: 'Art/Decor Placement Calculator',
+                units: {
+                    wallwidth: { name: 'Wall Width (ft)', special: true },
+                    wallheight: { name: 'Wall Height (ft)', special: true },
+                    artwidth: { name: 'Art Width (ft)', special: true },
+                    artheight: { name: 'Art Height (ft)', special: true },
+                    artx: { name: 'Art X Position (ft)', special: true },
+                    arty: { name: 'Art Y Position (ft)', special: true }
                 }
             }
         };
@@ -902,43 +963,73 @@
                 title: 'Silicone/Sealant Calculator',
                 description: 'Calculate silicone/sealant tubes needed for sealing joints.',
                 example: '10ft length, 0.25" width, 0.25" depth = 1.5 tubes needed.',
-                image: 'public/images/unit-converter/glue.png'
+                image: 'public/images/unit-converter/silicone.png'
             },
             tvheight: {
                 title: 'TV Height Calculator',
                 description: 'Calculate optimal TV mounting height based on viewing distance and eye level.',
                 example: '65" TV, 8ft viewing distance, 42" eye height = Mount at 52".',
-                image: 'public/images/unit-converter/length-conversion.png'
+                image: 'public/images/unit-converter/tvheight.png'
             },
             mirror: {
                 title: 'Mirror Calculator',
                 description: 'Calculate optimal mirror height and placement for full reflection.',
                 example: '68" person height = 68" mirror height, mount at 34".',
-                image: 'public/images/unit-converter/length-conversion.png'
+                image: 'public/images/unit-converter/mirror.png'
             },
             toilet: {
                 title: 'Toilet Accessories Calculator',
-                description: 'Calculate monthly costs for toilet accessories and supplies.',
-                example: '4 rolls/month, 8oz soap, MVR 50 cleaning = MVR 70 total.',
-                image: 'public/images/unit-converter/materialcost.png'
+                description: 'Calculate optimal placement locations for toilet accessories.',
+                example: '8ft × 5ft room = Toilet paper 12" from wall, Soap 18" from wall, Brush 24" from wall.',
+                image: 'public/images/unit-converter/toilet.png'
             },
             room: {
                 title: 'Room Accessories Calculator',
-                description: 'Calculate number of lights needed based on room dimensions.',
-                example: '12ft × 10ft × 8ft room = 4 lights needed.',
-                image: 'public/images/unit-converter/length-conversion.png'
+                description: 'Calculate optimal placement locations for room accessories.',
+                example: '12ft × 10ft × 8ft room = Light at center (6ft, 5ft), Switch at door side.',
+                image: 'public/images/unit-converter/room.png'
             },
             watch: {
-                title: 'Watch Height Calculator',
-                description: 'Calculate recommended watch size based on wrist width.',
-                example: '6.5" wrist width = 40-42mm watch recommended.',
-                image: 'public/images/unit-converter/length-conversion.png'
+                title: 'Wall Watch Height Calculator',
+                description: 'Calculate optimal wall clock mounting height.',
+                example: '9ft wall height, 5.5ft eye height = Mount at 6ft.',
+                image: 'public/images/unit-converter/watch.png'
             },
             light: {
                 title: 'Light Location Calculator',
-                description: 'Calculate optimal light spacing for room illumination.',
-                example: '12ft × 10ft × 8ft room = 4ft light spacing.',
-                image: 'public/images/unit-converter/length-conversion.png'
+                description: 'Calculate optimal light placement coordinates for room illumination.',
+                example: '12ft × 10ft × 8ft room = Light 1 at (4ft, 3ft), Light 2 at (8ft, 7ft).',
+                image: 'public/images/unit-converter/light.png'
+            },
+            switch: {
+                title: 'Switch Location Calculator',
+                description: 'Calculate optimal switch placement based on door location.',
+                example: 'Door at 2ft, 12ft × 10ft room = Switch at 4ft from door.',
+                image: 'public/images/unit-converter/switch.png'
+            },
+            outlet: {
+                title: 'Outlet Location Calculator',
+                description: 'Calculate optimal outlet placement and spacing.',
+                example: '12ft × 10ft room = Outlets every 6ft along walls.',
+                image: 'public/images/unit-converter/outlet.png'
+            },
+            thermostat: {
+                title: 'Thermostat Location Calculator',
+                description: 'Calculate optimal thermostat placement for temperature control.',
+                example: '12ft × 10ft room = Thermostat at (6ft, 5ft) center.',
+                image: 'public/images/unit-converter/thermostat.png'
+            },
+            curtains: {
+                title: 'Curtains/Blinds Calculator',
+                description: 'Calculate curtain dimensions based on window size.',
+                example: '4ft × 5ft window = Curtain width 8ft, length 6ft.',
+                image: 'public/images/unit-converter/curtains.png'
+            },
+            art: {
+                title: 'Art/Decor Placement Calculator',
+                description: 'Calculate optimal art placement on walls.',
+                example: '12ft × 8ft wall, 3ft × 4ft art = Center at (6ft, 4ft).',
+                image: 'public/images/unit-converter/art.png'
             }
         };
 
@@ -1201,6 +1292,26 @@
             }
             if (category === 'light') {
                 calculateLight(sourceUnit, value);
+                return;
+            }
+            if (category === 'switch') {
+                calculateSwitch(sourceUnit, value);
+                return;
+            }
+            if (category === 'outlet') {
+                calculateOutlet(sourceUnit, value);
+                return;
+            }
+            if (category === 'thermostat') {
+                calculateThermostat(sourceUnit, value);
+                return;
+            }
+            if (category === 'curtains') {
+                calculateCurtains(sourceUnit, value);
+                return;
+            }
+            if (category === 'art') {
+                calculateArt(sourceUnit, value);
                 return;
             }
 
@@ -1774,17 +1885,23 @@
 
         // Toilet Accessories Calculator
         function calculateToilet(sourceUnit, value) {
-            const toiletPaper = parseFloat(document.getElementById('unit-toiltpaper').value) || 4;
-            const handSoap = parseFloat(document.getElementById('unit-handsoap').value) || 8;
-            const cleaning = parseFloat(document.getElementById('unit-cleaning').value) || 50;
+            const roomLength = parseFloat(document.getElementById('unit-roomlength').value) || 0;
+            const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
             
-            // Approximate costs in MVR
-            const toiletPaperCost = toiletPaper * 5; // MVR 5 per roll
-            const handSoapCost = handSoap * 2; // MVR 2 per oz
-            const totalCost = toiletPaperCost + handSoapCost + cleaning;
+            // Calculate optimal locations based on room dimensions
+            // Toilet paper: 12" from wall, Soap: 18" from wall, Brush: 24" from wall
+            const toiletPaperLoc = 12;
+            const soapLoc = 18;
+            const brushLoc = 24;
             
-            if (sourceUnit !== 'total') {
-                document.getElementById('unit-total').value = formatNumber(totalCost);
+            if (sourceUnit !== 'toiltpaperloc') {
+                document.getElementById('unit-toiltpaperloc').value = toiletPaperLoc;
+            }
+            if (sourceUnit !== 'soaploc') {
+                document.getElementById('unit-soaploc').value = soapLoc;
+            }
+            if (sourceUnit !== 'brushloc') {
+                document.getElementById('unit-brushloc').value = brushLoc;
             }
         }
 
@@ -1794,26 +1911,38 @@
             const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
             const ceilingHeight = parseFloat(document.getElementById('unit-ceilingheight').value) || 0;
             
-            // General rule: one light per 50-100 sq ft
-            const area = roomLength * roomWidth;
-            const lightsNeeded = Math.ceil(area / 75);
+            // Calculate optimal placement locations
+            // Light at center of room
+            const lightX = roomLength / 2;
+            const lightY = roomWidth / 2;
+            // Switch near door (assume door at 2ft from corner)
+            const switchX = 4;
+            const switchY = 48; // 48" from floor (standard height)
             
-            if (sourceUnit !== 'lights') {
-                document.getElementById('unit-lights').value = lightsNeeded;
+            if (sourceUnit !== 'lightx') {
+                document.getElementById('unit-lightx').value = formatNumber(lightX);
+            }
+            if (sourceUnit !== 'lighty') {
+                document.getElementById('unit-lighty').value = formatNumber(lightY);
+            }
+            if (sourceUnit !== 'switchx') {
+                document.getElementById('unit-switchx').value = formatNumber(switchX);
+            }
+            if (sourceUnit !== 'switchy') {
+                document.getElementById('unit-switchy').value = formatNumber(switchY);
             }
         }
 
-        // Watch Height Calculator
+        // Wall Watch Height Calculator
         function calculateWatch(sourceUnit, value) {
-            const wristWidth = parseFloat(document.getElementById('unit-wristwidth').value) || 0;
+            const wallHeight = parseFloat(document.getElementById('unit-wallheight').value) || 9;
+            const eyeHeight = parseFloat(document.getElementById('unit-eyeheight').value) || 5.5;
             
-            // Recommended watch size is approximately 60-70% of wrist width
-            // Convert inches to mm (1 inch = 25.4 mm)
-            const wristWidthMm = wristWidth * 25.4;
-            const recommendedSize = wristWidthMm * 0.65;
+            // Mount watch slightly above eye level for optimal viewing
+            const watchHeight = eyeHeight + 0.5;
             
-            if (sourceUnit !== 'recommended') {
-                document.getElementById('unit-recommended').value = formatNumber(recommendedSize);
+            if (sourceUnit !== 'watchheight') {
+                document.getElementById('unit-watchheight').value = formatNumber(watchHeight);
             }
         }
 
@@ -1823,12 +1952,116 @@
             const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
             const ceilingHeight = parseFloat(document.getElementById('unit-ceilingheight').value) || 0;
             
-            // General rule: lights should be spaced 4-6 feet apart
-            // Calculate spacing based on room dimensions
-            const spacing = Math.min(roomLength, roomWidth) / 2;
+            // Calculate optimal light placement for even coverage
+            // Divide room into quadrants for multiple lights
+            const light1X = roomLength / 3;
+            const light1Y = roomWidth / 3;
+            const light2X = (roomLength / 3) * 2;
+            const light2Y = (roomWidth / 3) * 2;
             
+            if (sourceUnit !== 'light1x') {
+                document.getElementById('unit-light1x').value = formatNumber(light1X);
+            }
+            if (sourceUnit !== 'light1y') {
+                document.getElementById('unit-light1y').value = formatNumber(light1Y);
+            }
+            if (sourceUnit !== 'light2x') {
+                document.getElementById('unit-light2x').value = formatNumber(light2X);
+            }
+            if (sourceUnit !== 'light2y') {
+                document.getElementById('unit-light2y').value = formatNumber(light2Y);
+            }
+        }
+
+        // Switch Location Calculator
+        function calculateSwitch(sourceUnit, value) {
+            const roomLength = parseFloat(document.getElementById('unit-roomlength').value) || 0;
+            const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
+            const doorX = parseFloat(document.getElementById('unit-doorx').value) || 2;
+            
+            // Switch should be 4ft from door and 48" from floor
+            const switchX = doorX + 4;
+            const switchY = 4; // 4ft from floor
+            
+            if (sourceUnit !== 'switchx') {
+                document.getElementById('unit-switchx').value = formatNumber(switchX);
+            }
+            if (sourceUnit !== 'switchy') {
+                document.getElementById('unit-switchy').value = formatNumber(switchY);
+            }
+        }
+
+        // Outlet Location Calculator
+        function calculateOutlet(sourceUnit, value) {
+            const roomLength = parseFloat(document.getElementById('unit-roomlength').value) || 0;
+            const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
+            
+            // Calculate optimal outlet spacing (every 6ft along walls)
+            const spacing = 6;
+            const outletX = roomLength / 2;
+            const outletY = 1; // 1ft from floor
+            
+            if (sourceUnit !== 'outletx') {
+                document.getElementById('unit-outletx').value = formatNumber(outletX);
+            }
+            if (sourceUnit !== 'outlety') {
+                document.getElementById('unit-outlety').value = formatNumber(outletY);
+            }
             if (sourceUnit !== 'spacing') {
                 document.getElementById('unit-spacing').value = formatNumber(spacing);
+            }
+        }
+
+        // Thermostat Location Calculator
+        function calculateThermostat(sourceUnit, value) {
+            const roomLength = parseFloat(document.getElementById('unit-roomlength').value) || 0;
+            const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
+            
+            // Thermostat should be at center of room, 5ft from floor
+            const thermostatX = roomLength / 2;
+            const thermostatY = 5;
+            
+            if (sourceUnit !== 'thermostatx') {
+                document.getElementById('unit-thermostatx').value = formatNumber(thermostatX);
+            }
+            if (sourceUnit !== 'thermostaty') {
+                document.getElementById('unit-thermostaty').value = formatNumber(thermostatY);
+            }
+        }
+
+        // Curtains/Blinds Calculator
+        function calculateCurtains(sourceUnit, value) {
+            const windowWidth = parseFloat(document.getElementById('unit-windowwidth').value) || 0;
+            const windowHeight = parseFloat(document.getElementById('unit-windowheight').value) || 0;
+            
+            // Curtains should be 2x window width and extend to floor
+            const curtainWidth = windowWidth * 2;
+            const curtainLength = windowHeight + 1; // 1ft extra for pooling
+            
+            if (sourceUnit !== 'curtainwidth') {
+                document.getElementById('unit-curtainwidth').value = formatNumber(curtainWidth);
+            }
+            if (sourceUnit !== 'curtainlength') {
+                document.getElementById('unit-curtainlength').value = formatNumber(curtainLength);
+            }
+        }
+
+        // Art/Decor Placement Calculator
+        function calculateArt(sourceUnit, value) {
+            const wallWidth = parseFloat(document.getElementById('unit-wallwidth').value) || 0;
+            const wallHeight = parseFloat(document.getElementById('unit-wallheight').value) || 0;
+            const artWidth = parseFloat(document.getElementById('unit-artwidth').value) || 0;
+            const artHeight = parseFloat(document.getElementById('unit-artheight').value) || 0;
+            
+            // Art should be centered on wall at eye level (5ft)
+            const artX = (wallWidth - artWidth) / 2;
+            const artY = 5;
+            
+            if (sourceUnit !== 'artx') {
+                document.getElementById('unit-artx').value = formatNumber(artX);
+            }
+            if (sourceUnit !== 'arty') {
+                document.getElementById('unit-arty').value = formatNumber(artY);
             }
         }
 
