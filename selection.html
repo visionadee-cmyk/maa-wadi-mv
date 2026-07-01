@@ -24,9 +24,10 @@
                 <span></span>
                 <span></span>
             </div>
-            <nav>
+            <nav id="mainNav">
+                <span class="nav-close-btn" onclick="toggleMenu()">&times;</span>
                 <ul>
-                    <li><a href="#" class="active" title="Calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
+                    <li><a href="selection.html" class="active" title="Calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
                     <li><a href="quotations.html" title="Quotations"><i class="fas fa-file-invoice-dollar"></i> Quotations</a></li>
                     <li><a href="unit-converter.html" title="Unit Converter"><i class="fas fa-exchange-alt"></i> Unit Converter</a></li>
                     <li><a href="standard-dimensions.html" title="Standard Dimensions"><i class="fas fa-ruler-combined"></i> Standard Dimensions</a></li>
@@ -452,59 +453,16 @@
         </div>
     </main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="social-links">
-                <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-            </div>
-            <p>&copy; 2023 Maa Wadi Mv. Powered by <a href="https://github.com/Rettey-G" class="credit-link">Retts Web Dev</a></p>
-        </div>
-    </footer>
-
-    <!-- Mobile Bottom Navigation -->
-    <nav class="mobile-bottom-nav">
-        <a href="#" class="active" title="Calculator">
-            <i class="fas fa-calculator"></i>
-            <span>Calculator</span>
-        </a>
-        <a href="#" id="mobileSaveProjectBtn" title="Save Project">
-            <i class="fas fa-save"></i>
-            <span>Save</span>
-        </a>
-        <a href="#" id="mobileLoadProjectBtn" title="Load Project">
-            <i class="fas fa-folder-open"></i>
-            <span>Load</span>
-        </a>
-        <div class="mobile-units-dropdown" title="Units">
-            <i class="fas fa-ruler"></i>
-            <select id="mobileUnitSelector" class="mobile-unit-select">
-                <option value="mm">mm</option>
-                <option value="cm">cm</option>
-                <option value="m">m</option>
-                <option value="in">in</option>
-            </select>
-            <span>Units</span>
-        </div>
-        <a href="#" id="mobileSettingsBtn" title="Settings">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-        </a>
-    </nav>
-
     <script>
-        // Hamburger menu toggle
         function toggleMenu() {
-            const nav = document.querySelector('nav');
+            const nav = document.getElementById('mainNav');
             const hamburger = document.querySelector('.hamburger');
             nav.classList.toggle('active');
             hamburger.classList.toggle('active');
         }
 
-        // Close menu when clicking outside
         document.addEventListener('click', function(event) {
-            const nav = document.querySelector('nav');
+            const nav = document.getElementById('mainNav');
             const hamburger = document.querySelector('.hamburger');
             if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
                 nav.classList.remove('active');

@@ -10,6 +10,34 @@
     <link rel="apple-touch-icon" href="/assets/icon-192.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <script>
+        console.log('Inline script loaded');
+        // Load footer component
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, loading footer...');
+            
+            // Load footer
+            fetch('footer.html')
+                .then(response => {
+                    console.log('Footer fetch response:', response);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    console.log('Footer HTML loaded');
+                    const footerPlaceholder = document.getElementById('footer-placeholder');
+                    if (footerPlaceholder) {
+                        footerPlaceholder.innerHTML = html;
+                        console.log('Footer inserted');
+                    } else {
+                        console.error('footer-placeholder not found');
+                    }
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        });
+    </script>
     <style>
         .quotation-container {
             max-width: 1200px;
@@ -32,7 +60,7 @@
         }
         
         .back-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-color);
             color: white;
             border: none;
             padding: 10px 20px;
@@ -460,10 +488,11 @@
                 <span></span>
                 <span></span>
             </div>
-            <nav>
+            <nav id="mainNav">
+                <span class="nav-close-btn" onclick="toggleMenu()">&times;</span>
                 <ul>
                     <li><a href="selection.html" title="Calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
-                    <li><a href="#" class="active" title="Quotations"><i class="fas fa-file-invoice-dollar"></i> Quotations</a></li>
+                    <li><a href="quotations.html" class="active" title="Quotations"><i class="fas fa-file-invoice-dollar"></i> Quotations</a></li>
                     <li><a href="unit-converter.html" title="Unit Converter"><i class="fas fa-exchange-alt"></i> Unit Converter</a></li>
                     <li><a href="standard-dimensions.html" title="Standard Dimensions"><i class="fas fa-ruler-combined"></i> Standard Dimensions</a></li>
                     <li><a href="#" id="saveProjectBtn" title="Save Project"><i class="fas fa-save"></i> Save</a></li>
@@ -642,25 +671,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="script.js"></script>
     <script>
-        // Hamburger menu toggle
-        function toggleMenu() {
-            const nav = document.querySelector('nav');
-            const hamburger = document.querySelector('.hamburger');
-            nav.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        }
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const nav = document.querySelector('nav');
-            const hamburger = document.querySelector('.hamburger');
-            if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
-                nav.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
-        });
-
-        let selectedProject = null;
         let projectData = null;
         
         // Initialize Firestore if not already done
@@ -1006,5 +1016,25 @@
         loadProjects();
         loadQuotations();
     </script>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
+
+    <div id="footer-placeholder"></div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 /* Root Variables */
 :root {
-  --primary-color: #4CAF50;
-  --primary-dark: #388E3C;
+  --primary-color: #2196F3;
+  --primary-dark: #1976D2;
   --wood-color: #8B4513;
   --wood-dark: #654321;
   --shadow-color: rgba(0, 0, 0, 0.1);
@@ -19,6 +19,35 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+}
+
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 10px;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 /* Header Styles */
@@ -847,6 +876,15 @@ tr.total-row td {
 
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
+  header {
+    background: var(--primary-color) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .brand-name {
+    color: white !important;
+  }
+
   .hamburger {
     display: flex;
   }
@@ -863,6 +901,18 @@ tr.total-row td {
     transition: right 0.3s ease;
     z-index: 2000;
     padding: 80px 20px 20px;
+    overflow-y: auto;
+  }
+
+  .nav-close-btn {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #333;
+    z-index: 2001;
   }
 
   nav.active {
@@ -872,6 +922,13 @@ tr.total-row td {
   nav ul {
     flex-direction: column;
     gap: 5px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  nav li {
+    display: block;
   }
 
   nav a {
@@ -880,6 +937,12 @@ tr.total-row td {
     padding: 12px 15px;
     border-radius: 8px;
     gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
   }
 
   nav a:hover {
@@ -888,7 +951,7 @@ tr.total-row td {
   }
 
   nav a.active {
-    background: var(--primary-color);
+    background: var(--primary-color) !important;
     color: white;
   }
 
@@ -900,6 +963,13 @@ tr.total-row td {
     background: #f8f9fa;
     padding: 12px 15px;
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .units-dropdown i {
+    color: #333;
   }
 
   .units-dropdown span {
@@ -911,11 +981,13 @@ tr.total-row td {
     background: white;
     border: 1px solid #ddd;
     color: #333;
+    padding: 5px 10px;
+    border-radius: 4px;
   }
 
   .header-content {
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
   }
 
   th, td {
@@ -950,7 +1022,7 @@ tr.total-row td {
     padding: 0.25rem 0.5rem;
   }
 
-  /* Hide mobile bottom navigation since we now use hamburger */
+  /* Hide mobile bottom navigation */
   .mobile-bottom-nav {
     display: none;
   }
@@ -1273,4 +1345,43 @@ footer {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+}
+
+/* Footer Styles */
+footer {
+  background: var(--primary-color);
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links a {
+  color: white;
+  font-size: 1.5rem;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.social-links a:hover {
+  transform: translateY(-3px);
+  opacity: 0.8;
 }

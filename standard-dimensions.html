@@ -6,6 +6,34 @@
     <title>Standard Dimensions Reference</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <script>
+        console.log('Inline script loaded');
+        // Load footer component
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, loading footer...');
+            
+            // Load footer
+            fetch('footer.html')
+                .then(response => {
+                    console.log('Footer fetch response:', response);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    console.log('Footer HTML loaded');
+                    const footerPlaceholder = document.getElementById('footer-placeholder');
+                    if (footerPlaceholder) {
+                        footerPlaceholder.innerHTML = html;
+                        console.log('Footer inserted');
+                    } else {
+                        console.error('footer-placeholder not found');
+                    }
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        });
+    </script>
     <style>
         * {
             margin: 0;
@@ -15,7 +43,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f4f4f9;
             min-height: 100vh;
             padding: 0;
         }
@@ -544,12 +572,13 @@
                 <span></span>
                 <span></span>
             </div>
-            <nav>
+            <nav id="mainNav">
+                <span class="nav-close-btn" onclick="toggleMenu()">&times;</span>
                 <ul>
                     <li><a href="selection.html" title="Calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
                     <li><a href="quotations.html" title="Quotations"><i class="fas fa-file-invoice-dollar"></i> Quotations</a></li>
                     <li><a href="unit-converter.html" title="Unit Converter"><i class="fas fa-exchange-alt"></i> Unit Converter</a></li>
-                    <li><a href="#" class="active" title="Standard Dimensions"><i class="fas fa-ruler-combined"></i> Standard Dimensions</a></li>
+                    <li><a href="standard-dimensions.html" class="active" title="Standard Dimensions"><i class="fas fa-ruler-combined"></i> Standard Dimensions</a></li>
                     <li><a href="#" id="saveProjectBtn" title="Save Project"><i class="fas fa-save"></i> Save</a></li>
                     <li><a href="#" id="loadProjectBtn" title="Load Project"><i class="fas fa-folder-open"></i> Load</a></li>
                     <li class="units-dropdown" title="Units">
@@ -2078,25 +2107,6 @@
     <button id="backToTop" class="back-to-top" onclick="scrollToTop()">↑</button>
 
     <script>
-        // Hamburger menu toggle
-        function toggleMenu() {
-            const nav = document.querySelector('nav');
-            const hamburger = document.querySelector('.hamburger');
-            nav.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        }
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const nav = document.querySelector('nav');
-            const hamburger = document.querySelector('.hamburger');
-            if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
-                nav.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
-        });
-
-        // Store original values in inches for conversion
         const originalValues = [];
         
         // Initialize: store original values on page load
@@ -2219,5 +2229,25 @@
             }
         });
     </script>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    </script>
+
+    <div id="footer-placeholder"></div>
 </body>
 </html>
