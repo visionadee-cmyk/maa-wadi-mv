@@ -223,6 +223,26 @@
             <button class="category-tab" data-category="crownmolding">Crown Molding</button>
             <button class="category-tab" data-category="stair">Stair</button>
             <button class="category-tab" data-category="woodweight">Wood Weight</button>
+            <button class="category-tab" data-category="shelfsag">Shelf Sag</button>
+            <button class="category-tab" data-category="drawer">Drawer Box</button>
+            <button class="category-tab" data-category="door">Door</button>
+            <button class="category-tab" data-category="tabletop">Table Top</button>
+            <button class="category-tab" data-category="pictureframe">Picture Frame</button>
+            <button class="category-tab" data-category="goldenratio">Golden Ratio</button>
+            <button class="category-tab" data-category="taper">Taper</button>
+            <button class="category-tab" data-category="ellipse">Ellipse</button>
+            <button class="category-tab" data-category="polygon">Polygon</button>
+            <button class="category-tab" data-category="circle">Circle/Arc</button>
+            <button class="category-tab" data-category="fastener">Screw/Nail</button>
+            <button class="category-tab" data-category="glue">Wood Glue</button>
+            <button class="category-tab" data-category="kerf">Saw Kerf</button>
+            <button class="category-tab" data-category="edgebanding">Edge Banding</button>
+            <button class="category-tab" data-category="woodmovement">Wood Movement</button>
+            <button class="category-tab" data-category="pockethole">Pocket Hole</button>
+            <button class="category-tab" data-category="biscuit">Biscuit</button>
+            <button class="category-tab" data-category="dowel">Dowel</button>
+            <button class="category-tab" data-category="mortisetendon">Mortise/Tenon</button>
+            <button class="category-tab" data-category="compoundmiter">Compound Miter</button>
         </div>
 
         <div class="converter-card" id="converterCard">
@@ -385,6 +405,196 @@
                     species: { name: 'Wood Species', special: true },
                     weight: { name: 'Weight (lbs)', special: true }
                 }
+            },
+            shelfsag: {
+                name: 'Shelf Sag Calculator',
+                units: {
+                    length: { name: 'Shelf Length (in)', special: true },
+                    width: { name: 'Shelf Width (in)', special: true },
+                    thickness: { name: 'Shelf Thickness (in)', special: true },
+                    load: { name: 'Load (lbs)', special: true },
+                    sag: { name: 'Sag (in)', special: true }
+                }
+            },
+            drawer: {
+                name: 'Drawer Box Calculator',
+                units: {
+                    openingwidth: { name: 'Opening Width (in)', special: true },
+                    openingheight: { name: 'Opening Height (in)', special: true },
+                    drawerdepth: { name: 'Drawer Depth (in)', special: true },
+                    overlay: { name: 'Overlay (in)', special: true },
+                    drawerwidth: { name: 'Drawer Width (in)', special: true },
+                    drawerheight: { name: 'Drawer Height (in)', special: true }
+                }
+            },
+            door: {
+                name: 'Door Calculator',
+                units: {
+                    openingwidth: { name: 'Opening Width (in)', special: true },
+                    openingheight: { name: 'Opening Height (in)', special: true },
+                    overlay: { name: 'Overlay (in)', special: true },
+                    doorwidth: { name: 'Door Width (in)', special: true },
+                    doorheight: { name: 'Door Height (in)', special: true }
+                }
+            },
+            tabletop: {
+                name: 'Table Top Calculator',
+                units: {
+                    tabletopwidth: { name: 'Table Top Width (in)', special: true },
+                    tabletoplength: { name: 'Table Top Length (in)', special: true },
+                    breadboardwidth: { name: 'Breadboard Width (in)', special: true },
+                    boardwidth: { name: 'Board Width (in)', special: true },
+                    numboards: { name: 'Number of Boards', special: true }
+                }
+            },
+            pictureframe: {
+                name: 'Picture Frame Calculator',
+                units: {
+                    picturewidth: { name: 'Picture Width (in)', special: true },
+                    pictureheight: { name: 'Picture Height (in)', special: true },
+                    framewidth: { name: 'Frame Width (in)', special: true },
+                    miterangle: { name: 'Miter Angle (°)', special: true },
+                    boardlength: { name: 'Board Length (in)', special: true }
+                }
+            },
+            goldenratio: {
+                name: 'Golden Ratio Calculator',
+                units: {
+                    width: { name: 'Width (in)', special: true },
+                    height: { name: 'Height (in)', special: true },
+                    ratio: { name: 'Golden Ratio', special: true }
+                }
+            },
+            taper: {
+                name: 'Taper Calculator',
+                units: {
+                    largediameter: { name: 'Large Diameter (in)', special: true },
+                    smalldiameter: { name: 'Small Diameter (in)', special: true },
+                    length: { name: 'Length (in)', special: true },
+                    taperangle: { name: 'Taper Angle (°)', special: true }
+                }
+            },
+            ellipse: {
+                name: 'Ellipse Calculator',
+                units: {
+                    majoraxis: { name: 'Major Axis (in)', special: true },
+                    minoraxis: { name: 'Minor Axis (in)', special: true },
+                    area: { name: 'Area (sq in)', special: true },
+                    circumference: { name: 'Circumference (in)', special: true }
+                }
+            },
+            polygon: {
+                name: 'Polygon Calculator',
+                units: {
+                    sides: { name: 'Number of Sides', special: true },
+                    radius: { name: 'Radius (in)', special: true },
+                    sidelen: { name: 'Side Length (in)', special: true },
+                    area: { name: 'Area (sq in)', special: true },
+                    interiorangle: { name: 'Interior Angle (°)', special: true }
+                }
+            },
+            circle: {
+                name: 'Circle/Arc Calculator',
+                units: {
+                    diameter: { name: 'Diameter (in)', special: true },
+                    radius: { name: 'Radius (in)', special: true },
+                    circumference: { name: 'Circumference (in)', special: true },
+                    area: { name: 'Area (sq in)', special: true },
+                    arclength: { name: 'Arc Length (in)', special: true },
+                    arcangle: { name: 'Arc Angle (°)', special: true }
+                }
+            },
+            fastener: {
+                name: 'Screw/Nail Calculator',
+                units: {
+                    boardlength: { name: 'Board Length (ft)', special: true },
+                    boardwidth: { name: 'Board Width (in)', special: true },
+                    spacing: { name: 'Spacing (in)', special: true },
+                    numfasteners: { name: 'Number of Fasteners', special: true }
+                }
+            },
+            glue: {
+                name: 'Wood Glue Coverage Calculator',
+                units: {
+                    length: { name: 'Length (in)', special: true },
+                    width: { name: 'Width (in)', special: true },
+                    coverage: { name: 'Coverage (sq in per oz)', special: true },
+                    glueoz: { name: 'Glue Needed (oz)', special: true }
+                }
+            },
+            kerf: {
+                name: 'Saw Blade Kerf Calculator',
+                units: {
+                    boardlength: { name: 'Board Length (in)', special: true },
+                    numcuts: { name: 'Number of Cuts', special: true },
+                    kerfwidth: { name: 'Kerf Width (in)', special: true },
+                    totalkerf: { name: 'Total Kerf (in)', special: true },
+                    totallength: { name: 'Total Length Needed (in)', special: true }
+                }
+            },
+            edgebanding: {
+                name: 'Edge Banding Calculator',
+                units: {
+                    length: { name: 'Length (in)', special: true },
+                    width: { name: 'Width (in)', special: true },
+                    thickness: { name: 'Thickness (in)', special: true },
+                    bandedlength: { name: 'Banded Length (in)', special: true }
+                }
+            },
+            woodmovement: {
+                name: 'Wood Movement Calculator',
+                units: {
+                    width: { name: 'Width (in)', special: true },
+                    species: { name: 'Wood Species', special: true },
+                    humiditychange: { name: 'Humidity Change (%)', special: true },
+                    movement: { name: 'Movement (in)', special: true }
+                }
+            },
+            pockethole: {
+                name: 'Pocket Hole Calculator',
+                units: {
+                    boardthickness: { name: 'Board Thickness (in)', special: true },
+                    numholes: { name: 'Number of Holes', special: true },
+                    spacing: { name: 'Spacing (in)', special: true },
+                    boardlength: { name: 'Board Length (in)', special: true }
+                }
+            },
+            biscuit: {
+                name: 'Biscuit Joinery Calculator',
+                units: {
+                    boardwidth: { name: 'Board Width (in)', special: true },
+                    biscuitsize: { name: 'Biscuit Size (#)', special: true },
+                    numbiscuits: { name: 'Number of Biscuits', special: true },
+                    spacing: { name: 'Spacing (in)', special: true }
+                }
+            },
+            dowel: {
+                name: 'Dowel Calculator',
+                units: {
+                    boardwidth: { name: 'Board Width (in)', special: true },
+                    doweldiameter: { name: 'Dowel Diameter (in)', special: true },
+                    doweldepth: { name: 'Dowel Depth (in)', special: true },
+                    numdowels: { name: 'Number of Dowels', special: true },
+                    spacing: { name: 'Spacing (in)', special: true }
+                }
+            },
+            mortisetendon: {
+                name: 'Mortise and Tenon Calculator',
+                units: {
+                    boardthickness: { name: 'Board Thickness (in)', special: true },
+                    tenonwidth: { name: 'Tenon Width (in)', special: true },
+                    tenonlength: { name: 'Tenon Length (in)', special: true },
+                    tenonthickness: { name: 'Tenon Thickness (in)', special: true }
+                }
+            },
+            compoundmiter: {
+                name: 'Compound Miter Calculator',
+                units: {
+                    sides: { name: 'Number of Sides', special: true },
+                    springangle: { name: 'Spring Angle (°)', special: true },
+                    miterangle: { name: 'Miter Angle (°)', special: true },
+                    bevelangle: { name: 'Bevel Angle (°)', special: true }
+                }
             }
         };
 
@@ -457,6 +667,106 @@
                 title: 'Wood Weight Calculator',
                 description: 'Calculate the weight of lumber based on dimensions and wood species.',
                 example: 'Teak: 96" × 6" × 1" = 0.33 cubic feet × 45 lbs/cf = 14.85 lbs.'
+            },
+            shelfsag: {
+                title: 'Shelf Sag Calculator',
+                description: 'Calculate shelf deflection based on dimensions and load.',
+                example: '36" shelf, 12" wide, 0.75" thick, 50 lbs load = 0.25" sag.'
+            },
+            drawer: {
+                title: 'Drawer Box Calculator',
+                description: 'Calculate drawer box dimensions based on opening size and overlay.',
+                example: 'Opening 24" × 6", overlay 0.5" = Drawer 23" × 5".'
+            },
+            door: {
+                title: 'Door Calculator',
+                description: 'Calculate door dimensions based on opening size and overlay.',
+                example: 'Opening 18" × 30", overlay 0.5" = Door 19" × 30.5".'
+            },
+            tabletop: {
+                title: 'Table Top Calculator',
+                description: 'Calculate board layout for table tops with breadboard ends.',
+                example: '48" × 30" top, 6" breadboard, 6" boards = 8 boards needed.'
+            },
+            pictureframe: {
+                title: 'Picture Frame Calculator',
+                description: 'Calculate miter angles and board lengths for picture frames.',
+                example: '8" × 10" picture, 2" frame = 45° miter, 12" boards.'
+            },
+            goldenratio: {
+                title: 'Golden Ratio Calculator',
+                description: 'Calculate dimensions using the golden ratio (1.618) for pleasing proportions.',
+                example: 'Width 10" = Height 16.18" (golden ratio).'
+            },
+            taper: {
+                title: 'Taper Calculator',
+                description: 'Calculate taper angle for turned pieces like table legs.',
+                example: 'Large 3", Small 2", Length 24" = Taper angle 2.4°.'
+            },
+            ellipse: {
+                title: 'Ellipse Calculator',
+                description: 'Calculate area and circumference of elliptical shapes.',
+                example: 'Major axis 10", Minor axis 6" = Area 47.1 sq in, Circumference 25.5".'
+            },
+            polygon: {
+                title: 'Polygon Calculator',
+                description: 'Calculate dimensions for regular polygons (hexagons, octagons, etc.).',
+                example: 'Hexagon, radius 6" = Side length 6", Area 93.5 sq in, Interior angle 120°.'
+            },
+            circle: {
+                title: 'Circle/Arc Calculator',
+                description: 'Calculate circle dimensions and arc measurements.',
+                example: 'Diameter 10" = Radius 5", Circumference 31.4", Area 78.5 sq in.'
+            },
+            fastener: {
+                title: 'Screw/Nail Calculator',
+                description: 'Calculate number of fasteners needed based on board dimensions.',
+                example: '8ft board, 6" wide, 6" spacing = 16 fasteners needed.'
+            },
+            glue: {
+                title: 'Wood Glue Coverage Calculator',
+                description: 'Calculate glue needed based on surface area.',
+                example: '24" × 12" area, 200 sq in/oz coverage = 1.44 oz glue needed.'
+            },
+            kerf: {
+                title: 'Saw Blade Kerf Calculator',
+                description: 'Account for blade thickness when cutting multiple pieces.',
+                example: '96" board, 10 cuts, 0.125" kerf = 1.25" total kerf, 97.25" needed.'
+            },
+            edgebanding: {
+                title: 'Edge Banding Calculator',
+                description: 'Calculate edge banding needed for plywood edges.',
+                example: '48" × 24" × 0.75" plywood = 144" edge banding needed.'
+            },
+            woodmovement: {
+                title: 'Wood Movement Calculator',
+                description: 'Calculate wood expansion/contraction based on humidity changes.',
+                example: 'Oak 12" wide, 20% humidity change = 0.24" movement.'
+            },
+            pockethole: {
+                title: 'Pocket Hole Calculator',
+                description: 'Calculate pocket hole spacing and quantity.',
+                example: '0.75" board, 24" long, 6" spacing = 4 pocket holes needed.'
+            },
+            biscuit: {
+                title: 'Biscuit Joinery Calculator',
+                description: 'Calculate biscuit size and spacing for joinery.',
+                example: '6" board, #20 biscuits, 4" spacing = 2 biscuits needed.'
+            },
+            dowel: {
+                title: 'Dowel Calculator',
+                description: 'Calculate dowel size, depth, and spacing for joinery.',
+                example: '6" board, 0.5" dowel, 1" depth, 4" spacing = 2 dowels needed.'
+            },
+            mortisetendon: {
+                title: 'Mortise and Tenon Calculator',
+                description: 'Calculate mortise and tenon dimensions.',
+                example: '0.75" board = Tenon 0.5" thick, 1.5" wide, 1" long.'
+            },
+            compoundmiter: {
+                title: 'Compound Miter Calculator',
+                description: 'Calculate compound miter and bevel angles for multi-sided projects.',
+                example: '6 sides, 45° spring angle = Miter 30°, Bevel 35.3°.'
             }
         };
 
@@ -468,7 +778,7 @@
             const categoryData = unitData[category];
             
             // Handle wood species dropdown
-            if (category === 'woodweight') {
+            if (category === 'woodweight' || category === 'woodmovement') {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'unit-input-wrapper';
                 
@@ -490,7 +800,11 @@
                 });
                 
                 select.addEventListener('change', () => {
-                    calculateWoodWeight('species', select.value);
+                    if (category === 'woodweight') {
+                        calculateWoodWeight('species', select.value);
+                    } else if (category === 'woodmovement') {
+                        calculateWoodMovement('species', select.value);
+                    }
                 });
                 
                 wrapper.appendChild(label);
@@ -607,6 +921,86 @@
             }
             if (category === 'woodweight') {
                 calculateWoodWeight(sourceUnit, value);
+                return;
+            }
+            if (category === 'shelfsag') {
+                calculateShelfSag(sourceUnit, value);
+                return;
+            }
+            if (category === 'drawer') {
+                calculateDrawer(sourceUnit, value);
+                return;
+            }
+            if (category === 'door') {
+                calculateDoor(sourceUnit, value);
+                return;
+            }
+            if (category === 'tabletop') {
+                calculateTableTop(sourceUnit, value);
+                return;
+            }
+            if (category === 'pictureframe') {
+                calculatePictureFrame(sourceUnit, value);
+                return;
+            }
+            if (category === 'goldenratio') {
+                calculateGoldenRatio(sourceUnit, value);
+                return;
+            }
+            if (category === 'taper') {
+                calculateTaper(sourceUnit, value);
+                return;
+            }
+            if (category === 'ellipse') {
+                calculateEllipse(sourceUnit, value);
+                return;
+            }
+            if (category === 'polygon') {
+                calculatePolygon(sourceUnit, value);
+                return;
+            }
+            if (category === 'circle') {
+                calculateCircle(sourceUnit, value);
+                return;
+            }
+            if (category === 'fastener') {
+                calculateFastener(sourceUnit, value);
+                return;
+            }
+            if (category === 'glue') {
+                calculateGlue(sourceUnit, value);
+                return;
+            }
+            if (category === 'kerf') {
+                calculateKerf(sourceUnit, value);
+                return;
+            }
+            if (category === 'edgebanding') {
+                calculateEdgeBanding(sourceUnit, value);
+                return;
+            }
+            if (category === 'woodmovement') {
+                calculateWoodMovement(sourceUnit, value);
+                return;
+            }
+            if (category === 'pockethole') {
+                calculatePocketHole(sourceUnit, value);
+                return;
+            }
+            if (category === 'biscuit') {
+                calculateBiscuit(sourceUnit, value);
+                return;
+            }
+            if (category === 'dowel') {
+                calculateDowel(sourceUnit, value);
+                return;
+            }
+            if (category === 'mortisetendon') {
+                calculateMortiseTenon(sourceUnit, value);
+                return;
+            }
+            if (category === 'compoundmiter') {
+                calculateCompoundMiter(sourceUnit, value);
                 return;
             }
 
@@ -784,6 +1178,347 @@
             
             if (sourceUnit !== 'weight') {
                 document.getElementById('unit-weight').value = formatNumber(weight);
+            }
+        }
+
+        // Shelf Sag Calculator
+        function calculateShelfSag(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const thickness = parseFloat(document.getElementById('unit-thickness').value) || 0;
+            const load = parseFloat(document.getElementById('unit-load').value) || 0;
+            
+            // Simplified sag formula for a simply supported beam
+            // Sag = (5 * w * L^4) / (384 * E * I)
+            // Using approximate values for wood
+            const L = length; // inches
+            const w = load / length; // load per inch
+            const E = 1500000; // modulus of elasticity for wood (psi)
+            const I = (width * Math.pow(thickness, 3)) / 12; // moment of inertia
+            
+            const sag = (5 * w * Math.pow(L, 4)) / (384 * E * I);
+            
+            if (sourceUnit !== 'sag') {
+                document.getElementById('unit-sag').value = formatNumber(sag);
+            }
+        }
+
+        // Drawer Box Calculator
+        function calculateDrawer(sourceUnit, value) {
+            const openingWidth = parseFloat(document.getElementById('unit-openingwidth').value) || 0;
+            const openingHeight = parseFloat(document.getElementById('unit-openingheight').value) || 0;
+            const drawerDepth = parseFloat(document.getElementById('unit-drawerdepth').value) || 0;
+            const overlay = parseFloat(document.getElementById('unit-overlay').value) || 0;
+            
+            const drawerWidth = openingWidth - (overlay * 2);
+            const drawerHeight = openingHeight - overlay;
+            
+            if (sourceUnit !== 'drawerwidth') {
+                document.getElementById('unit-drawerwidth').value = formatNumber(drawerWidth);
+            }
+            if (sourceUnit !== 'drawerheight') {
+                document.getElementById('unit-drawerheight').value = formatNumber(drawerHeight);
+            }
+        }
+
+        // Door Calculator
+        function calculateDoor(sourceUnit, value) {
+            const openingWidth = parseFloat(document.getElementById('unit-openingwidth').value) || 0;
+            const openingHeight = parseFloat(document.getElementById('unit-openingheight').value) || 0;
+            const overlay = parseFloat(document.getElementById('unit-overlay').value) || 0;
+            
+            const doorWidth = openingWidth + (overlay * 2);
+            const doorHeight = openingHeight + overlay;
+            
+            if (sourceUnit !== 'doorwidth') {
+                document.getElementById('unit-doorwidth').value = formatNumber(doorWidth);
+            }
+            if (sourceUnit !== 'doorheight') {
+                document.getElementById('unit-doorheight').value = formatNumber(doorHeight);
+            }
+        }
+
+        // Table Top Calculator
+        function calculateTableTop(sourceUnit, value) {
+            const tableTopWidth = parseFloat(document.getElementById('unit-tabletopwidth').value) || 0;
+            const tableTopLength = parseFloat(document.getElementById('unit-tabletoplength').value) || 0;
+            const boardWidth = parseFloat(document.getElementById('unit-boardwidth').value) || 0;
+            
+            const numBoards = Math.ceil(tableTopWidth / boardWidth);
+            
+            if (sourceUnit !== 'numboards') {
+                document.getElementById('unit-numboards').value = numBoards;
+            }
+        }
+
+        // Picture Frame Calculator
+        function calculatePictureFrame(sourceUnit, value) {
+            const pictureWidth = parseFloat(document.getElementById('unit-picturewidth').value) || 0;
+            const pictureHeight = parseFloat(document.getElementById('unit-pictureheight').value) || 0;
+            const frameWidth = parseFloat(document.getElementById('unit-framewidth').value) || 0;
+            
+            const miterAngle = 45; // always 45 degrees for rectangular frames
+            const boardLength = (pictureWidth + frameWidth * 2) + (pictureHeight + frameWidth * 2);
+            
+            if (sourceUnit !== 'miterangle') {
+                document.getElementById('unit-miterangle').value = miterAngle;
+            }
+            if (sourceUnit !== 'boardlength') {
+                document.getElementById('unit-boardlength').value = formatNumber(boardLength);
+            }
+        }
+
+        // Golden Ratio Calculator
+        function calculateGoldenRatio(sourceUnit, value) {
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const goldenRatio = 1.61803398875;
+            
+            const height = width * goldenRatio;
+            
+            if (sourceUnit !== 'height') {
+                document.getElementById('unit-height').value = formatNumber(height);
+            }
+            if (sourceUnit !== 'ratio') {
+                document.getElementById('unit-ratio').value = goldenRatio;
+            }
+        }
+
+        // Taper Calculator
+        function calculateTaper(sourceUnit, value) {
+            const largeDiameter = parseFloat(document.getElementById('unit-largediameter').value) || 0;
+            const smallDiameter = parseFloat(document.getElementById('unit-smalldiameter').value) || 0;
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            
+            const taperAngle = Math.atan((largeDiameter - smallDiameter) / (2 * length)) * 180 / Math.PI;
+            
+            if (sourceUnit !== 'taperangle') {
+                document.getElementById('unit-taperangle').value = formatNumber(taperAngle);
+            }
+        }
+
+        // Ellipse Calculator
+        function calculateEllipse(sourceUnit, value) {
+            const majorAxis = parseFloat(document.getElementById('unit-majoraxis').value) || 0;
+            const minorAxis = parseFloat(document.getElementById('unit-minoraxis').value) || 0;
+            
+            const a = majorAxis / 2;
+            const b = minorAxis / 2;
+            const area = Math.PI * a * b;
+            const circumference = Math.PI * (3 * (a + b) - Math.sqrt((3 * a + b) * (a + 3 * b)));
+            
+            if (sourceUnit !== 'area') {
+                document.getElementById('unit-area').value = formatNumber(area);
+            }
+            if (sourceUnit !== 'circumference') {
+                document.getElementById('unit-circumference').value = formatNumber(circumference);
+            }
+        }
+
+        // Polygon Calculator
+        function calculatePolygon(sourceUnit, value) {
+            const sides = parseFloat(document.getElementById('unit-sides').value) || 0;
+            const radius = parseFloat(document.getElementById('unit-radius').value) || 0;
+            
+            const sideLength = 2 * radius * Math.sin(Math.PI / sides);
+            const area = (sides * Math.pow(sideLength, 2)) / (4 * Math.tan(Math.PI / sides));
+            const interiorAngle = ((sides - 2) * 180) / sides;
+            
+            if (sourceUnit !== 'sidelen') {
+                document.getElementById('unit-sidelen').value = formatNumber(sideLength);
+            }
+            if (sourceUnit !== 'area') {
+                document.getElementById('unit-area').value = formatNumber(area);
+            }
+            if (sourceUnit !== 'interiorangle') {
+                document.getElementById('unit-interiorangle').value = formatNumber(interiorAngle);
+            }
+        }
+
+        // Circle/Arc Calculator
+        function calculateCircle(sourceUnit, value) {
+            const diameter = parseFloat(document.getElementById('unit-diameter').value) || 0;
+            const arcAngle = parseFloat(document.getElementById('unit-arcangle').value) || 0;
+            
+            const radius = diameter / 2;
+            const circumference = Math.PI * diameter;
+            const area = Math.PI * Math.pow(radius, 2);
+            const arcLength = (arcAngle / 360) * circumference;
+            
+            if (sourceUnit !== 'radius') {
+                document.getElementById('unit-radius').value = formatNumber(radius);
+            }
+            if (sourceUnit !== 'circumference') {
+                document.getElementById('unit-circumference').value = formatNumber(circumference);
+            }
+            if (sourceUnit !== 'area') {
+                document.getElementById('unit-area').value = formatNumber(area);
+            }
+            if (sourceUnit !== 'arclength') {
+                document.getElementById('unit-arclength').value = formatNumber(arcLength);
+            }
+        }
+
+        // Screw/Nail Calculator
+        function calculateFastener(sourceUnit, value) {
+            const boardLength = parseFloat(document.getElementById('unit-boardlength').value) || 0;
+            const boardWidth = parseFloat(document.getElementById('unit-boardwidth').value) || 0;
+            const spacing = parseFloat(document.getElementById('unit-spacing').value) || 0;
+            
+            const boardLengthIn = boardLength * 12;
+            const numFasteners = Math.ceil(boardLengthIn / spacing) * Math.ceil(boardWidth / spacing);
+            
+            if (sourceUnit !== 'numfasteners') {
+                document.getElementById('unit-numfasteners').value = numFasteners;
+            }
+        }
+
+        // Wood Glue Coverage Calculator
+        function calculateGlue(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const coverage = parseFloat(document.getElementById('unit-coverage').value) || 200;
+            
+            const area = length * width;
+            const glueOz = area / coverage;
+            
+            if (sourceUnit !== 'glueoz') {
+                document.getElementById('unit-glueoz').value = formatNumber(glueOz);
+            }
+        }
+
+        // Saw Blade Kerf Calculator
+        function calculateKerf(sourceUnit, value) {
+            const boardLength = parseFloat(document.getElementById('unit-boardlength').value) || 0;
+            const numCuts = parseFloat(document.getElementById('unit-numcuts').value) || 0;
+            const kerfWidth = parseFloat(document.getElementById('unit-kerfwidth').value) || 0;
+            
+            const totalKerf = numCuts * kerfWidth;
+            const totalLength = boardLength + totalKerf;
+            
+            if (sourceUnit !== 'totalkerf') {
+                document.getElementById('unit-totalkerf').value = formatNumber(totalKerf);
+            }
+            if (sourceUnit !== 'totallength') {
+                document.getElementById('unit-totallength').value = formatNumber(totalLength);
+            }
+        }
+
+        // Edge Banding Calculator
+        function calculateEdgeBanding(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const thickness = parseFloat(document.getElementById('unit-thickness').value) || 0;
+            
+            const bandedLength = (length * 2) + (width * 2);
+            
+            if (sourceUnit !== 'bandedlength') {
+                document.getElementById('unit-bandedlength').value = formatNumber(bandedLength);
+            }
+        }
+
+        // Wood Movement Calculator
+        function calculateWoodMovement(sourceUnit, value) {
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const humidityChange = parseFloat(document.getElementById('unit-humiditychange').value) || 0;
+            
+            // Approximate movement coefficients for different species
+            const movementCoefficients = {
+                'pine': 0.0025,
+                'oak': 0.0035,
+                'maple': 0.003,
+                'cherry': 0.0025,
+                'walnut': 0.003,
+                'mahogany': 0.002,
+                'teak': 0.0015,
+                'cedar': 0.002,
+                'fir': 0.0025,
+                'birch': 0.003
+            };
+            
+            const speciesSelect = document.getElementById('unit-species');
+            const species = speciesSelect ? speciesSelect.value : 'oak';
+            const coefficient = movementCoefficients[species] || 0.003;
+            
+            const movement = width * coefficient * humidityChange;
+            
+            if (sourceUnit !== 'movement') {
+                document.getElementById('unit-movement').value = formatNumber(movement);
+            }
+        }
+
+        // Pocket Hole Calculator
+        function calculatePocketHole(sourceUnit, value) {
+            const boardThickness = parseFloat(document.getElementById('unit-boardthickness').value) || 0;
+            const boardLength = parseFloat(document.getElementById('unit-boardlength').value) || 0;
+            const spacing = parseFloat(document.getElementById('unit-spacing').value) || 0;
+            
+            const numHoles = Math.ceil(boardLength / spacing);
+            
+            if (sourceUnit !== 'numholes') {
+                document.getElementById('unit-numholes').value = numHoles;
+            }
+        }
+
+        // Biscuit Joinery Calculator
+        function calculateBiscuit(sourceUnit, value) {
+            const boardWidth = parseFloat(document.getElementById('unit-boardwidth').value) || 0;
+            const spacing = parseFloat(document.getElementById('unit-spacing').value) || 0;
+            
+            const numBiscuits = Math.ceil(boardWidth / spacing);
+            
+            if (sourceUnit !== 'numbiscuits') {
+                document.getElementById('unit-numbiscuits').value = numBiscuits;
+            }
+        }
+
+        // Dowel Calculator
+        function calculateDowel(sourceUnit, value) {
+            const boardWidth = parseFloat(document.getElementById('unit-boardwidth').value) || 0;
+            const spacing = parseFloat(document.getElementById('unit-spacing').value) || 0;
+            
+            const numDowels = Math.ceil(boardWidth / spacing);
+            
+            if (sourceUnit !== 'numdowels') {
+                document.getElementById('unit-numdowels').value = numDowels;
+            }
+        }
+
+        // Mortise and Tenon Calculator
+        function calculateMortiseTenon(sourceUnit, value) {
+            const boardThickness = parseFloat(document.getElementById('unit-boardthickness').value) || 0;
+            
+            const tenonThickness = boardThickness * 0.67;
+            const tenonWidth = boardThickness * 2;
+            const tenonLength = boardThickness * 1.33;
+            
+            if (sourceUnit !== 'tenonthickness') {
+                document.getElementById('unit-tenonthickness').value = formatNumber(tenonThickness);
+            }
+            if (sourceUnit !== 'tenonwidth') {
+                document.getElementById('unit-tenonwidth').value = formatNumber(tenonWidth);
+            }
+            if (sourceUnit !== 'tenonlength') {
+                document.getElementById('unit-tenonlength').value = formatNumber(tenonLength);
+            }
+        }
+
+        // Compound Miter Calculator
+        function calculateCompoundMiter(sourceUnit, value) {
+            const sides = parseFloat(document.getElementById('unit-sides').value) || 0;
+            const springAngle = parseFloat(document.getElementById('unit-springangle').value) || 45;
+            
+            const wallAngle = 360 / sides;
+            const springRad = springAngle * Math.PI / 180;
+            const wallRad = wallAngle * Math.PI / 180;
+            
+            const miterAngle = Math.atan(Math.tan(springRad) * Math.sin(wallRad)) * 180 / Math.PI;
+            const bevelAngle = Math.atan(Math.tan(springRad) * Math.cos(wallRad)) * 180 / Math.PI;
+            
+            if (sourceUnit !== 'miterangle') {
+                document.getElementById('unit-miterangle').value = formatNumber(miterAngle);
+            }
+            if (sourceUnit !== 'bevelangle') {
+                document.getElementById('unit-bevelangle').value = formatNumber(bevelAngle);
             }
         }
 
