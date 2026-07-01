@@ -272,12 +272,38 @@
     </style>
 </head>
 <body>
+    <header>
+        <div class="header-content">
+            <div class="brand">
+                <img src="assets/logo.png" alt="Maa Wadi Mv" class="logo">
+                <span class="brand-name">Maa Wadi Mv</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="selection.html" title="Calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
+                    <li><a href="#" class="active" title="Quotations"><i class="fas fa-file-invoice-dollar"></i> Quotations</a></li>
+                    <li><a href="unit-converter.html" title="Unit Converter"><i class="fas fa-exchange-alt"></i> Unit Converter</a></li>
+                    <li><a href="#" id="saveProjectBtn" title="Save Project"><i class="fas fa-save"></i> Save</a></li>
+                    <li><a href="#" id="loadProjectBtn" title="Load Project"><i class="fas fa-folder-open"></i> Load</a></li>
+                    <li class="units-dropdown" title="Units">
+                        <i class="fas fa-ruler"></i>
+                        <select id="unitSelector" class="unit-select">
+                            <option value="mm">mm</option>
+                            <option value="cm">cm</option>
+                            <option value="m">m</option>
+                            <option value="in">in</option>
+                        </select>
+                        <span>Units</span>
+                    </li>
+                    <li><a href="#" id="settingsBtn" title="Settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
     <div class="quotation-container">
         <div class="quotation-header">
             <h1><i class="fas fa-file-invoice-dollar"></i> Quotations</h1>
-            <button class="back-btn" onclick="window.location.href='selection.html'">
-                <i class="fas fa-arrow-left"></i> Back to Calculator
-            </button>
         </div>
         
         <!-- Project Selection -->
