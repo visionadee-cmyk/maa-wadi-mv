@@ -125,27 +125,6 @@
             margin-top: 20px;
         }
 
-        .info-content {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-        }
-
-        .info-text {
-            flex: 1;
-        }
-
-        .info-image {
-            flex: 0 0 200px;
-        }
-
-        .info-image img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
         .converter-info h3 {
             color: #333;
             margin-bottom: 15px;
@@ -272,17 +251,10 @@
             </div>
 
             <div class="converter-info">
-                <div class="info-content">
-                    <div class="info-text">
-                        <h3><i class="fas fa-info-circle"></i> How to Use</h3>
-                        <div id="categoryInstructions">
-                            <p>Type a value in any unit field, and all other units will automatically convert to the equivalent value. No need to select a "from" or "to" unit - just type and see instant results.</p>
-                            <p><strong>Example:</strong> Type "100" in the mm field, and you'll immediately see "10" in cm, "0.1" in m, "3.94" in inches, etc.</p>
-                        </div>
-                    </div>
-                    <div class="info-image">
-                        <img id="categoryImage" src="" alt="Calculator illustration">
-                    </div>
+                <h3><i class="fas fa-info-circle"></i> How to Use</h3>
+                <div id="categoryInstructions">
+                    <p>Type a value in any unit field, and all other units will automatically convert to the equivalent value. No need to select a "from" or "to" unit - just type and see instant results.</p>
+                    <p><strong>Example:</strong> Type "100" in the mm field, and you'll immediately see "10" in cm, "0.1" in m, "3.94" in inches, etc.</p>
                 </div>
             </div>
         </div>
@@ -634,200 +606,167 @@
             length: {
                 title: 'Length Conversion',
                 description: 'Type a value in any unit field, and all other units will automatically convert to the equivalent value.',
-                example: 'Type "100" in the mm field, and you\'ll immediately see "10" in cm, "0.1" in m, "3.94" in inches, etc.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Length+Conversion'
+                example: 'Type "100" in the mm field, and you\'ll immediately see "10" in cm, "0.1" in m, "3.94" in inches, etc.'
             },
             weight: {
                 title: 'Weight Conversion',
                 description: 'Convert between different weight units instantly.',
-                example: 'Type "1000" in the g field to see "1" in kg, "35.27" in oz, "2.2" in lb, etc.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Weight+Conversion'
+                example: 'Type "1000" in the g field to see "1" in kg, "35.27" in oz, "2.2" in lb, etc.'
             },
             area: {
                 title: 'Area Conversion',
                 description: 'Convert between different area units for surface measurements.',
-                example: 'Type "10000" in sqcm to see "1" in sqm, "10.76" in sqft, "0.00247" in acre, etc.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Area+Conversion'
+                example: 'Type "10000" in sqcm to see "1" in sqm, "10.76" in sqft, "0.00247" in acre, etc.'
             },
             volume: {
                 title: 'Volume Conversion',
                 description: 'Convert between different volume units for liquid and solid measurements.',
-                example: 'Type "1000" in ml to see "1" in L, "33.81" in fl oz, "4.23" in cups, etc.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Volume+Conversion'
+                example: 'Type "1000" in ml to see "1" in L, "33.81" in fl oz, "4.23" in cups, etc.'
             },
             temperature: {
                 title: 'Temperature Conversion',
                 description: 'Convert between Celsius, Fahrenheit, and Kelvin.',
-                example: 'Type "100" in °C to see "212" in °F and "373.15" in K.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Temperature'
+                example: 'Type "100" in °C to see "212" in °F and "373.15" in K.'
             },
             boardfoot: {
                 title: 'Board Foot Calculator',
                 description: 'Calculate board feet from lumber dimensions. Board foot = (Length × Width × Thickness) ÷ 144.',
-                example: 'Enter length 96", width 6", thickness 1" to get 4 board feet.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Board+Foot'
+                example: 'Enter length 96", width 6", thickness 1" to get 4 board feet.'
             },
             woodthickness: {
                 title: 'Wood Thickness (Nominal vs Actual)',
                 description: 'See actual dimensions for nominal lumber sizes. Click on any field to copy the actual dimensions.',
-                example: '2×4 nominal is actually 1.5×3.5 inches. Click to copy.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Wood+Thickness'
+                example: '2×4 nominal is actually 1.5×3.5 inches. Click to copy.'
             },
             angle: {
                 title: 'Angle Conversion',
                 description: 'Convert between different angle units for miter cuts and measurements.',
-                example: 'Type "45" in degrees to see "0.785" radians, "50" gradians, "0.125" turns.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Angle+Conversion'
+                example: 'Type "45" in degrees to see "0.785" radians, "50" gradians, "0.125" turns.'
             },
             materialcost: {
                 title: 'Material Cost Calculator',
                 description: 'Calculate total material cost based on dimensions and price per board foot.',
-                example: 'Enter 8ft × 1ft × 1in at MVR 50/BF = MVR 2.78 total cost.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Material+Cost'
+                example: 'Enter 8ft × 1ft × 1in at MVR 50/BF = MVR 2.78 total cost.'
             },
             paintfinish: {
                 title: 'Paint/Finish Calculator',
                 description: 'Calculate how much paint or finish you need based on surface area.',
-                example: '10ft × 10ft area, 350 sqft/gal coverage, 2 coats = 0.57 gallons needed.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Paint%2FFinish'
+                example: '10ft × 10ft area, 350 sqft/gal coverage, 2 coats = 0.57 gallons needed.'
             },
             crownmolding: {
                 title: 'Crown Molding Calculator',
                 description: 'Calculate miter and bevel angles for crown molding installation.',
-                example: 'Spring angle 45°, Wall angle 90° = Miter 35.3°, Bevel 30°.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Crown+Molding'
+                example: 'Spring angle 45°, Wall angle 90° = Miter 35.3°, Bevel 30°.'
             },
             stair: {
                 title: 'Stair Calculator',
                 description: 'Calculate stair dimensions including risers, treads, and stringer length.',
-                example: 'Total rise 84", total run 105" = 11 risers, 10 treads, 7.6" riser height, 10.5" tread depth.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Stair+Calculator'
+                example: 'Total rise 84", total run 105" = 11 risers, 10 treads, 7.6" riser height, 10.5" tread depth.'
             },
             woodweight: {
                 title: 'Wood Weight Calculator',
                 description: 'Calculate the weight of lumber based on dimensions and wood species.',
-                example: 'Teak: 96" × 6" × 1" = 0.33 cubic feet × 45 lbs/cf = 14.85 lbs.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Wood+Weight'
+                example: 'Teak: 96" × 6" × 1" = 0.33 cubic feet × 45 lbs/cf = 14.85 lbs.'
             },
             shelfsag: {
                 title: 'Shelf Sag Calculator',
                 description: 'Calculate shelf deflection based on dimensions and load.',
-                example: '36" shelf, 12" wide, 0.75" thick, 50 lbs load = 0.25" sag.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Shelf+Sag'
+                example: '36" shelf, 12" wide, 0.75" thick, 50 lbs load = 0.25" sag.'
             },
             drawer: {
                 title: 'Drawer Box Calculator',
                 description: 'Calculate drawer box dimensions based on opening size and overlay.',
-                example: 'Opening 24" × 6", overlay 0.5" = Drawer 23" × 5".',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Drawer+Box'
+                example: 'Opening 24" × 6", overlay 0.5" = Drawer 23" × 5".'
             },
             door: {
                 title: 'Door Calculator',
                 description: 'Calculate door dimensions based on opening size and overlay.',
-                example: 'Opening 18" × 30", overlay 0.5" = Door 19" × 30.5".',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Door+Calculator'
+                example: 'Opening 18" × 30", overlay 0.5" = Door 19" × 30.5".'
             },
             tabletop: {
                 title: 'Table Top Calculator',
                 description: 'Calculate board layout for table tops with breadboard ends.',
-                example: '48" × 30" top, 6" breadboard, 6" boards = 8 boards needed.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Table+Top'
+                example: '48" × 30" top, 6" breadboard, 6" boards = 8 boards needed.'
             },
             pictureframe: {
                 title: 'Picture Frame Calculator',
                 description: 'Calculate miter angles and board lengths for picture frames.',
-                example: '8" × 10" picture, 2" frame = 45° miter, 12" boards.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Picture+Frame'
+                example: '8" × 10" picture, 2" frame = 45° miter, 12" boards.'
             },
             goldenratio: {
                 title: 'Golden Ratio Calculator',
                 description: 'Calculate dimensions using the golden ratio (1.618) for pleasing proportions.',
-                example: 'Width 10" = Height 16.18" (golden ratio).',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Golden+Ratio'
+                example: 'Width 10" = Height 16.18" (golden ratio).'
             },
             taper: {
                 title: 'Taper Calculator',
                 description: 'Calculate taper angle for turned pieces like table legs.',
-                example: 'Large 3", Small 2", Length 24" = Taper angle 2.4°.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Taper+Calculator'
+                example: 'Large 3", Small 2", Length 24" = Taper angle 2.4°.'
             },
             ellipse: {
                 title: 'Ellipse Calculator',
                 description: 'Calculate area and circumference of elliptical shapes.',
-                example: 'Major axis 10", Minor axis 6" = Area 47.1 sq in, Circumference 25.5".',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Ellipse'
+                example: 'Major axis 10", Minor axis 6" = Area 47.1 sq in, Circumference 25.5".'
             },
             polygon: {
                 title: 'Polygon Calculator',
                 description: 'Calculate dimensions for regular polygons (hexagons, octagons, etc.).',
-                example: 'Hexagon, radius 6" = Side length 6", Area 93.5 sq in, Interior angle 120°.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Polygon'
+                example: 'Hexagon, radius 6" = Side length 6", Area 93.5 sq in, Interior angle 120°.'
             },
             circle: {
                 title: 'Circle/Arc Calculator',
                 description: 'Calculate circle dimensions and arc measurements.',
-                example: 'Diameter 10" = Radius 5", Circumference 31.4", Area 78.5 sq in.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Circle%2FArc'
+                example: 'Diameter 10" = Radius 5", Circumference 31.4", Area 78.5 sq in.'
             },
             fastener: {
                 title: 'Screw/Nail Calculator',
                 description: 'Calculate number of fasteners needed based on board dimensions.',
-                example: '8ft board, 6" wide, 6" spacing = 16 fasteners needed.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Fastener'
+                example: '8ft board, 6" wide, 6" spacing = 16 fasteners needed.'
             },
             glue: {
                 title: 'Wood Glue Coverage Calculator',
                 description: 'Calculate glue needed based on surface area.',
-                example: '24" × 12" area, 200 sq in/oz coverage = 1.44 oz glue needed.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Wood+Glue'
+                example: '24" × 12" area, 200 sq in/oz coverage = 1.44 oz glue needed.'
             },
             kerf: {
                 title: 'Saw Blade Kerf Calculator',
                 description: 'Account for blade thickness when cutting multiple pieces.',
-                example: '96" board, 10 cuts, 0.125" kerf = 1.25" total kerf, 97.25" needed.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Saw+Kerf'
+                example: '96" board, 10 cuts, 0.125" kerf = 1.25" total kerf, 97.25" needed.'
             },
             edgebanding: {
                 title: 'Edge Banding Calculator',
                 description: 'Calculate edge banding needed for plywood edges.',
-                example: '48" × 24" × 0.75" plywood = 144" edge banding needed.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Edge+Banding'
+                example: '48" × 24" × 0.75" plywood = 144" edge banding needed.'
             },
             woodmovement: {
                 title: 'Wood Movement Calculator',
                 description: 'Calculate wood expansion/contraction based on humidity changes.',
-                example: 'Oak 12" wide, 20% humidity change = 0.24" movement.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Wood+Movement'
+                example: 'Oak 12" wide, 20% humidity change = 0.24" movement.'
             },
             pockethole: {
                 title: 'Pocket Hole Calculator',
                 description: 'Calculate pocket hole spacing and quantity.',
-                example: '0.75" board, 24" long, 6" spacing = 4 pocket holes needed.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Pocket+Hole'
+                example: '0.75" board, 24" long, 6" spacing = 4 pocket holes needed.'
             },
             biscuit: {
                 title: 'Biscuit Joinery Calculator',
                 description: 'Calculate biscuit size and spacing for joinery.',
-                example: '6" board, #20 biscuits, 4" spacing = 2 biscuits needed.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Biscuit+Joinery'
+                example: '6" board, #20 biscuits, 4" spacing = 2 biscuits needed.'
             },
             dowel: {
                 title: 'Dowel Calculator',
                 description: 'Calculate dowel size, depth, and spacing for joinery.',
-                example: '6" board, 0.5" dowel, 1" depth, 4" spacing = 2 dowels needed.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Dowel+Joinery'
+                example: '6" board, 0.5" dowel, 1" depth, 4" spacing = 2 dowels needed.'
             },
             mortisetendon: {
                 title: 'Mortise and Tenon Calculator',
                 description: 'Calculate mortise and tenon dimensions.',
-                example: '0.75" board = Tenon 0.5" thick, 1.5" wide, 1" long.',
-                image: 'https://via.placeholder.com/200x150/764ba2/ffffff?text=Mortise%2FTenon'
+                example: '0.75" board = Tenon 0.5" thick, 1.5" wide, 1" long.'
             },
             compoundmiter: {
                 title: 'Compound Miter Calculator',
                 description: 'Calculate compound miter and bevel angles for multi-sided projects.',
-                example: '6 sides, 45° spring angle = Miter 30°, Bevel 35.3°.',
-                image: 'https://via.placeholder.com/200x150/667eea/ffffff?text=Compound+Miter'
+                example: '6 sides, 45° spring angle = Miter 30°, Bevel 35.3°.'
             }
         };
 
@@ -1685,12 +1624,6 @@
                 <p>${instructions.description}</p>
                 <p><strong>Example:</strong> ${instructions.example}</p>
             `;
-            
-            // Update image
-            const imageElement = document.getElementById('categoryImage');
-            if (imageElement && instructions.image) {
-                imageElement.src = instructions.image;
-            }
         }
 
         // Handle category tab clicks
@@ -1714,12 +1647,6 @@
         // Initialize with length category
         generateUnitInputs('length');
         updateCategoryInstructions('length');
-        
-        // Initialize image
-        const initialImage = document.getElementById('categoryImage');
-        if (initialImage && categoryInstructions['length'].image) {
-            initialImage.src = categoryInstructions['length'].image;
-        }
     </script>
 </body>
 </html>
