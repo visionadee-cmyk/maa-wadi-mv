@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter - Maa Wadi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .unit-converter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .converter-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .converter-header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .converter-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .unit-category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+            padding: 12px 24px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .category-tab:hover {
+            background: #e0e0e0;
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .converter-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .converter-input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .unit-input-wrapper {
+            position: relative;
+        }
+
+        .unit-input-wrapper label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .unit-input-wrapper input {
+            width: 100%;
+            padding: 15px 50px 15px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .unit-input-wrapper input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .unit-input-wrapper .unit-label {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .unit-input-wrapper .unit-label::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 20px;
+            background: #e0e0e0;
+        }
+
+        .converter-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .converter-info h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .converter-info p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .converter-header h1 {
+                font-size: 2em;
+            }
+
+            .converter-input-group {
+                grid-template-columns: 1fr;
+            }
+
+            .category-tab {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="unit-converter-container">
+        <a href="selection.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Calculator
+        </a>
+
+        <div class="converter-header">
+            <h1><i class="fas fa-exchange-alt"></i> Unit Converter</h1>
+            <p>Convert between different units instantly. Type in any field to see conversions in all units.</p>
+        </div>
+
+        <div class="unit-category-tabs">
+            <button class="category-tab active" data-category="length">Length</button>
+            <button class="category-tab" data-category="weight">Weight</button>
+            <button class="category-tab" data-category="area">Area</button>
+            <button class="category-tab" data-category="volume">Volume</button>
+            <button class="category-tab" data-category="temperature">Temperature</button>
+        </div>
+
+        <div class="converter-card" id="converterCard">
+            <div class="converter-input-group" id="unitInputs">
+                <!-- Unit inputs will be generated by JavaScript -->
+            </div>
+
+            <div class="converter-info">
+                <h3><i class="fas fa-info-circle"></i> How to Use</h3>
+                <p>Type a value in any unit field, and all other units will automatically convert to the equivalent value. No need to select a "from" or "to" unit - just type and see instant results.</p>
+                <p><strong>Example:</strong> Type "100" in the mm field, and you'll immediately see "10" in cm, "0.1" in m, "3.94" in inches, etc.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Unit conversion data
+        const unitData = {
+            length: {
+                name: 'Length',
+                units: {
+                    mm: { name: 'Millimeter (mm)', factor: 1 },
+                    cm: { name: 'Centimeter (cm)', factor: 10n },
+                    m: { name: 'Meter (m)', factor: 1000n },
+                    km: { name: 'Kilometer (km)', factor: 1000000n },
+                    inch: { name: 'Inch (in)', factor: 25.4 },
+                    ft: { name: 'Foot (ft)', factor: 304.8 },
+                    yd: { name: 'Yard (yd)', factor: 914.4 },
+                    mile: { name: 'Mile (mi)', factor: 1609344n }
+                }
+            },
+            weight: {
+                name: 'Weight',
+                units: {
+                    mg: { name: 'Milligram (mg)', factor: 1 },
+                    g: { name: 'Gram (g)', factor: 1000n },
+                    kg: { name: 'Kilogram (kg)', factor: 1000000n },
+                    oz: { name: 'Ounce (oz)', factor: 28349.523125 },
+                    lb: { name: 'Pound (lb)', factor: 453592.37 },
+                    ton: { name: 'Metric Ton (t)', factor: 1000000000n }
+                }
+            },
+            area: {
+                name: 'Area',
+                units: {
+                    sqmm: { name: 'Square Millimeter (mm²)', factor: 1 },
+                    sqcm: { name: 'Square Centimeter (cm²)', factor: 100n },
+                    sqm: { name: 'Square Meter (m²)', factor: 1000000n },
+                    sqkm: { name: 'Square Kilometer (km²)', factor: 1000000000000n },
+                    sqin: { name: 'Square Inch (in²)', factor: 645.16 },
+                    sqft: { name: 'Square Foot (ft²)', factor: 92903.04 },
+                    sqyd: { name: 'Square Yard (yd²)', factor: 836127.36 },
+                    acre: { name: 'Acre', factor: 4046856422.4 }
+                }
+            },
+            volume: {
+                name: 'Volume',
+                units: {
+                    ml: { name: 'Milliliter (ml)', factor: 1 },
+                    l: { name: 'Liter (L)', factor: 1000n },
+                    m3: { name: 'Cubic Meter (m³)', factor: 1000000n },
+                    cm3: { name: 'Cubic Centimeter (cm³)', factor: 1 },
+                    floz: { name: 'Fluid Ounce (fl oz)', factor: 29.5735295625 },
+                    cup: { name: 'Cup', factor: 236.5882365 },
+                    pt: { name: 'Pint (pt)', factor: 473.176473 },
+                    qt: { name: 'Quart (qt)', factor: 946.352946 },
+                    gal: { name: 'Gallon (gal)', factor: 3785.411784 }
+                }
+            },
+            temperature: {
+                name: 'Temperature',
+                units: {
+                    c: { name: 'Celsius (°C)', special: true },
+                    f: { name: 'Fahrenheit (°F)', special: true },
+                    k: { name: 'Kelvin (K)', special: true }
+                }
+            }
+        };
+
+        let currentCategory = 'length';
+        let activeInputId = null;
+
+        // Generate unit inputs for a category
+        function generateUnitInputs(category) {
+            const container = document.getElementById('unitInputs');
+            container.innerHTML = '';
+
+            const categoryData = unitData[category];
+            
+            Object.keys(categoryData.units).forEach(unitKey => {
+                const unit = categoryData.units[unitKey];
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = 'unit-input-wrapper';
+                
+                const label = document.createElement('label');
+                label.textContent = unit.name;
+                
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.id = `unit-${unitKey}`;
+                input.placeholder = '0';
+                input.step = 'any';
+                input.dataset.unit = unitKey;
+                input.dataset.category = category;
+                
+                input.addEventListener('input', handleUnitInput);
+                input.addEventListener('focus', () => { activeInputId = input.id; });
+                
+                const unitLabel = document.createElement('span');
+                unitLabel.className = 'unit-label';
+                unitLabel.textContent = unitKey.toUpperCase();
+                
+                wrapper.appendChild(label);
+                wrapper.appendChild(input);
+                wrapper.appendChild(unitLabel);
+                container.appendChild(wrapper);
+            });
+        }
+
+        // Handle unit input
+        function handleUnitInput(e) {
+            const input = e.target;
+            const value = parseFloat(input.value);
+            const category = input.dataset.category;
+            const sourceUnit = input.dataset.unit;
+            
+            if (isNaN(value)) {
+                // Clear all inputs if value is invalid
+                document.querySelectorAll('#unitInputs input').forEach(inp => {
+                    if (inp.id !== input.id) {
+                        inp.value = '';
+                    }
+                });
+                return;
+            }
+
+            // Convert to all other units
+            const categoryData = unitData[category];
+            
+            Object.keys(categoryData.units).forEach(unitKey => {
+                if (unitKey === sourceUnit) return;
+                
+                const targetInput = document.getElementById(`unit-${unitKey}`);
+                if (!targetInput) return;
+                
+                let convertedValue;
+                
+                if (category === 'temperature') {
+                    convertedValue = convertTemperature(value, sourceUnit, unitKey);
+                } else {
+                    const sourceFactor = categoryData.units[sourceUnit].factor;
+                    const targetFactor = categoryData.units[unitKey].factor;
+                    
+                    // Convert to base unit first, then to target unit
+                    const baseValue = value * sourceFactor;
+                    convertedValue = baseValue / targetFactor;
+                }
+                
+                targetInput.value = formatNumber(convertedValue);
+            });
+        }
+
+        // Convert temperature (special case)
+        function convertTemperature(value, fromUnit, toUnit) {
+            let celsius;
+            
+            // Convert to Celsius first
+            switch (fromUnit) {
+                case 'c':
+                    celsius = value;
+                    break;
+                case 'f':
+                    celsius = (value - 32) * 5 / 9;
+                    break;
+                case 'k':
+                    celsius = value - 273.15;
+                    break;
+            }
+            
+            // Convert from Celsius to target
+            switch (toUnit) {
+                case 'c':
+                    return celsius;
+                case 'f':
+                    return (celsius * 9 / 5) + 32;
+                case 'k':
+                    return celsius + 273.15;
+            }
+        }
+
+        // Format number for display
+        function formatNumber(num) {
+            if (isNaN(num)) return '';
+            
+            // Handle very small and very large numbers
+            if (Math.abs(num) < 0.000001 && num !== 0) {
+                return num.toExponential(6);
+            }
+            if (Math.abs(num) > 1000000) {
+                return num.toExponential(6);
+            }
+            
+            // Round to reasonable precision
+            return parseFloat(num.toPrecision(10));
+        }
+
+        // Handle category tab clicks
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Update current category
+                currentCategory = tab.dataset.category;
+                
+                // Generate new inputs
+                generateUnitInputs(currentCategory);
+            });
+        });
+
+        // Initialize with length category
+        generateUnitInputs('length');
+    </script>
+</body>
+</html>
