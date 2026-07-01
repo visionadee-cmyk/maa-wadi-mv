@@ -2,180 +2,211 @@
 
 This file contains detailed prompts for generating illustrative images for each unit converter calculator category. These prompts are designed to create clear, educational visuals that demonstrate how to use each calculator.
 
+**Image Generation Instructions:**
+- Use image size: 1024x768 pixels (landscape orientation)
+- Style: Professional vector illustration / flat design
+- Color palette: Primary purple (#667eea), secondary blue (#764ba2), with complementary accent colors
+- Background: White or very light gray (#f8f9fa)
+- Include clear, readable text labels
+- Show practical woodworking/carpentry context
+- Educational and easy to understand
+- High contrast for readability
+- Clean, modern aesthetic suitable for web application
+
 ---
 
 ## Length Conversion
-**Prompt:** A clean, modern illustration showing a ruler with measurements in millimeters, centimeters, meters, and inches displayed side by side. Include a person measuring a wooden board with a tape measure. The image should show the conversion relationship between different units. Style: clean vector illustration with blue and purple accents.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional vector illustration showing a carpenter measuring a wooden board with a tape measure. Display a ruler at the bottom showing measurements in millimeters, centimeters, meters, and inches side by side with conversion values clearly labeled. Show the conversion relationship with arrows connecting equivalent measurements (e.g., 1000mm = 100cm = 1m = 39.37in). Include conversion formulas displayed in a clean box. The carpenter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents. Style: Clean flat vector illustration with professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Weight Conversion
-**Prompt:** An illustration showing a digital scale displaying weight in different units (grams, kilograms, ounces, pounds). Show a carpenter weighing lumber on a scale with conversion values floating above. Include a visual comparison chart showing the relationships between weight units. Style: modern flat design with green and blue colors.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional vector illustration showing a carpenter weighing lumber on a digital scale. Display the scale screen showing weight in multiple units simultaneously: grams, kilograms, ounces, and pounds with conversion values clearly visible (e.g., 1000g = 1kg = 35.27oz = 2.2lb). Include a visual comparison chart on the side showing the relationships between weight units with arrows and conversion factors. The carpenter should be in modern work attire holding a piece of lumber. Use purple (#667eea) and blue (#764ba2) gradient accents with green (#10b981) for weight indicators. Style: Clean flat vector illustration with professional aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Area Conversion
-**Prompt:** A diagram showing different area measurements - a square meter grid, square foot tiles, and an acre field layout. Include a carpenter measuring floor area with a measuring tape. Show conversion formulas in a clean, educational style. Style: technical illustration with orange and blue accents.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional vector illustration showing a carpenter measuring floor area with a tape measure. Display three different area measurement visualizations side by side: a square meter grid (1m×1m), square foot tiles arrangement, and an acre field layout. Show conversion formulas in clean boxes: 1 sqm = 10.76 sqft = 0.000247 acre. Include dimension lines and measurements clearly labeled. The carpenter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for area highlights. Style: Technical illustration with professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Volume Conversion
-**Prompt:** An illustration showing liquid measurements - a measuring cup with milliliter and liter markings, alongside gallon and quart containers. Show a carpenter mixing paint or finish with volume conversions displayed. Include 3D representations of different volume containers. Style: clean infographic style with teal and purple colors.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional vector illustration showing a carpenter mixing paint or finish. Display multiple volume containers: a measuring cup with milliliter and liter markings, a gallon container, and a quart container. Show conversion values clearly: 1000ml = 1L = 0.264gal = 1.057qt. Include 3D representations of the containers with volume levels marked. The carpenter should be in modern work attire with a paint stirrer. Use purple (#667eea) and blue (#764ba2) gradient accents with teal (#14b8a6) for liquid elements. Style: Clean infographic style with professional aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Temperature Conversion
-**Prompt:** A visual thermometer showing Celsius, Fahrenheit, and Kelvin scales side by side. Include conversion formulas displayed in a clean layout. Show a workshop setting with temperature gauges. Style: modern scientific illustration with red and blue temperature indicators.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional vector illustration showing a workshop setting with temperature gauges. Display three thermometers side by side showing Celsius, Fahrenheit, and Kelvin scales with equivalent temperatures marked (e.g., 0°C = 32°F = 273.15K, 100°C = 212°F = 373.15K). Include conversion formulas displayed in clean boxes: °F = (°C × 9/5) + 32, K = °C + 273.15. Show workshop elements like a heater or temperature control panel. Use purple (#667eea) and blue (#764ba2) gradient accents with red (#ef4444) for hot and blue (#3b82f6) for cold indicators. Style: Modern scientific illustration with professional aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Board Foot Calculator
-**Prompt:** A detailed illustration of a lumber board with dimensions labeled (length × width × thickness). Show the board foot formula visually with the division by 144. Include a stack of lumber boards with total board feet calculated. Show a carpenter measuring lumber with the formula floating above. Style: woodworking illustration with wood grain textures and warm colors.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional vector illustration showing a carpenter measuring a lumber board. Display a detailed lumber board with dimensions clearly labeled: length (96"), width (6"), thickness (1"). Show the board foot formula in a prominent box: (Length × Width × Thickness) ÷ 144 = Board Feet. Include a calculation example: (96 × 6 × 1) ÷ 144 = 4 BF. Show a stack of lumber boards with total board feet calculated. The carpenter should be in modern work attire with a tape measure. Use purple (#667eea) and blue (#764ba2) gradient accents with warm wood tones (#8b5a2b) for lumber. Style: Woodworking illustration with professional aesthetic and subtle wood grain textures. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Wood Thickness (Nominal vs Actual)
-**Prompt:** A side-by-side comparison of nominal vs actual lumber dimensions. Show a 2×4 board labeled "Nominal: 2×4" next to the actual measurement "1.5×3.5". Include multiple lumber sizes (2×6, 1×4, etc.) with their actual dimensions. Use an exploded view style to show the difference clearly. Style: technical drawing style with dimension lines and measurements highlighted.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional technical illustration showing a side-by-side comparison of nominal vs actual lumber dimensions. Display three lumber sizes with their nominal and actual measurements: 2×4 (nominal) vs 1.5×3.5" (actual), 2×6 (nominal) vs 1.5×5.5" (actual), 1×4 (nominal) vs 0.75×3.5" (actual). Use an exploded view style to clearly show the difference between nominal and actual dimensions. Include dimension lines and measurements highlighted in contrasting colors. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for nominal and green (#10b981) for actual dimensions. Style: Technical drawing with professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Angle Conversion
-**Prompt:** An illustration showing different angle measurements - degrees, radians, gradians, and turns displayed on a protractor. Show a carpenter using a miter saw with angle settings. Include conversion formulas and visual representations of each angle unit. Style: clean geometric illustration with orange and blue accents.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional vector illustration showing a carpenter using a miter saw with angle settings. Display a large protractor showing different angle measurements: degrees (45°), radians (0.785), gradians (50), and turns (0.125). Show conversion formulas in clean boxes: 1 rad = 57.2958°, 1 grad = 0.9°, 1 turn = 360°. Include visual representations of each angle unit with clear labels. The carpenter should be in modern work attire adjusting the miter saw. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for angle highlights. Style: Clean geometric illustration with professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Material Cost Calculator
-**Prompt:** An illustration showing lumber boards with price tags. Display the calculation formula: (Length × Width × Thickness ÷ 144) × Price per Board Foot = Total Cost. Show a carpenter calculating material costs with a calculator. Include a breakdown of the calculation steps visually. Style: modern infographic with green currency accents.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional vector illustration showing a carpenter calculating material costs with a calculator. Display lumber boards with price tags showing price per board foot. Show the calculation formula in a prominent box: (Length × Width × Thickness ÷ 144) × Price per BF = Total Cost. Include a step-by-step breakdown: 1) Calculate board feet, 2) Multiply by price. Show an example: 8ft × 1ft × 1in = 0.67 BF × MVR 50 = MVR 33.50. The carpenter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents with green (#10b981) for currency elements. Style: Modern infographic with professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Paint/Finish Calculator
-**Prompt:** An illustration showing a painter applying finish to a wooden surface. Display the surface area calculation (Length × Width) and the formula: (Area × Coats) ÷ Coverage = Gallons Needed. Show paint cans with coverage rates and a surface being coated. Style: clean illustration with paint roller and brush elements.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional vector illustration showing a painter applying finish to a wooden surface with a roller. Display the surface area calculation in a box: Length × Width = Area (e.g., 10ft × 10ft = 100 sqft). Show the paint/finish formula: (Area × Coats) ÷ Coverage = Gallons Needed. Include paint cans with coverage rates labeled (e.g., 350 sqft/gal). Show a surface being coated with coverage percentage displayed. The painter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents with teal (#14b8a6) for paint elements. Style: Clean illustration with professional aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Crown Molding Calculator
-**Prompt:** A detailed 3D illustration showing crown molding installation on a corner. Display spring angle, wall angle, miter angle, and bevel angle with clear labels. Show the calculation formulas for miter and bevel angles. Include a carpenter using a miter saw with angle settings. Style: technical illustration with dimension lines and angle measurements highlighted.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional 3D-style illustration showing crown molding installation on a corner. Display all angles clearly labeled: spring angle (45°), wall angle (90°), miter angle (35.3°), and bevel angle (30°). Show the calculation formulas in boxes: Miter = arctan(tan(spring) × sin(wall)), Bevel = arctan(tan(spring) × cos(wall)). Include a carpenter using a miter saw with angle settings visible. Use dimension lines and angle measurements highlighted in contrasting colors. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for angle highlights. Style: Technical illustration with professional woodworking aesthetic and 3D perspective. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Stair Calculator
-**Prompt:** An illustration of a staircase with labeled components - total rise, total run, risers, treads, riser height, tread depth, and stringer length. Show the calculation formulas and ideal measurements. Include a carpenter measuring stairs with a tape measure. Style: architectural drawing style with clear labels and measurements.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional architectural illustration showing a staircase with all components labeled. Display: total rise (84"), total run (105"), number of risers (11), number of treads (10), riser height (7.6"), tread depth (10.5"), and stringer length (135"). Show calculation formulas in boxes: Ideal riser = 7.5", Number of risers = Total rise ÷ Ideal riser. Include a carpenter measuring stairs with a tape measure. The carpenter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for measurements. Style: Architectural drawing with professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Wood Weight Calculator
-**Prompt:** An illustration showing different wood species (oak, pine, teak, etc.) with their density values. Display the formula: Volume × Density = Weight. Show a carpenter weighing lumber on a scale with the calculation displayed. Include wood grain textures for different species. Style: woodworking illustration with wood textures and warm colors.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional vector illustration showing different wood species with their density values. Display wood samples labeled: Oak (45 lbs/cf), Pine (35 lbs/cf), Teak (45 lbs/cf), Maple (44 lbs/cf). Show the formula in a prominent box: Volume × Density = Weight. Include a calculation example: 0.33 cubic feet × 45 lbs/cf = 14.85 lbs. Show a carpenter weighing lumber on a scale with the calculation displayed above. Include subtle wood grain textures for different species. The carpenter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents with warm wood tones (#8b5a2b) for lumber. Style: Woodworking illustration with professional aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Shelf Sag Calculator
-**Prompt:** An illustration showing a wooden shelf with a load on it, displaying the sag deflection. Show the formula for calculating sag based on length, width, thickness, and load. Include a side view of the shelf with the sag exaggerated for clarity. Show different shelf thicknesses and their sag amounts. Style: technical illustration with physics diagram elements.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional technical illustration showing a wooden shelf with a load on it, displaying sag deflection. Display shelf dimensions labeled: length (36"), width (12"), thickness (0.75"), load (50 lbs). Show the side view of the shelf with sag exaggerated for clarity (sag = 0.25"). Display the formula: Sag = (5 × Load × Length⁴) ÷ (384 × E × I). Show different shelf thicknesses (0.5", 0.75", 1") with their sag amounts compared. Use purple (#667eea) and blue (#764ba2) gradient accents with red (#ef4444) for sag indicator. Style: Technical illustration with physics diagram elements and professional aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Drawer Box Calculator
-**Prompt:** An illustration showing a cabinet opening with overlay measurements. Display the formula for calculating drawer dimensions: Opening Width - (Overlay × 2) = Drawer Width. Show a drawer box being fitted into a cabinet with measurements labeled. Style: furniture illustration with clean lines and measurements.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional furniture illustration showing a cabinet opening with overlay measurements. Display: opening width (24"), opening height (6"), overlay (0.5"). Show the formula in a box: Drawer Width = Opening Width - (Overlay × 2) = 23", Drawer Height = Opening Height - Overlay = 5.5". Show a drawer box being fitted into a cabinet with all measurements clearly labeled. Display the drawer box components: front, sides, back, bottom. Use dimension lines and measurements highlighted. The cabinet should be in a modern style. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for measurements. Style: Furniture illustration with clean lines and professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Door Calculator
-**Prompt:** An illustration showing a door opening with overlay measurements. Display the formula: Opening Width + (Overlay × 2) = Door Width. Show a door being installed in a frame with measurements labeled. Include different overlay styles (full overlay, partial overlay, inset). Style: architectural illustration with door and frame details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional architectural illustration showing a door opening with overlay measurements. Display: opening width (18"), opening height (30"), overlay (0.5"). Show the formula in a box: Door Width = Opening Width + (Overlay × 2) = 19", Door Height = Opening Height + Overlay = 30.5". Show a door being installed in a frame with all measurements labeled. Display different overlay styles: full overlay, partial overlay, and inset with visual examples. Use dimension lines and measurements highlighted. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for measurements. Style: Architectural illustration with professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Table Top Calculator
-**Prompt:** An illustration showing a table top with breadboard ends. Display the calculation for number of boards needed based on table width and board width. Show the board layout with breadboard ends labeled. Include a carpenter laying out boards for a table top. Style: woodworking illustration with table top construction details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional woodworking illustration showing a table top with breadboard ends. Display: table top width (30"), table top length (48"), breadboard width (6"), board width (6"). Show the calculation in a box: Number of boards = Table top width ÷ Board width = 8 boards. Show the board layout with breadboard ends clearly labeled. Display individual boards with their dimensions. Include a carpenter laying out boards for a table top with a tape measure. The carpenter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents with warm wood tones (#8b5a2b) for lumber. Style: Woodworking illustration with professional aesthetic and table top construction details. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Picture Frame Calculator
-**Prompt:** An illustration showing a picture frame with miter joints. Display the 45° miter angle and board length calculations. Show a picture being framed with measurements labeled. Include the formula for calculating board lengths based on picture size and frame width. Style: clean illustration with frame construction details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional clean illustration showing a picture frame with miter joints. Display: picture width (8"), picture height (10"), frame width (2"). Show the 45° miter angle clearly marked on each corner. Display the formula in a box: Board length = (Picture width + Frame width × 2) + (Picture height + Frame width × 2) = 24". Show a picture being framed with all measurements labeled. Display the frame components: four mitered pieces with their lengths. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for angle and measurement highlights. Style: Clean illustration with professional aesthetic and frame construction details. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Golden Ratio Calculator
-**Prompt:** An elegant illustration showing the golden ratio (1.618) in furniture design. Display a rectangle with golden ratio proportions labeled. Show how to calculate height from width using the golden ratio. Include examples of furniture pieces designed with golden ratio proportions. Style: artistic illustration with golden ratio spiral overlay.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create an elegant artistic illustration showing the golden ratio (1.618) in furniture design. Display a rectangle with golden ratio proportions clearly labeled: width (10"), height (16.18"). Show the golden ratio spiral overlay on the rectangle. Display the formula in a box: Height = Width × 1.618. Include examples of furniture pieces designed with golden ratio proportions: a table, a cabinet, and a chair. Show the golden ratio relationship with visual guides. Use purple (#667eea) and blue (#764ba2) gradient accents with gold (#f59e0b) for golden ratio elements. Style: Artistic illustration with professional aesthetic and golden ratio spiral overlay. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Taper Calculator
-**Prompt:** An illustration showing a tapered table leg with large diameter, small diameter, and length labeled. Display the formula for calculating taper angle. Show a side view of the taper with angle measurement. Include a wood lathe turning a tapered piece. Style: technical illustration with woodworking elements.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional technical illustration showing a tapered table leg. Display all dimensions labeled: large diameter (3"), small diameter (2"), length (24"). Show the formula in a box: Taper angle = arctan((Large - Small) ÷ (2 × Length)) = 2.4°. Show a side view of the taper with angle measurement clearly marked. Include a wood lathe turning a tapered piece with the lathe visible. The wood should have subtle grain texture. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for angle and measurement highlights. Style: Technical illustration with professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Ellipse Calculator
-**Prompt:** An illustration showing an ellipse with major axis, minor axis, area, and circumference labeled. Display the formulas for calculating area and circumference of an ellipse. Show a carpenter drawing an ellipse for a table top. Style: geometric illustration with clean lines and measurements.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional geometric illustration showing an ellipse with all dimensions labeled. Display: major axis (10"), minor axis (6"), area (47.1 sq in), circumference (25.5"). Show the formulas in boxes: Area = π × (Major/2) × (Minor/2), Circumference ≈ π × (3 × (Major + Minor) - √((3 × Major + Minor) × (Major + 3 × Minor))). Include a carpenter drawing an ellipse for a table top with a compass or template. The carpenter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for measurement highlights. Style: Geometric illustration with clean lines and professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Polygon Calculator
-**Prompt:** An illustration showing regular polygons (hexagon, octagon, etc.) with radius, side length, area, and interior angle labeled. Display the formulas for calculating polygon dimensions. Show a carpenter laying out a polygon for a table or project. Style: geometric illustration with multiple polygon examples.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional geometric illustration showing regular polygons. Display a hexagon and octagon with all dimensions labeled: radius (6"), side length (6"), area (93.5 sq in for hexagon), interior angle (120° for hexagon). Show the formulas in boxes: Side length = 2 × Radius × sin(180/n), Area = (n × Side²) ÷ (4 × tan(180/n)), Interior angle = ((n-2) × 180) ÷ n. Include a carpenter laying out a polygon for a table with a compass and ruler. The carpenter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for measurement highlights. Style: Geometric illustration with professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Circle/Arc Calculator
-**Prompt:** An illustration showing a circle with diameter, radius, circumference, and area labeled. Display the formulas for circle calculations. Also show an arc with arc length and angle labeled. Include a carpenter using a compass to draw a circle. Style: clean geometric illustration with circle and arc examples.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional geometric illustration showing a circle and an arc. For the circle, display: diameter (10"), radius (5"), circumference (31.4"), area (78.5 sq in). Show the formulas: Circumference = π × Diameter, Area = π × Radius². For the arc, display: arc length (7.85"), arc angle (90°). Show the formula: Arc length = (Arc angle ÷ 360) × Circumference. Include a carpenter using a compass to draw a circle. The carpenter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for measurement highlights. Style: Clean geometric illustration with professional woodworking aesthetic. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Screw/Nail Calculator
-**Prompt:** An illustration showing a wooden board with fasteners (screws/nails) at regular intervals. Display the formula for calculating number of fasteners based on board dimensions and spacing. Show different spacing patterns and their fastener counts. Style: woodworking illustration with fastener details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional woodworking illustration showing a wooden board with fasteners (screws/nails) at regular intervals. Display: board length (8ft), board width (6"), spacing (6"). Show the formula in a box: Number of fasteners = (Board length in inches ÷ Spacing) × (Board width ÷ Spacing) = 16. Show different spacing patterns (4", 6", 8") with their fastener counts compared. Display individual screws/nails clearly with their spacing marked. Use purple (#667eea) and blue (#764ba2) gradient accents with gray (#6b7280) for fastener elements. Style: Woodworking illustration with professional aesthetic and fastener details. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Wood Glue Coverage Calculator
-**Prompt:** An illustration showing glue being applied to a wooden surface. Display the formula: (Length × Width) ÷ Coverage = Glue Needed. Show different surface areas and their glue requirements. Include glue bottles with coverage rates. Style: clean illustration with glue application details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional clean illustration showing glue being applied to a wooden surface with a brush. Display: length (24"), width (12"), coverage rate (200 sq in/oz). Show the formula in a box: Glue needed = (Length × Width) ÷ Coverage = 1.44 oz. Show different surface areas and their glue requirements compared. Include glue bottles with coverage rates clearly labeled. Display the glue application with coverage percentage shown. Use purple (#667eea) and blue (#764ba2) gradient accents with amber (#f59e0b) for glue elements. Style: Clean illustration with professional aesthetic and glue application details. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Saw Blade Kerf Calculator
-**Prompt:** An illustration showing a saw blade cutting through wood with kerf width labeled. Display the formula: Number of Cuts × Kerf Width = Total Kerf. Show a board being cut multiple times with kerf loss highlighted. Include before/after comparison of board length accounting for kerf. Style: technical illustration with saw blade and cutting details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional technical illustration showing a saw blade cutting through wood with kerf width labeled. Display: board length (96"), number of cuts (10), kerf width (0.125"). Show the formula in a box: Total kerf = Number of cuts × Kerf width = 1.25", Total length needed = Board length + Total kerf = 97.25". Show a board being cut multiple times with kerf loss highlighted in red. Include a before/after comparison showing board length with and without kerf accounted for. Display the saw blade with kerf width clearly marked. Use purple (#667eea) and blue (#764ba2) gradient accents with red (#ef4444) for kerf loss. Style: Technical illustration with professional woodworking aesthetic and saw blade details. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Edge Banding Calculator
-**Prompt:** An illustration showing plywood with edge banding applied. Display the formula for calculating banded length: (Length × 2) + (Width × 2). Show the edge banding application process with measurements labeled. Include different plywood sizes and their edge banding requirements. Style: woodworking illustration with edge banding details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional woodworking illustration showing plywood with edge banding being applied. Display: length (48"), width (24"), thickness (0.75"). Show the formula in a box: Banded length = (Length × 2) + (Width × 2) = 144". Show the edge banding application process with all four edges clearly labeled. Display different plywood sizes (48×24, 48×48, 24×24) with their edge banding requirements compared. Include edge banding material roll with measurements. Use purple (#667eea) and blue (#764ba2) gradient accents with brown (#8b5a2b) for edge banding. Style: Woodworking illustration with professional aesthetic and edge banding details. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Wood Movement Calculator
-**Prompt:** An illustration showing wood expansion and contraction due to humidity changes. Display the formula for calculating wood movement based on species coefficient and humidity change. Show wood boards at different humidity levels with movement exaggerated. Include different wood species and their movement coefficients. Style: technical illustration with wood movement diagrams.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional technical illustration showing wood expansion and contraction due to humidity changes. Display: width (12"), humidity change (20%). Show the formula in a box: Movement = Width × Coefficient × Humidity change. Show wood boards at different humidity levels (30%, 50%, 70%) with movement exaggerated for clarity. Display different wood species with their movement coefficients: Oak (0.0035), Pine (0.0025), Teak (0.0015). Include arrows showing expansion and contraction directions. Use purple (#667eea) and blue (#764ba2) gradient accents with green (#10b981) for expansion and red (#ef4444) for contraction. Style: Technical illustration with professional aesthetic and wood movement diagrams. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Pocket Hole Calculator
-**Prompt:** An illustration showing a pocket hole jig being used on a wooden board. Display the formula for calculating number of pocket holes based on board length and spacing. Show pocket hole placement and spacing. Include a pocket hole jig with angle settings. Style: woodworking illustration with pocket hole details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional woodworking illustration showing a pocket hole jig being used on a wooden board. Display: board thickness (0.75"), board length (24"), spacing (6"). Show the formula in a box: Number of holes = Board length ÷ Spacing = 4. Show pocket hole placement and spacing clearly marked. Display the pocket hole jig with angle settings (15°) visible. Show the drilled holes with their depth and angle marked. Include a carpenter operating the pocket hole jig. The carpenter should be in modern work attire. Use purple (#667eea) and blue (#764ba2) gradient accents with gray (#6b7280) for jig elements. Style: Woodworking illustration with professional aesthetic and pocket hole details. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Biscuit Joinery Calculator
-**Prompt:** An illustration showing biscuit joinery with biscuits being inserted into slots. Display the formula for calculating number of biscuits based on board width and spacing. Show different biscuit sizes (#0, #10, #20) with their dimensions. Include a biscuit joiner tool. Style: woodworking illustration with biscuit joinery details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional woodworking illustration showing biscuit joinery with biscuits being inserted into slots. Display: board width (6"), spacing (4"). Show the formula in a box: Number of biscuits = Board width ÷ Spacing = 2. Show different biscuit sizes with their dimensions: #0 (5/8" × 1-3/4"), #10 (3/4" × 2-1/8"), #20 (1" × 2-3/8"). Display a biscuit joiner tool with the biscuit being inserted. Show the slots and biscuits clearly with their positions marked. Use purple (#667eea) and blue (#764ba2) gradient accents with amber (#f59e0b) for biscuit elements. Style: Woodworking illustration with professional aesthetic and biscuit joinery details. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Dowel Calculator
-**Prompt:** An illustration showing dowel joinery with dowels being inserted into holes. Display the formula for calculating number of dowels based on board width and spacing. Show dowel diameter, depth, and spacing. Include a doweling jig tool. Style: woodworking illustration with dowel joinery details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional woodworking illustration showing dowel joinery with dowels being inserted into holes. Display: board width (6"), dowel diameter (0.5"), dowel depth (1"), spacing (4"). Show the formula in a box: Number of dowels = Board width ÷ Spacing = 2. Display dowel placement with all dimensions clearly marked. Include a doweling jig tool with the dowel being inserted. Show the holes and dowels with their depth and diameter marked. Display the joint assembly with dowels in place. Use purple (#667eea) and blue (#764ba2) gradient accents with brown (#8b5a2b) for dowel elements. Style: Woodworking illustration with professional aesthetic and dowel joinery details. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Mortise and Tenon Calculator
-**Prompt:** An illustration showing a mortise and tenon joint with all dimensions labeled. Display the formulas for calculating tenon thickness, width, and length based on board thickness. Show the joint assembly with measurements. Include a mortise and tenon being fitted together. Style: technical illustration with joint construction details.
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional technical illustration showing a mortise and tenon joint with all dimensions labeled. Display: board thickness (0.75"). Show the formulas in boxes: Tenon thickness = Board thickness × 0.67 = 0.5", Tenon width = Board thickness × 2 = 1.5", Tenon length = Board thickness × 1.33 = 1". Show the joint assembly with measurements clearly labeled. Display the mortise and tenon being fitted together with all dimensions marked. Include an exploded view showing the joint components separately. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for measurement highlights. Style: Technical illustration with professional aesthetic and joint construction details. Background: Light gray (#f8f9fa). High contrast text labels.
 
 ---
 
 ## Compound Miter Calculator
-**Prompt:** A detailed 3D illustration showing a multi-sided project (like a hexagonal table) with compound miter joints. Display the formulas for calculating miter and bevel angles based on number of sides and spring angle. Show a miter saw with angle settings for compound cuts. Style: technical illustration with 3D perspective and angle measurements.
-
----
-
-## General Style Guidelines for All Images:
-- Clean, modern vector illustration style
-- Use the app's color palette: purple (#667eea) to blue (#764ba2) gradient as primary accent
-- Include clear labels and measurements
-- Show practical woodworking/carpentry context
-- Educational and easy to understand
-- Professional quality suitable for a web application
-- Consistent style across all images
-- Include human figures (carpenters) where appropriate for scale
-- White or light gray background for clarity
+**Image Size:** 1024x768 pixels
+**Prompt:** Create a professional 3D-style illustration showing a multi-sided project (hexagonal table) with compound miter joints. Display: number of sides (6), spring angle (45°). Show the formulas in boxes: Wall angle = 360 ÷ Sides = 60°, Miter = arctan(tan(spring) × sin(wall)) = 30°, Bevel = arctan(tan(spring) × cos(wall)) = 35.3°. Show a miter saw with angle settings for compound cuts visible. Display the 3D perspective of the hexagonal table with compound miter joints clearly marked. Use dimension lines and angle measurements highlighted. Use purple (#667eea) and blue (#764ba2) gradient accents with orange (#f59e0b) for angle highlights. Style: Technical illustration with professional aesthetic and 3D perspective. Background: Light gray (#f8f9fa). High contrast text labels.
