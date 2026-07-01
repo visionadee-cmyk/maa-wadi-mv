@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Standard Dimensions Reference</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <style>
         * {
             margin: 0;
@@ -15,12 +17,95 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .brand-name {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            position: relative;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            background: #f0f0f0;
+            color: #667eea;
+        }
+
+        nav a.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .units-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 15px;
+        }
+
+        .unit-select {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
         }
 
         .container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 20px auto;
             background: white;
             border-radius: 20px;
             padding: 40px;
@@ -48,14 +133,84 @@
             text-decoration: none;
             font-weight: 600;
             padding: 10px 20px;
-            border: 2px solid #667eea;
             border-radius: 8px;
+            background: #f8f9fa;
             transition: all 0.3s ease;
         }
 
         .back-link:hover {
             background: #667eea;
             color: white;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .filter-select {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+
+        .hidden {
+            display: none !important;
         }
 
         .unit-toggle {
@@ -191,9 +346,37 @@
     </style>
 </head>
 <body>
+    <header>
+        <div class="header-content">
+            <div class="brand">
+                <img src="assets/logo.png" alt="Maa Wadi Mv" class="logo">
+                <span class="brand-name">Maa Wadi Mv</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="selection.html" title="Calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
+                    <li><a href="quotations.html" title="Quotations"><i class="fas fa-file-invoice-dollar"></i> Quotations</a></li>
+                    <li><a href="unit-converter.html" title="Unit Converter"><i class="fas fa-exchange-alt"></i> Unit Converter</a></li>
+                    <li><a href="#" class="active" title="Standard Dimensions"><i class="fas fa-ruler-combined"></i> Standard Dimensions</a></li>
+                    <li><a href="#" id="saveProjectBtn" title="Save Project"><i class="fas fa-save"></i> Save</a></li>
+                    <li><a href="#" id="loadProjectBtn" title="Load Project"><i class="fas fa-folder-open"></i> Load</a></li>
+                    <li class="units-dropdown" title="Units">
+                        <i class="fas fa-ruler"></i>
+                        <select id="unitSelector" class="unit-select">
+                            <option value="mm">mm</option>
+                            <option value="cm">cm</option>
+                            <option value="m">m</option>
+                            <option value="in">in</option>
+                        </select>
+                        <span>Units</span>
+                    </li>
+                    <li><a href="#" id="settingsBtn" title="Settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
     <div class="container">
-        <a href="index.html" class="back-link">← Back to Home</a>
-        
         <h1>Standard Dimensions Reference</h1>
         <p class="subtitle">Common furniture and fixture dimensions that rarely change</p>
 
@@ -208,8 +391,33 @@
             </select>
         </div>
 
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search dimensions..." oninput="filterCategories()">
+            <select id="categoryFilter" class="filter-select" onchange="filterCategories()">
+                <option value="all">All Categories</option>
+                <option value="bedroom">Bedroom Furniture</option>
+                <option value="living">Living Room Furniture</option>
+                <option value="dining">Dining Room Furniture</option>
+                <option value="bathroom">Bathroom Fixtures</option>
+                <option value="kitchen">Kitchen Dimensions</option>
+                <option value="office">Office Furniture</option>
+                <option value="door">Door & Window Standards</option>
+                <option value="electrical">Electrical Standards</option>
+                <option value="stair">Stair Dimensions</option>
+                <option value="cabinet">Cabinet Dimensions</option>
+                <option value="workbench">Workbench Dimensions</option>
+                <option value="clearance">Clearance Spaces</option>
+                <option value="ergonomic">Ergonomic Measurements</option>
+                <option value="ceiling">Ceiling & Room Heights</option>
+                <option value="material">Material Thicknesses</option>
+                <option value="hardware">Hardware Sizes</option>
+                <option value="pipe">Pipe & Conduit</option>
+                <option value="hvac">HVAC Dimensions</option>
+            </select>
+        </div>
+
         <!-- Bedroom Furniture -->
-        <div class="category">
+        <div class="category" data-category="bedroom">
             <h2 class="category-title">🛏️ Bedroom Furniture</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/bedroom-furniture.png" alt="Bedroom Furniture Dimensions">
@@ -320,7 +528,7 @@
         </div>
 
         <!-- Living Room Furniture -->
-        <div class="category">
+        <div class="category" data-category="living">
             <h2 class="category-title">🛋️ Living Room Furniture</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/living-room-furniture.png" alt="Living Room Furniture Dimensions">
@@ -439,7 +647,7 @@
         </div>
 
         <!-- Dining Room Furniture -->
-        <div class="category">
+        <div class="category" data-category="dining">
             <h2 class="category-title">🍽️ Dining Room Furniture</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/dining-room-furniture.png" alt="Dining Room Furniture Dimensions">
@@ -520,7 +728,7 @@
         </div>
 
         <!-- Bathroom Fixtures -->
-        <div class="category">
+        <div class="category" data-category="bathroom">
             <h2 class="category-title">🚿 Bathroom Fixtures</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/bathroom-fixtures.png" alt="Bathroom Fixtures Dimensions">
@@ -614,7 +822,7 @@
         </div>
 
         <!-- Kitchen Dimensions -->
-        <div class="category">
+        <div class="category" data-category="kitchen">
             <h2 class="category-title">🍳 Kitchen Dimensions</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/kitchen-dimensions.png" alt="Kitchen Dimensions">
@@ -691,7 +899,7 @@
         </div>
 
         <!-- Office Furniture -->
-        <div class="category">
+        <div class="category" data-category="office">
             <h2 class="category-title">💼 Office Furniture</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/office-furniture.png" alt="Office Furniture Dimensions">
@@ -751,7 +959,7 @@
         </div>
 
         <!-- Door & Window Standards -->
-        <div class="category">
+        <div class="category" data-category="door">
             <h2 class="category-title">🚪 Door & Window Standards</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/door-window-standards.png" alt="Door & Window Standards">
@@ -828,7 +1036,7 @@
         </div>
 
         <!-- Electrical Standards -->
-        <div class="category">
+        <div class="category" data-category="electrical">
             <h2 class="category-title">⚡ Electrical Standards</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/electrical-standards.png" alt="Electrical Standards">
@@ -905,7 +1113,7 @@
         </div>
 
         <!-- Stair Dimensions -->
-        <div class="category">
+        <div class="category" data-category="stair">
             <h2 class="category-title">🪜 Stair Dimensions</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/stair-dimensions.png" alt="Stair Dimensions">
@@ -982,7 +1190,7 @@
         </div>
 
         <!-- Cabinet Dimensions -->
-        <div class="category">
+        <div class="category" data-category="cabinet">
             <h2 class="category-title">🗄️ Cabinet Dimensions</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/cabinet-dimensions.png" alt="Cabinet Dimensions">
@@ -1059,7 +1267,7 @@
         </div>
 
         <!-- Workbench Dimensions -->
-        <div class="category">
+        <div class="category" data-category="workbench">
             <h2 class="category-title">🔨 Workbench Dimensions</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/workbench-dimensions.png" alt="Workbench Dimensions">
@@ -1136,7 +1344,7 @@
         </div>
 
         <!-- Clearance Spaces -->
-        <div class="category">
+        <div class="category" data-category="clearance">
             <h2 class="category-title">📏 Clearance Spaces</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/clearance-spaces.png" alt="Clearance Spaces">
@@ -1213,7 +1421,7 @@
         </div>
 
         <!-- Ergonomic Measurements -->
-        <div class="category">
+        <div class="category" data-category="ergonomic">
             <h2 class="category-title">👤 Ergonomic Measurements</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/ergonomic-measurements.png" alt="Ergonomic Measurements">
@@ -1290,7 +1498,7 @@
         </div>
 
         <!-- Ceiling & Room Heights -->
-        <div class="category">
+        <div class="category" data-category="ceiling">
             <h2 class="category-title">🏠 Ceiling & Room Heights</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/ceiling-room-heights.png" alt="Ceiling & Room Heights">
@@ -1367,7 +1575,7 @@
         </div>
 
         <!-- Material Thicknesses -->
-        <div class="category">
+        <div class="category" data-category="material">
             <h2 class="category-title">📏 Material Thicknesses</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/material-thicknesses.png" alt="Material Thicknesses">
@@ -1444,7 +1652,7 @@
         </div>
 
         <!-- Hardware Sizes -->
-        <div class="category">
+        <div class="category" data-category="hardware">
             <h2 class="category-title">🔩 Hardware Sizes</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/hardware-sizes.png" alt="Hardware Sizes">
@@ -1521,7 +1729,7 @@
         </div>
 
         <!-- Pipe & Conduit -->
-        <div class="category">
+        <div class="category" data-category="pipe">
             <h2 class="category-title">🔧 Pipe & Conduit</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/pipe-conduit.png" alt="Pipe & Conduit">
@@ -1598,7 +1806,7 @@
         </div>
 
         <!-- HVAC Dimensions -->
-        <div class="category">
+        <div class="category" data-category="hvac">
             <h2 class="category-title">❄️ HVAC Dimensions</h2>
             <div class="category-image">
                 <img src="public/images/standard-dimensions/hvac-dimensions.jfif" alt="HVAC Dimensions">
@@ -1675,6 +1883,8 @@
         </div>
     </div>
 
+    <button id="backToTop" class="back-to-top" onclick="scrollToTop()">↑</button>
+
     <script>
         // Store original values in inches for conversion
         const originalValues = [];
@@ -1750,6 +1960,54 @@
                     return rounded;
             }
         }
+
+        // Search and filter functionality
+        function filterCategories() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const categories = document.querySelectorAll('.category');
+
+            categories.forEach(category => {
+                const categoryData = category.getAttribute('data-category');
+                const categoryText = category.textContent.toLowerCase();
+                
+                let showCategory = true;
+
+                // Filter by category dropdown
+                if (categoryFilter !== 'all' && categoryData !== categoryFilter) {
+                    showCategory = false;
+                }
+
+                // Filter by search term
+                if (searchTerm && !categoryText.includes(searchTerm)) {
+                    showCategory = false;
+                }
+
+                if (showCategory) {
+                    category.classList.remove('hidden');
+                } else {
+                    category.classList.add('hidden');
+                }
+            });
+        }
+
+        // Back to top functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide back to top button
+        window.addEventListener('scroll', function() {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
     </script>
 </body>
 </html>
