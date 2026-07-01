@@ -1,0 +1,2300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter - Maa Wadi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .unit-converter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .converter-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .converter-header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .converter-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .unit-category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+            padding: 12px 24px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .category-tab:hover {
+            background: #e0e0e0;
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .converter-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .converter-input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .unit-input-wrapper {
+            position: relative;
+        }
+
+        .unit-input-wrapper label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .unit-input-wrapper input {
+            width: 100%;
+            padding: 15px 50px 15px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .unit-input-wrapper input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .unit-input-wrapper .unit-label {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .unit-input-wrapper .unit-label::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 20px;
+            background: #e0e0e0;
+        }
+
+        .converter-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .info-content {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .info-text {
+            flex: 1;
+        }
+
+        .info-image {
+            flex: 0 0 350px;
+        }
+
+        .info-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .converter-info h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .converter-info p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .converter-header h1 {
+                font-size: 2em;
+            }
+
+            .converter-input-group {
+                grid-template-columns: 1fr;
+            }
+
+            .category-tab {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="brand">
+                <img src="assets/logo.png" alt="Maa Wadi Mv" class="logo">
+                <span class="brand-name">Maa Wadi Mv</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="selection.html" title="Calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
+                    <li><a href="quotations.html" title="Quotations"><i class="fas fa-file-invoice-dollar"></i> Quotations</a></li>
+                    <li><a href="#" class="active" title="Unit Converter"><i class="fas fa-exchange-alt"></i> Unit Converter</a></li>
+                    <li><a href="#" id="saveProjectBtn" title="Save Project"><i class="fas fa-save"></i> Save</a></li>
+                    <li><a href="#" id="loadProjectBtn" title="Load Project"><i class="fas fa-folder-open"></i> Load</a></li>
+                    <li class="units-dropdown" title="Units">
+                        <i class="fas fa-ruler"></i>
+                        <select id="unitSelector" class="unit-select">
+                            <option value="mm">mm</option>
+                            <option value="cm">cm</option>
+                            <option value="m">m</option>
+                            <option value="in">in</option>
+                        </select>
+                        <span>Units</span>
+                    </li>
+                    <li><a href="#" id="settingsBtn" title="Settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="unit-converter-container">
+
+        <div class="converter-header">
+            <h1><i class="fas fa-exchange-alt"></i> Unit Converter</h1>
+            <p>Convert between different units instantly. Type in any field to see conversions in all units.</p>
+        </div>
+
+        <div class="unit-category-tabs">
+            <button class="category-tab active" data-category="length">Length</button>
+            <button class="category-tab" data-category="weight">Weight</button>
+            <button class="category-tab" data-category="area">Area</button>
+            <button class="category-tab" data-category="volume">Volume</button>
+            <button class="category-tab" data-category="temperature">Temperature</button>
+            <button class="category-tab" data-category="boardfoot">Board Foot</button>
+            <button class="category-tab" data-category="woodthickness">Wood Thickness</button>
+            <button class="category-tab" data-category="angle">Angle</button>
+            <button class="category-tab" data-category="materialcost">Material Cost</button>
+            <button class="category-tab" data-category="paintfinish">Paint/Finish</button>
+            <button class="category-tab" data-category="crownmolding">Crown Molding</button>
+            <button class="category-tab" data-category="stair">Stair</button>
+            <button class="category-tab" data-category="woodweight">Wood Weight</button>
+            <button class="category-tab" data-category="shelfsag">Shelf Sag</button>
+            <button class="category-tab" data-category="drawer">Drawer Box</button>
+            <button class="category-tab" data-category="door">Door</button>
+            <button class="category-tab" data-category="tabletop">Table Top</button>
+            <button class="category-tab" data-category="pictureframe">Picture Frame</button>
+            <button class="category-tab" data-category="goldenratio">Golden Ratio</button>
+            <button class="category-tab" data-category="taper">Taper</button>
+            <button class="category-tab" data-category="ellipse">Ellipse</button>
+            <button class="category-tab" data-category="polygon">Polygon</button>
+            <button class="category-tab" data-category="circle">Circle/Arc</button>
+            <button class="category-tab" data-category="fastener">Screw/Nail</button>
+            <button class="category-tab" data-category="glue">Wood Glue</button>
+            <button class="category-tab" data-category="kerf">Saw Kerf</button>
+            <button class="category-tab" data-category="edgebanding">Edge Banding</button>
+            <button class="category-tab" data-category="woodmovement">Wood Movement</button>
+            <button class="category-tab" data-category="pockethole">Pocket Hole</button>
+            <button class="category-tab" data-category="biscuit">Biscuit</button>
+            <button class="category-tab" data-category="dowel">Dowel</button>
+            <button class="category-tab" data-category="mortisetendon">Mortise/Tenon</button>
+            <button class="category-tab" data-category="compoundmiter">Compound Miter</button>
+            <button class="category-tab" data-category="silicone">Silicone</button>
+            <button class="category-tab" data-category="tvheight">TV Height</button>
+            <button class="category-tab" data-category="mirror">Mirror</button>
+            <button class="category-tab" data-category="toilet">Toilet</button>
+            <button class="category-tab" data-category="room">Room</button>
+            <button class="category-tab" data-category="watch">Watch</button>
+            <button class="category-tab" data-category="light">Light</button>
+            <button class="category-tab" data-category="switch">Switch</button>
+            <button class="category-tab" data-category="outlet">Outlet</button>
+            <button class="category-tab" data-category="thermostat">Thermostat</button>
+            <button class="category-tab" data-category="curtains">Curtains</button>
+            <button class="category-tab" data-category="art">Art</button>
+            <button class="category-tab" data-category="ceilingfan">Ceiling Fan</button>
+            <button class="category-tab" data-category="shelf">Shelf</button>
+            <button class="category-tab" data-category="desk">Desk</button>
+            <button class="category-tab" data-category="kitchen">Kitchen</button>
+            <button class="category-tab" data-category="bed">Bed</button>
+            <button class="category-tab" data-category="rug">Rug</button>
+            <button class="category-tab" data-category="sofa">Sofa</button>
+            <button class="category-tab" data-category="dining">Dining</button>
+            <button class="category-tab" data-category="cabinet">Cabinet</button>
+            <button class="category-tab" data-category="doorwindow">Door/Window</button>
+        </div>
+
+        <div class="converter-card" id="converterCard">
+            <div class="converter-input-group" id="unitInputs">
+                <!-- Unit inputs will be generated by JavaScript -->
+            </div>
+
+            <div class="converter-info">
+                <div class="info-content">
+                    <div class="info-text">
+                        <h3><i class="fas fa-info-circle"></i> How to Use</h3>
+                        <div id="categoryInstructions">
+                            <p>Type a value in any unit field, and all other units will automatically convert to the equivalent value. No need to select a "from" or "to" unit - just type and see instant results.</p>
+                            <p><strong>Example:</strong> Type "100" in the mm field, and you'll immediately see "10" in cm, "0.1" in m, "3.94" in inches, etc.</p>
+                        </div>
+                    </div>
+                    <div class="info-image">
+                        <img id="categoryImage" src="public/images/unit-converter/length-conversion.png" alt="Calculator illustration">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Unit conversion data
+        const unitData = {
+            length: {
+                name: 'Length',
+                units: {
+                    mm: { name: 'Millimeter (mm)', factor: 1 },
+                    cm: { name: 'Centimeter (cm)', factor: 10 },
+                    m: { name: 'Meter (m)', factor: 1000 },
+                    km: { name: 'Kilometer (km)', factor: 1000000 },
+                    inch: { name: 'Inch (in)', factor: 25.4 },
+                    ft: { name: 'Foot (ft)', factor: 304.8 },
+                    yd: { name: 'Yard (yd)', factor: 914.4 },
+                    mile: { name: 'Mile (mi)', factor: 1609344 }
+                }
+            },
+            weight: {
+                name: 'Weight',
+                units: {
+                    mg: { name: 'Milligram (mg)', factor: 1 },
+                    g: { name: 'Gram (g)', factor: 1000 },
+                    kg: { name: 'Kilogram (kg)', factor: 1000000 },
+                    oz: { name: 'Ounce (oz)', factor: 28349.523125 },
+                    lb: { name: 'Pound (lb)', factor: 453592.37 },
+                    ton: { name: 'Metric Ton (t)', factor: 1000000000 }
+                }
+            },
+            area: {
+                name: 'Area',
+                units: {
+                    sqmm: { name: 'Square Millimeter (mm²)', factor: 1 },
+                    sqcm: { name: 'Square Centimeter (cm²)', factor: 100 },
+                    sqm: { name: 'Square Meter (m²)', factor: 1000000 },
+                    sqkm: { name: 'Square Kilometer (km²)', factor: 1000000000000 },
+                    sqin: { name: 'Square Inch (in²)', factor: 645.16 },
+                    sqft: { name: 'Square Foot (ft²)', factor: 92903.04 },
+                    sqyd: { name: 'Square Yard (yd²)', factor: 836127.36 },
+                    acre: { name: 'Acre', factor: 4046856422.4 }
+                }
+            },
+            volume: {
+                name: 'Volume',
+                units: {
+                    ml: { name: 'Milliliter (ml)', factor: 1 },
+                    l: { name: 'Liter (L)', factor: 1000 },
+                    m3: { name: 'Cubic Meter (m³)', factor: 1000000 },
+                    cm3: { name: 'Cubic Centimeter (cm³)', factor: 1 },
+                    floz: { name: 'Fluid Ounce (fl oz)', factor: 29.5735295625 },
+                    cup: { name: 'Cup', factor: 236.5882365 },
+                    pt: { name: 'Pint (pt)', factor: 473.176473 },
+                    qt: { name: 'Quart (qt)', factor: 946.352946 },
+                    gal: { name: 'Gallon (gal)', factor: 3785.411784 }
+                }
+            },
+            temperature: {
+                name: 'Temperature',
+                units: {
+                    c: { name: 'Celsius (°C)', special: true },
+                    f: { name: 'Fahrenheit (°F)', special: true },
+                    k: { name: 'Kelvin (K)', special: true }
+                }
+            },
+            boardfoot: {
+                name: 'Board Foot Calculator',
+                units: {
+                    length: { name: 'Length (inches)', special: true },
+                    width: { name: 'Width (inches)', special: true },
+                    thickness: { name: 'Thickness (inches)', special: true },
+                    boardfeet: { name: 'Board Feet', special: true }
+                }
+            },
+            woodthickness: {
+                name: 'Wood Thickness (Nominal vs Actual)',
+                units: {
+                    nominal2x4: { name: '2×4 (Nominal)', actual: '1.5×3.5 inches' },
+                    nominal2x6: { name: '2×6 (Nominal)', actual: '1.5×5.5 inches' },
+                    nominal2x8: { name: '2×8 (Nominal)', actual: '1.5×7.25 inches' },
+                    nominal1x2: { name: '1×2 (Nominal)', actual: '0.75×1.5 inches' },
+                    nominal1x4: { name: '1×4 (Nominal)', actual: '0.75×3.5 inches' },
+                    nominal1x6: { name: '1×6 (Nominal)', actual: '0.75×5.5 inches' },
+                    nominal1x8: { name: '1×8 (Nominal)', actual: '0.75×7.25 inches' },
+                    nominal4x4: { name: '4×4 (Nominal)', actual: '3.5×3.5 inches' },
+                    nominal6x6: { name: '6×6 (Nominal)', actual: '5.5×5.5 inches' }
+                }
+            },
+            angle: {
+                name: 'Angle Converter',
+                units: {
+                    degrees: { name: 'Degrees (°)', factor: 1 },
+                    radians: { name: 'Radians (rad)', factor: 57.2957795131 },
+                    gradians: { name: 'Gradians (gon)', factor: 0.9 },
+                    turns: { name: 'Turns', factor: 360 }
+                }
+            },
+            materialcost: {
+                name: 'Material Cost Calculator',
+                units: {
+                    length: { name: 'Length (ft)', special: true },
+                    width: { name: 'Width (ft)', special: true },
+                    thickness: { name: 'Thickness (in)', special: true },
+                    priceperbf: { name: 'Price per Board Foot (MVR)', special: true },
+                    totalcost: { name: 'Total Cost (MVR)', special: true }
+                }
+            },
+            paintfinish: {
+                name: 'Paint/Finish Calculator',
+                units: {
+                    length: { name: 'Length (ft)', special: true },
+                    width: { name: 'Width (ft)', special: true },
+                    coverage: { name: 'Coverage (sq ft per gallon)', special: true },
+                    coats: { name: 'Number of Coats', special: true },
+                    totalgallons: { name: 'Total Gallons Needed', special: true }
+                }
+            },
+            crownmolding: {
+                name: 'Crown Molding Calculator',
+                units: {
+                    springangle: { name: 'Spring Angle (°)', special: true },
+                    wallangle: { name: 'Wall Angle (°)', special: true },
+                    miterangle: { name: 'Miter Angle (°)', special: true },
+                    bevelangle: { name: 'Bevel Angle (°)', special: true }
+                }
+            },
+            stair: {
+                name: 'Stair Calculator',
+                units: {
+                    totalrise: { name: 'Total Rise (in)', special: true },
+                    totalrun: { name: 'Total Run (in)', special: true },
+                    risers: { name: 'Number of Risers', special: true },
+                    treads: { name: 'Number of Treads', special: true },
+                    riserheight: { name: 'Riser Height (in)', special: true },
+                    treaddepth: { name: 'Tread Depth (in)', special: true },
+                    stringerlength: { name: 'Stringer Length (in)', special: true }
+                }
+            },
+            woodweight: {
+                name: 'Wood Weight Calculator',
+                units: {
+                    length: { name: 'Length (in)', special: true },
+                    width: { name: 'Width (in)', special: true },
+                    thickness: { name: 'Thickness (in)', special: true },
+                    species: { name: 'Wood Species', special: true },
+                    weight: { name: 'Weight (lbs)', special: true }
+                }
+            },
+            shelfsag: {
+                name: 'Shelf Sag Calculator',
+                units: {
+                    length: { name: 'Shelf Length (in)', special: true },
+                    width: { name: 'Shelf Width (in)', special: true },
+                    thickness: { name: 'Shelf Thickness (in)', special: true },
+                    load: { name: 'Load (lbs)', special: true },
+                    sag: { name: 'Sag (in)', special: true }
+                }
+            },
+            drawer: {
+                name: 'Drawer Box Calculator',
+                units: {
+                    openingwidth: { name: 'Opening Width (in)', special: true },
+                    openingheight: { name: 'Opening Height (in)', special: true },
+                    drawerdepth: { name: 'Drawer Depth (in)', special: true },
+                    overlay: { name: 'Overlay (in)', special: true },
+                    drawerwidth: { name: 'Drawer Width (in)', special: true },
+                    drawerheight: { name: 'Drawer Height (in)', special: true }
+                }
+            },
+            door: {
+                name: 'Door Calculator',
+                units: {
+                    openingwidth: { name: 'Opening Width (in)', special: true },
+                    openingheight: { name: 'Opening Height (in)', special: true },
+                    overlay: { name: 'Overlay (in)', special: true },
+                    doorwidth: { name: 'Door Width (in)', special: true },
+                    doorheight: { name: 'Door Height (in)', special: true }
+                }
+            },
+            tabletop: {
+                name: 'Table Top Calculator',
+                units: {
+                    tabletopwidth: { name: 'Table Top Width (in)', special: true },
+                    tabletoplength: { name: 'Table Top Length (in)', special: true },
+                    breadboardwidth: { name: 'Breadboard Width (in)', special: true },
+                    boardwidth: { name: 'Board Width (in)', special: true },
+                    numboards: { name: 'Number of Boards', special: true }
+                }
+            },
+            pictureframe: {
+                name: 'Picture Frame Calculator',
+                units: {
+                    picturewidth: { name: 'Picture Width (in)', special: true },
+                    pictureheight: { name: 'Picture Height (in)', special: true },
+                    framewidth: { name: 'Frame Width (in)', special: true },
+                    miterangle: { name: 'Miter Angle (°)', special: true },
+                    boardlength: { name: 'Board Length (in)', special: true }
+                }
+            },
+            goldenratio: {
+                name: 'Golden Ratio Calculator',
+                units: {
+                    width: { name: 'Width (in)', special: true },
+                    height: { name: 'Height (in)', special: true },
+                    ratio: { name: 'Golden Ratio', special: true }
+                }
+            },
+            taper: {
+                name: 'Taper Calculator',
+                units: {
+                    largediameter: { name: 'Large Diameter (in)', special: true },
+                    smalldiameter: { name: 'Small Diameter (in)', special: true },
+                    length: { name: 'Length (in)', special: true },
+                    taperangle: { name: 'Taper Angle (°)', special: true }
+                }
+            },
+            ellipse: {
+                name: 'Ellipse Calculator',
+                units: {
+                    majoraxis: { name: 'Major Axis (in)', special: true },
+                    minoraxis: { name: 'Minor Axis (in)', special: true },
+                    area: { name: 'Area (sq in)', special: true },
+                    circumference: { name: 'Circumference (in)', special: true }
+                }
+            },
+            polygon: {
+                name: 'Polygon Calculator',
+                units: {
+                    sides: { name: 'Number of Sides', special: true },
+                    radius: { name: 'Radius (in)', special: true },
+                    sidelen: { name: 'Side Length (in)', special: true },
+                    area: { name: 'Area (sq in)', special: true },
+                    interiorangle: { name: 'Interior Angle (°)', special: true }
+                }
+            },
+            circle: {
+                name: 'Circle/Arc Calculator',
+                units: {
+                    diameter: { name: 'Diameter (in)', special: true },
+                    radius: { name: 'Radius (in)', special: true },
+                    circumference: { name: 'Circumference (in)', special: true },
+                    area: { name: 'Area (sq in)', special: true },
+                    arclength: { name: 'Arc Length (in)', special: true },
+                    arcangle: { name: 'Arc Angle (°)', special: true }
+                }
+            },
+            fastener: {
+                name: 'Screw/Nail Calculator',
+                units: {
+                    boardlength: { name: 'Board Length (ft)', special: true },
+                    boardwidth: { name: 'Board Width (in)', special: true },
+                    spacing: { name: 'Spacing (in)', special: true },
+                    numfasteners: { name: 'Number of Fasteners', special: true }
+                }
+            },
+            glue: {
+                name: 'Wood Glue Coverage Calculator',
+                units: {
+                    length: { name: 'Length (in)', special: true },
+                    width: { name: 'Width (in)', special: true },
+                    coverage: { name: 'Coverage (sq in per oz)', special: true },
+                    glueoz: { name: 'Glue Needed (oz)', special: true }
+                }
+            },
+            kerf: {
+                name: 'Saw Blade Kerf Calculator',
+                units: {
+                    boardlength: { name: 'Board Length (in)', special: true },
+                    numcuts: { name: 'Number of Cuts', special: true },
+                    kerfwidth: { name: 'Kerf Width (in)', special: true },
+                    totalkerf: { name: 'Total Kerf (in)', special: true },
+                    totallength: { name: 'Total Length Needed (in)', special: true }
+                }
+            },
+            edgebanding: {
+                name: 'Edge Banding Calculator',
+                units: {
+                    length: { name: 'Length (in)', special: true },
+                    width: { name: 'Width (in)', special: true },
+                    thickness: { name: 'Thickness (in)', special: true },
+                    bandedlength: { name: 'Banded Length (in)', special: true }
+                }
+            },
+            woodmovement: {
+                name: 'Wood Movement Calculator',
+                units: {
+                    width: { name: 'Width (in)', special: true },
+                    species: { name: 'Wood Species', special: true },
+                    humiditychange: { name: 'Humidity Change (%)', special: true },
+                    movement: { name: 'Movement (in)', special: true }
+                }
+            },
+            pockethole: {
+                name: 'Pocket Hole Calculator',
+                units: {
+                    boardthickness: { name: 'Board Thickness (in)', special: true },
+                    numholes: { name: 'Number of Holes', special: true },
+                    spacing: { name: 'Spacing (in)', special: true },
+                    boardlength: { name: 'Board Length (in)', special: true }
+                }
+            },
+            biscuit: {
+                name: 'Biscuit Joinery Calculator',
+                units: {
+                    boardwidth: { name: 'Board Width (in)', special: true },
+                    biscuitsize: { name: 'Biscuit Size (#)', special: true },
+                    numbiscuits: { name: 'Number of Biscuits', special: true },
+                    spacing: { name: 'Spacing (in)', special: true }
+                }
+            },
+            dowel: {
+                name: 'Dowel Calculator',
+                units: {
+                    boardwidth: { name: 'Board Width (in)', special: true },
+                    doweldiameter: { name: 'Dowel Diameter (in)', special: true },
+                    doweldepth: { name: 'Dowel Depth (in)', special: true },
+                    numdowels: { name: 'Number of Dowels', special: true },
+                    spacing: { name: 'Spacing (in)', special: true }
+                }
+            },
+            mortisetendon: {
+                name: 'Mortise and Tenon Calculator',
+                units: {
+                    boardthickness: { name: 'Board Thickness (in)', special: true },
+                    tenonwidth: { name: 'Tenon Width (in)', special: true },
+                    tenonlength: { name: 'Tenon Length (in)', special: true },
+                    tenonthickness: { name: 'Tenon Thickness (in)', special: true }
+                }
+            },
+            compoundmiter: {
+                name: 'Compound Miter Calculator',
+                units: {
+                    sides: { name: 'Number of Sides', special: true },
+                    springangle: { name: 'Spring Angle (°)', special: true },
+                    miterangle: { name: 'Miter Angle (°)', special: true },
+                    bevelangle: { name: 'Bevel Angle (°)', special: true }
+                }
+            },
+            silicone: {
+                name: 'Silicone/Sealant Calculator',
+                units: {
+                    length: { name: 'Length (ft)', special: true },
+                    width: { name: 'Width (in)', special: true },
+                    depth: { name: 'Depth (in)', special: true },
+                    tubes: { name: 'Tubes Needed', special: true }
+                }
+            },
+            tvheight: {
+                name: 'TV Height Calculator',
+                units: {
+                    tvsize: { name: 'TV Size (in)', special: true },
+                    viewingdistance: { name: 'Viewing Distance (ft)', special: true },
+                    eyeheight: { name: 'Eye Height (in)', special: true },
+                    mountheight: { name: 'Mount Height (in)', special: true }
+                }
+            },
+            mirror: {
+                name: 'Mirror Calculator',
+                units: {
+                    height: { name: 'Person Height (in)', special: true },
+                    mirrorheight: { name: 'Mirror Height (in)', special: true },
+                    distance: { name: 'Distance from Mirror (in)', special: true },
+                    placement: { name: 'Placement Height (in)', special: true }
+                }
+            },
+            toilet: {
+                name: 'Toilet Accessories Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    toiltpaperloc: { name: 'Toilet Paper Location (in from wall)', special: true },
+                    soaploc: { name: 'Hand Soap Location (in from wall)', special: true },
+                    brushloc: { name: 'Toilet Brush Location (in from wall)', special: true }
+                }
+            },
+            room: {
+                name: 'Room Accessories Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    ceilingheight: { name: 'Ceiling Height (ft)', special: true },
+                    lightx: { name: 'Light X Position (ft)', special: true },
+                    lighty: { name: 'Light Y Position (ft)', special: true },
+                    switchx: { name: 'Switch X Position (ft)', special: true },
+                    switchy: { name: 'Switch Y Position (ft)', special: true }
+                }
+            },
+            watch: {
+                name: 'Wall Watch Height Calculator',
+                units: {
+                    wallheight: { name: 'Wall Height (ft)', special: true },
+                    eyeheight: { name: 'Eye Height (ft)', special: true },
+                    watchheight: { name: 'Watch Mount Height (ft)', special: true }
+                }
+            },
+            light: {
+                name: 'Light Location Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    ceilingheight: { name: 'Ceiling Height (ft)', special: true },
+                    light1x: { name: 'Light 1 X Position (ft)', special: true },
+                    light1y: { name: 'Light 1 Y Position (ft)', special: true },
+                    light2x: { name: 'Light 2 X Position (ft)', special: true },
+                    light2y: { name: 'Light 2 Y Position (ft)', special: true }
+                }
+            },
+            switch: {
+                name: 'Switch Location Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    doorx: { name: 'Door X Position (ft)', special: true },
+                    switchx: { name: 'Switch X Position (ft)', special: true },
+                    switchy: { name: 'Switch Y Position (ft)', special: true }
+                }
+            },
+            outlet: {
+                name: 'Outlet Location Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    outletx: { name: 'Outlet X Position (ft)', special: true },
+                    outlety: { name: 'Outlet Y Position (ft)', special: true },
+                    spacing: { name: 'Outlet Spacing (ft)', special: true }
+                }
+            },
+            thermostat: {
+                name: 'Thermostat Location Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    thermostatx: { name: 'Thermostat X Position (ft)', special: true },
+                    thermostaty: { name: 'Thermostat Y Position (ft)', special: true }
+                }
+            },
+            curtains: {
+                name: 'Curtains/Blinds Calculator',
+                units: {
+                    windowwidth: { name: 'Window Width (ft)', special: true },
+                    windowheight: { name: 'Window Height (ft)', special: true },
+                    curtainwidth: { name: 'Curtain Width (ft)', special: true },
+                    curtainlength: { name: 'Curtain Length (ft)', special: true }
+                }
+            },
+            art: {
+                name: 'Art/Decor Placement Calculator',
+                units: {
+                    wallwidth: { name: 'Wall Width (ft)', special: true },
+                    wallheight: { name: 'Wall Height (ft)', special: true },
+                    artwidth: { name: 'Art Width (ft)', special: true },
+                    artheight: { name: 'Art Height (ft)', special: true },
+                    artx: { name: 'Art X Position (ft)', special: true },
+                    arty: { name: 'Art Y Position (ft)', special: true }
+                }
+            },
+            ceilingfan: {
+                name: 'Ceiling Fan Height Calculator',
+                units: {
+                    ceilingheight: { name: 'Ceiling Height (ft)', special: true },
+                    fanheight: { name: 'Fan Mount Height (ft)', special: true },
+                    bladeheight: { name: 'Blade Height from Floor (ft)', special: true }
+                }
+            },
+            shelf: {
+                name: 'Shelf Height Calculator',
+                units: {
+                    wallheight: { name: 'Wall Height (ft)', special: true },
+                    shelfheight: { name: 'Shelf Mount Height (ft)', special: true },
+                    shelfcount: { name: 'Number of Shelves', special: true },
+                    spacing: { name: 'Shelf Spacing (ft)', special: true }
+                }
+            },
+            desk: {
+                name: 'Desk/Work Surface Height Calculator',
+                units: {
+                    personheight: { name: 'Person Height (ft)', special: true },
+                    deskheight: { name: 'Desk Height (ft)', special: true },
+                    chairheight: { name: 'Chair Height (ft)', special: true }
+                }
+            },
+            kitchen: {
+                name: 'Kitchen Counter Height Calculator',
+                units: {
+                    personheight: { name: 'Person Height (ft)', special: true },
+                    counterheight: { name: 'Counter Height (ft)', special: true },
+                    uppercabinet: { name: 'Upper Cabinet Height (ft)', special: true }
+                }
+            },
+            bed: {
+                name: 'Bed Size Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    bedsize: { name: 'Bed Size (ft)', special: true },
+                    clearance: { name: 'Clearance Around Bed (ft)', special: true }
+                }
+            },
+            rug: {
+                name: 'Rug Size Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    ruglength: { name: 'Rug Length (ft)', special: true },
+                    rugwidth: { name: 'Rug Width (ft)', special: true }
+                }
+            },
+            sofa: {
+                name: 'Sofa Placement Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    sofalength: { name: 'Sofa Length (ft)', special: true },
+                    sofax: { name: 'Sofa X Position (ft)', special: true },
+                    sofax: { name: 'Sofa Y Position (ft)', special: true }
+                }
+            },
+            dining: {
+                name: 'Dining Table Size Calculator',
+                units: {
+                    roomlength: { name: 'Room Length (ft)', special: true },
+                    roomwidth: { name: 'Room Width (ft)', special: true },
+                    tablelength: { name: 'Table Length (ft)', special: true },
+                    tablewidth: { name: 'Table Width (ft)', special: true },
+                    seating: { name: 'Seating Capacity', special: true }
+                }
+            },
+            cabinet: {
+                name: 'Cabinet Height Calculator',
+                units: {
+                    wallheight: { name: 'Wall Height (ft)', special: true },
+                    cabinetheight: { name: 'Cabinet Height (ft)', special: true },
+                    uppercabinet: { name: 'Upper Cabinet Height (ft)', special: true },
+                    spacing: { name: 'Counter to Upper Cabinet (ft)', special: true }
+                }
+            },
+            doorwindow: {
+                name: 'Door/Window Height Calculator',
+                units: {
+                    wallheight: { name: 'Wall Height (ft)', special: true },
+                    doorheight: { name: 'Door Height (ft)', special: true },
+                    windowheight: { name: 'Window Height (ft)', special: true },
+                    windowy: { name: 'Window Y Position (ft)', special: true }
+                }
+            }
+        };
+
+        let currentCategory = 'length';
+        let activeInputId = null;
+
+        // Category-specific instructions
+        const categoryInstructions = {
+            length: {
+                title: 'Length Conversion',
+                description: 'Type a value in any unit field, and all other units will automatically convert to the equivalent value.',
+                example: 'Type "100" in the mm field, and you\'ll immediately see "10" in cm, "0.1" in m, "3.94" in inches, etc.',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            weight: {
+                title: 'Weight Conversion',
+                description: 'Convert between different weight units instantly.',
+                example: 'Type "1000" in the g field to see "1" in kg, "35.27" in oz, "2.2" in lb, etc.',
+                image: 'public/images/unit-converter/weight-conversion.png'
+            },
+            area: {
+                title: 'Area Conversion',
+                description: 'Convert between different area units for surface measurements.',
+                example: 'Type "10000" in sqcm to see "1" in sqm, "10.76" in sqft, "0.00247" in acre, etc.',
+                image: 'public/images/unit-converter/area-conversion.png'
+            },
+            volume: {
+                title: 'Volume Conversion',
+                description: 'Convert between different volume units for liquid and solid measurements.',
+                example: 'Type "1000" in ml to see "1" in L, "33.81" in fl oz, "4.23" in cups, etc.',
+                image: 'public/images/unit-converter/volume-conversion.png'
+            },
+            temperature: {
+                title: 'Temperature Conversion',
+                description: 'Convert between Celsius, Fahrenheit, and Kelvin.',
+                example: 'Type "100" in °C to see "212" in °F and "373.15" in K.',
+                image: 'public/images/unit-converter/temperature.png'
+            },
+            boardfoot: {
+                title: 'Board Foot Calculator',
+                description: 'Calculate board feet from lumber dimensions. Board foot = (Length × Width × Thickness) ÷ 144.',
+                example: 'Enter length 96", width 6", thickness 1" to get 4 board feet.',
+                image: 'public/images/unit-converter/boardfoot.png'
+            },
+            woodthickness: {
+                title: 'Wood Thickness (Nominal vs Actual)',
+                description: 'See actual dimensions for nominal lumber sizes. Click on any field to copy the actual dimensions.',
+                example: '2×4 nominal is actually 1.5×3.5 inches. Click to copy.',
+                image: 'public/images/unit-converter/woodthickness.png'
+            },
+            angle: {
+                title: 'Angle Conversion',
+                description: 'Convert between different angle units for miter cuts and measurements.',
+                example: 'Type "45" in degrees to see "0.785" radians, "50" gradians, "0.125" turns.',
+                image: 'public/images/unit-converter/angle-conversion.png'
+            },
+            materialcost: {
+                title: 'Material Cost Calculator',
+                description: 'Calculate total material cost based on dimensions and price per board foot.',
+                example: 'Enter 8ft × 1ft × 1in at MVR 50/BF = MVR 2.78 total cost.',
+                image: 'public/images/unit-converter/materialcost.png'
+            },
+            paintfinish: {
+                title: 'Paint/Finish Calculator',
+                description: 'Calculate how much paint or finish you need based on surface area.',
+                example: '10ft × 10ft area, 350 sqft/gal coverage, 2 coats = 0.57 gallons needed.',
+                image: 'public/images/unit-converter/paintfinish.png'
+            },
+            crownmolding: {
+                title: 'Crown Molding Calculator',
+                description: 'Calculate miter and bevel angles for crown molding installation.',
+                example: 'Spring angle 45°, Wall angle 90° = Miter 35.3°, Bevel 30°.',
+                image: 'public/images/unit-converter/crownmolding.png'
+            },
+            stair: {
+                title: 'Stair Calculator',
+                description: 'Calculate stair dimensions including risers, treads, and stringer length.',
+                example: 'Total rise 84", total run 105" = 11 risers, 10 treads, 7.6" riser height, 10.5" tread depth.',
+                image: 'public/images/unit-converter/stair.png'
+            },
+            woodweight: {
+                title: 'Wood Weight Calculator',
+                description: 'Calculate the weight of lumber based on dimensions and wood species.',
+                example: 'Teak: 96" × 6" × 1" = 0.33 cubic feet × 45 lbs/cf = 14.85 lbs.',
+                image: 'public/images/unit-converter/woodweight.png'
+            },
+            shelfsag: {
+                title: 'Shelf Sag Calculator',
+                description: 'Calculate shelf deflection based on dimensions and load.',
+                example: '36" shelf, 12" wide, 0.75" thick, 50 lbs load = 0.25" sag.',
+                image: 'public/images/unit-converter/shelfsag.png'
+            },
+            drawer: {
+                title: 'Drawer Box Calculator',
+                description: 'Calculate drawer box dimensions based on opening size and overlay.',
+                example: 'Opening 24" × 6", overlay 0.5" = Drawer 23" × 5".',
+                image: 'public/images/unit-converter/drawer.png'
+            },
+            door: {
+                title: 'Door Calculator',
+                description: 'Calculate door dimensions based on opening size and overlay.',
+                example: 'Opening 18" × 30", overlay 0.5" = Door 19" × 30.5".',
+                image: 'public/images/unit-converter/door.png'
+            },
+            tabletop: {
+                title: 'Table Top Calculator',
+                description: 'Calculate board layout for table tops with breadboard ends.',
+                example: '48" × 30" top, 6" breadboard, 6" boards = 8 boards needed.',
+                image: 'public/images/unit-converter/tabletop.png'
+            },
+            pictureframe: {
+                title: 'Picture Frame Calculator',
+                description: 'Calculate miter angles and board lengths for picture frames.',
+                example: '8" × 10" picture, 2" frame = 45° miter, 12" boards.',
+                image: 'public/images/unit-converter/pictureframe.png'
+            },
+            goldenratio: {
+                title: 'Golden Ratio Calculator',
+                description: 'Calculate dimensions using the golden ratio (1.618) for pleasing proportions.',
+                example: 'Width 10" = Height 16.18" (golden ratio).',
+                image: 'public/images/unit-converter/goldenratio.png'
+            },
+            taper: {
+                title: 'Taper Calculator',
+                description: 'Calculate taper angle for turned pieces like table legs.',
+                example: 'Large 3", Small 2", Length 24" = Taper angle 2.4°.',
+                image: 'public/images/unit-converter/taper.png'
+            },
+            ellipse: {
+                title: 'Ellipse Calculator',
+                description: 'Calculate area and circumference of elliptical shapes.',
+                example: 'Major axis 10", Minor axis 6" = Area 47.1 sq in, Circumference 25.5".',
+                image: 'public/images/unit-converter/ellipse.png'
+            },
+            polygon: {
+                title: 'Polygon Calculator',
+                description: 'Calculate dimensions for regular polygons (hexagons, octagons, etc.).',
+                example: 'Hexagon, radius 6" = Side length 6", Area 93.5 sq in, Interior angle 120°.',
+                image: 'public/images/unit-converter/polygon.png'
+            },
+            circle: {
+                title: 'Circle/Arc Calculator',
+                description: 'Calculate circle dimensions and arc measurements.',
+                example: 'Diameter 10" = Radius 5", Circumference 31.4", Area 78.5 sq in.',
+                image: 'public/images/unit-converter/circle.png'
+            },
+            fastener: {
+                title: 'Screw/Nail Calculator',
+                description: 'Calculate number of fasteners needed based on board dimensions.',
+                example: '8ft board, 6" wide, 6" spacing = 16 fasteners needed.',
+                image: 'public/images/unit-converter/fastener.png'
+            },
+            glue: {
+                title: 'Wood Glue Coverage Calculator',
+                description: 'Calculate glue needed based on surface area.',
+                example: '24" × 12" area, 200 sq in/oz coverage = 1.44 oz glue needed.',
+                image: 'public/images/unit-converter/glue.png'
+            },
+            kerf: {
+                title: 'Saw Blade Kerf Calculator',
+                description: 'Account for blade thickness when cutting multiple pieces.',
+                example: '96" board, 10 cuts, 0.125" kerf = 1.25" total kerf, 97.25" needed.',
+                image: 'public/images/unit-converter/kerf.png'
+            },
+            edgebanding: {
+                title: 'Edge Banding Calculator',
+                description: 'Calculate edge banding needed for plywood edges.',
+                example: '48" × 24" × 0.75" plywood = 144" edge banding needed.',
+                image: 'public/images/unit-converter/edgebanding.png'
+            },
+            woodmovement: {
+                title: 'Wood Movement Calculator',
+                description: 'Calculate wood expansion/contraction based on humidity changes.',
+                example: 'Oak 12" wide, 20% humidity change = 0.24" movement.',
+                image: 'public/images/unit-converter/woodmovement.png'
+            },
+            pockethole: {
+                title: 'Pocket Hole Calculator',
+                description: 'Calculate pocket hole spacing and quantity.',
+                example: '0.75" board, 24" long, 6" spacing = 4 pocket holes needed.',
+                image: 'public/images/unit-converter/pockethole.png'
+            },
+            biscuit: {
+                title: 'Biscuit Joinery Calculator',
+                description: 'Calculate biscuit size and spacing for joinery.',
+                example: '6" board, #20 biscuits, 4" spacing = 2 biscuits needed.',
+                image: 'public/images/unit-converter/biscuit.png'
+            },
+            dowel: {
+                title: 'Dowel Calculator',
+                description: 'Calculate dowel size, depth, and spacing for joinery.',
+                example: '6" board, 0.5" dowel, 1" depth, 4" spacing = 2 dowels needed.',
+                image: 'public/images/unit-converter/dowel.png'
+            },
+            mortisetendon: {
+                title: 'Mortise and Tenon Calculator',
+                description: 'Calculate mortise and tenon dimensions.',
+                example: '0.75" board = Tenon 0.5" thick, 1.5" wide, 1" long.',
+                image: 'public/images/unit-converter/mortisetendon.png'
+            },
+            compoundmiter: {
+                title: 'Compound Miter Calculator',
+                description: 'Calculate compound miter and bevel angles for multi-sided projects.',
+                example: '6 sides, 45° spring angle = Miter 30°, Bevel 35.3°.',
+                image: 'public/images/unit-converter/compoundmiter.png'
+            },
+            silicone: {
+                title: 'Silicone/Sealant Calculator',
+                description: 'Calculate silicone/sealant tubes needed for sealing joints.',
+                example: '10ft length, 0.25" width, 0.25" depth = 1.5 tubes needed.',
+                image: 'public/images/unit-converter/glue.png'
+            },
+            tvheight: {
+                title: 'TV Height Calculator',
+                description: 'Calculate optimal TV mounting height based on viewing distance and eye level.',
+                example: '65" TV, 8ft viewing distance, 42" eye height = Mount at 52".',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            mirror: {
+                title: 'Mirror Calculator',
+                description: 'Calculate optimal mirror height and placement for full reflection.',
+                example: '68" person height = 68" mirror height, mount at 34".',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            toilet: {
+                title: 'Toilet Accessories Calculator',
+                description: 'Calculate optimal placement locations for toilet accessories.',
+                example: '8ft × 5ft room = Toilet paper 12" from wall, Soap 18" from wall, Brush 24" from wall.',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            room: {
+                title: 'Room Accessories Calculator',
+                description: 'Calculate optimal placement locations for room accessories.',
+                example: '12ft × 10ft × 8ft room = Light at center (6ft, 5ft), Switch at door side.',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            watch: {
+                title: 'Wall Watch Height Calculator',
+                description: 'Calculate optimal wall clock mounting height.',
+                example: '9ft wall height, 5.5ft eye height = Mount at 6ft.',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            light: {
+                title: 'Light Location Calculator',
+                description: 'Calculate optimal light placement coordinates for room illumination.',
+                example: '12ft × 10ft × 8ft room = Light 1 at (4ft, 3ft), Light 2 at (8ft, 7ft).',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            switch: {
+                title: 'Switch Location Calculator',
+                description: 'Calculate optimal switch placement based on door location.',
+                example: 'Door at 2ft, 12ft × 10ft room = Switch at 4ft from door.',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            outlet: {
+                title: 'Outlet Location Calculator',
+                description: 'Calculate optimal outlet placement and spacing.',
+                example: '12ft × 10ft room = Outlets every 6ft along walls.',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            thermostat: {
+                title: 'Thermostat Location Calculator',
+                description: 'Calculate optimal thermostat placement for temperature control.',
+                example: '12ft × 10ft room = Thermostat at (6ft, 5ft) center.',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            curtains: {
+                title: 'Curtains/Blinds Calculator',
+                description: 'Calculate curtain dimensions based on window size.',
+                example: '4ft × 5ft window = Curtain width 8ft, length 6ft.',
+                image: 'public/images/unit-converter/length-conversion.png'
+            },
+            art: {
+                title: 'Art/Decor Placement Calculator',
+                description: 'Calculate optimal art placement on walls.',
+                example: '12ft × 8ft wall, 3ft × 4ft art = Center at (6ft, 4ft).',
+                image: 'public/images/unit-converter/length-conversion.png'
+            }
+        };
+
+        // Generate unit inputs for a category
+        function generateUnitInputs(category) {
+            const container = document.getElementById('unitInputs');
+            container.innerHTML = '';
+
+            const categoryData = unitData[category];
+            
+            // Handle wood species dropdown
+            if (category === 'woodweight' || category === 'woodmovement') {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'unit-input-wrapper';
+                
+                const label = document.createElement('label');
+                label.textContent = 'Wood Species';
+                
+                const select = document.createElement('select');
+                select.id = 'unit-species';
+                select.className = 'unit-select';
+                select.dataset.unit = 'species';
+                select.dataset.category = category;
+                
+                const species = ['pine', 'oak', 'maple', 'cherry', 'walnut', 'mahogany', 'teak', 'cedar', 'fir', 'birch'];
+                species.forEach(s => {
+                    const option = document.createElement('option');
+                    option.value = s;
+                    option.textContent = s.charAt(0).toUpperCase() + s.slice(1);
+                    select.appendChild(option);
+                });
+                
+                select.addEventListener('change', () => {
+                    if (category === 'woodweight') {
+                        calculateWoodWeight('species', select.value);
+                    } else if (category === 'woodmovement') {
+                        calculateWoodMovement('species', select.value);
+                    }
+                });
+                
+                wrapper.appendChild(label);
+                wrapper.appendChild(select);
+                container.appendChild(wrapper);
+            }
+            
+            Object.keys(categoryData.units).forEach(unitKey => {
+                const unit = categoryData.units[unitKey];
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = 'unit-input-wrapper';
+                
+                const label = document.createElement('label');
+                label.textContent = unit.name;
+                
+                // For wood thickness, show as display only (not editable)
+                if (category === 'woodthickness' && unit.actual) {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.id = `unit-${unitKey}`;
+                    input.value = unit.actual;
+                    input.readOnly = true;
+                    input.dataset.unit = unitKey;
+                    input.dataset.category = category;
+                    
+                    input.addEventListener('click', () => {
+                        // When clicked, copy the actual dimensions
+                        navigator.clipboard.writeText(unit.actual);
+                    });
+                    
+                    const unitLabel = document.createElement('span');
+                    unitLabel.className = 'unit-label';
+                    unitLabel.textContent = 'ACTUAL';
+                    
+                    wrapper.appendChild(label);
+                    wrapper.appendChild(input);
+                    wrapper.appendChild(unitLabel);
+                    container.appendChild(wrapper);
+                    return;
+                }
+                
+                const input = document.createElement('input');
+                // Use text type for feet field to allow "X ft Y in" format
+                input.type = (category === 'length' && unitKey === 'ft') ? 'text' : 'number';
+                input.id = `unit-${unitKey}`;
+                input.placeholder = '0';
+                input.step = 'any';
+                input.dataset.unit = unitKey;
+                input.dataset.category = category;
+                
+                input.addEventListener('input', handleUnitInput);
+                input.addEventListener('focus', () => { activeInputId = input.id; });
+                
+                const unitLabel = document.createElement('span');
+                unitLabel.className = 'unit-label';
+                unitLabel.textContent = unitKey.toUpperCase();
+                
+                wrapper.appendChild(label);
+                wrapper.appendChild(input);
+                wrapper.appendChild(unitLabel);
+                container.appendChild(wrapper);
+            });
+        }
+
+        // Handle unit input
+        function handleUnitInput(e) {
+            const input = e.target;
+            const category = input.dataset.category;
+            const sourceUnit = input.dataset.unit;
+            
+            let value;
+            // Parse feet+inches format for feet field
+            if (category === 'length' && sourceUnit === 'ft') {
+                value = parseFeetInches(input.value);
+            } else {
+                value = parseFloat(input.value);
+            }
+            
+            if (isNaN(value)) {
+                // Clear all inputs if value is invalid
+                document.querySelectorAll('#unitInputs input').forEach(inp => {
+                    if (inp.id !== input.id) {
+                        inp.value = '';
+                    }
+                });
+                return;
+            }
+
+            // Handle special calculator categories
+            if (category === 'boardfoot') {
+                calculateBoardFoot(sourceUnit, value);
+                return;
+            }
+            if (category === 'woodthickness') {
+                convertWoodThickness(sourceUnit, value);
+                return;
+            }
+            if (category === 'materialcost') {
+                calculateMaterialCost(sourceUnit, value);
+                return;
+            }
+            if (category === 'paintfinish') {
+                calculatePaintFinish(sourceUnit, value);
+                return;
+            }
+            if (category === 'crownmolding') {
+                calculateCrownMolding(sourceUnit, value);
+                return;
+            }
+            if (category === 'stair') {
+                calculateStair(sourceUnit, value);
+                return;
+            }
+            if (category === 'woodweight') {
+                calculateWoodWeight(sourceUnit, value);
+                return;
+            }
+            if (category === 'shelfsag') {
+                calculateShelfSag(sourceUnit, value);
+                return;
+            }
+            if (category === 'drawer') {
+                calculateDrawer(sourceUnit, value);
+                return;
+            }
+            if (category === 'door') {
+                calculateDoor(sourceUnit, value);
+                return;
+            }
+            if (category === 'tabletop') {
+                calculateTableTop(sourceUnit, value);
+                return;
+            }
+            if (category === 'pictureframe') {
+                calculatePictureFrame(sourceUnit, value);
+                return;
+            }
+            if (category === 'goldenratio') {
+                calculateGoldenRatio(sourceUnit, value);
+                return;
+            }
+            if (category === 'taper') {
+                calculateTaper(sourceUnit, value);
+                return;
+            }
+            if (category === 'ellipse') {
+                calculateEllipse(sourceUnit, value);
+                return;
+            }
+            if (category === 'polygon') {
+                calculatePolygon(sourceUnit, value);
+                return;
+            }
+            if (category === 'circle') {
+                calculateCircle(sourceUnit, value);
+                return;
+            }
+            if (category === 'fastener') {
+                calculateFastener(sourceUnit, value);
+                return;
+            }
+            if (category === 'glue') {
+                calculateGlue(sourceUnit, value);
+                return;
+            }
+            if (category === 'kerf') {
+                calculateKerf(sourceUnit, value);
+                return;
+            }
+            if (category === 'edgebanding') {
+                calculateEdgeBanding(sourceUnit, value);
+                return;
+            }
+            if (category === 'woodmovement') {
+                calculateWoodMovement(sourceUnit, value);
+                return;
+            }
+            if (category === 'pockethole') {
+                calculatePocketHole(sourceUnit, value);
+                return;
+            }
+            if (category === 'biscuit') {
+                calculateBiscuit(sourceUnit, value);
+                return;
+            }
+            if (category === 'dowel') {
+                calculateDowel(sourceUnit, value);
+                return;
+            }
+            if (category === 'mortisetendon') {
+                calculateMortiseTenon(sourceUnit, value);
+                return;
+            }
+            if (category === 'compoundmiter') {
+                calculateCompoundMiter(sourceUnit, value);
+                return;
+            }
+            if (category === 'silicone') {
+                calculateSilicone(sourceUnit, value);
+                return;
+            }
+            if (category === 'tvheight') {
+                calculateTVHeight(sourceUnit, value);
+                return;
+            }
+            if (category === 'mirror') {
+                calculateMirror(sourceUnit, value);
+                return;
+            }
+            if (category === 'toilet') {
+                calculateToilet(sourceUnit, value);
+                return;
+            }
+            if (category === 'room') {
+                calculateRoom(sourceUnit, value);
+                return;
+            }
+            if (category === 'watch') {
+                calculateWatch(sourceUnit, value);
+                return;
+            }
+            if (category === 'light') {
+                calculateLight(sourceUnit, value);
+                return;
+            }
+            if (category === 'switch') {
+                calculateSwitch(sourceUnit, value);
+                return;
+            }
+            if (category === 'outlet') {
+                calculateOutlet(sourceUnit, value);
+                return;
+            }
+            if (category === 'thermostat') {
+                calculateThermostat(sourceUnit, value);
+                return;
+            }
+            if (category === 'curtains') {
+                calculateCurtains(sourceUnit, value);
+                return;
+            }
+            if (category === 'art') {
+                calculateArt(sourceUnit, value);
+                return;
+            }
+
+            // Convert to all other units for standard categories
+            const categoryData = unitData[category];
+            
+            Object.keys(categoryData.units).forEach(unitKey => {
+                if (unitKey === sourceUnit) return;
+                
+                const targetInput = document.getElementById(`unit-${unitKey}`);
+                if (!targetInput) return;
+                
+                let convertedValue;
+                
+                if (category === 'temperature') {
+                    convertedValue = convertTemperature(value, sourceUnit, unitKey);
+                } else {
+                    const sourceFactor = categoryData.units[sourceUnit].factor;
+                    const targetFactor = categoryData.units[unitKey].factor;
+                    
+                    // Convert to base unit first, then to target unit
+                    const baseValue = value * sourceFactor;
+                    convertedValue = baseValue / targetFactor;
+                }
+                
+                // Format feet as feet + inches for length category
+                if (category === 'length' && unitKey === 'ft') {
+                    // convertedValue is already in feet (factor 304.8)
+                    targetInput.value = formatFeetInches(convertedValue);
+                } else {
+                    targetInput.value = formatNumber(convertedValue);
+                }
+            });
+        }
+
+        // Board Foot Calculator
+        function calculateBoardFoot(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const thickness = parseFloat(document.getElementById('unit-thickness').value) || 0;
+            
+            const boardFeet = (length * width * thickness) / 144;
+            
+            if (sourceUnit !== 'boardfeet') {
+                document.getElementById('unit-boardfeet').value = formatNumber(boardFeet);
+            }
+        }
+
+        // Wood Thickness Converter
+        function convertWoodThickness(sourceUnit, value) {
+            const categoryData = unitData['woodthickness'];
+            const selectedSize = categoryData.units[sourceUnit];
+            
+            if (selectedSize && selectedSize.actual) {
+                // Show actual dimensions for all nominal sizes
+                Object.keys(categoryData.units).forEach(unitKey => {
+                    const targetInput = document.getElementById(`unit-${unitKey}`);
+                    if (targetInput && unitKey !== sourceUnit) {
+                        const size = categoryData.units[unitKey];
+                        if (size.actual) {
+                            targetInput.value = size.actual;
+                            targetInput.readOnly = true;
+                        }
+                    }
+                });
+            }
+        }
+
+        // Material Cost Calculator
+        function calculateMaterialCost(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const thickness = parseFloat(document.getElementById('unit-thickness').value) || 0;
+            const pricePerBF = parseFloat(document.getElementById('unit-priceperbf').value) || 0;
+            
+            const boardFeet = (length * width * thickness) / 144;
+            const totalCost = boardFeet * pricePerBF;
+            
+            if (sourceUnit !== 'totalcost') {
+                document.getElementById('unit-totalcost').value = formatNumber(totalCost);
+            }
+        }
+
+        // Paint/Finish Calculator
+        function calculatePaintFinish(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const coverage = parseFloat(document.getElementById('unit-coverage').value) || 350;
+            const coats = parseFloat(document.getElementById('unit-coats').value) || 2;
+            
+            const area = length * width;
+            const totalGallons = (area * coats) / coverage;
+            
+            if (sourceUnit !== 'totalgallons') {
+                document.getElementById('unit-totalgallons').value = formatNumber(totalGallons);
+            }
+        }
+
+        // Crown Molding Calculator
+        function calculateCrownMolding(sourceUnit, value) {
+            const springAngle = parseFloat(document.getElementById('unit-springangle').value) || 45;
+            const wallAngle = parseFloat(document.getElementById('unit-wallangle').value) || 90;
+            
+            // Calculate miter and bevel angles
+            const springRad = springAngle * Math.PI / 180;
+            const wallRad = wallAngle * Math.PI / 180;
+            
+            const miterAngle = Math.atan(Math.tan(springRad) * Math.sin(wallRad)) * 180 / Math.PI;
+            const bevelAngle = Math.atan(Math.tan(springRad) * Math.cos(wallRad)) * 180 / Math.PI;
+            
+            if (sourceUnit !== 'miterangle') {
+                document.getElementById('unit-miterangle').value = formatNumber(miterAngle);
+            }
+            if (sourceUnit !== 'bevelangle') {
+                document.getElementById('unit-bevelangle').value = formatNumber(bevelAngle);
+            }
+        }
+
+        // Stair Calculator
+        function calculateStair(sourceUnit, value) {
+            const totalRise = parseFloat(document.getElementById('unit-totalrise').value) || 0;
+            const totalRun = parseFloat(document.getElementById('unit-totalrun').value) || 0;
+            
+            // Standard riser height is around 7.5 inches
+            const idealRiserHeight = 7.5;
+            const numRisers = Math.round(totalRise / idealRiserHeight);
+            const actualRiserHeight = totalRise / numRisers;
+            const numTreads = numRisers - 1;
+            const treadDepth = totalRun / numTreads;
+            const stringerLength = Math.sqrt(Math.pow(totalRise, 2) + Math.pow(totalRun, 2));
+            
+            if (sourceUnit !== 'risers') {
+                document.getElementById('unit-risers').value = numRisers;
+            }
+            if (sourceUnit !== 'treads') {
+                document.getElementById('unit-treads').value = numTreads;
+            }
+            if (sourceUnit !== 'riserheight') {
+                document.getElementById('unit-riserheight').value = formatNumber(actualRiserHeight);
+            }
+            if (sourceUnit !== 'treaddepth') {
+                document.getElementById('unit-treaddepth').value = formatNumber(treadDepth);
+            }
+            if (sourceUnit !== 'stringerlength') {
+                document.getElementById('unit-stringerlength').value = formatNumber(stringerLength);
+            }
+        }
+
+        // Wood Weight Calculator
+        function calculateWoodWeight(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const thickness = parseFloat(document.getElementById('unit-thickness').value) || 0;
+            const speciesSelect = document.getElementById('unit-species');
+            
+            // Wood species density (lbs per cubic foot)
+            const woodDensities = {
+                'pine': 35,
+                'oak': 45,
+                'maple': 44,
+                'cherry': 43,
+                'walnut': 40,
+                'mahogany': 38,
+                'teak': 45,
+                'cedar': 23,
+                'fir': 28,
+                'birch': 42
+            };
+            
+            const species = speciesSelect.value || 'pine';
+            const density = woodDensities[species] || 35;
+            
+            const volume = (length * width * thickness) / 1728; // cubic feet
+            const weight = volume * density;
+            
+            if (sourceUnit !== 'weight') {
+                document.getElementById('unit-weight').value = formatNumber(weight);
+            }
+        }
+
+        // Shelf Sag Calculator
+        function calculateShelfSag(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const thickness = parseFloat(document.getElementById('unit-thickness').value) || 0;
+            const load = parseFloat(document.getElementById('unit-load').value) || 0;
+            
+            // Simplified sag formula for a simply supported beam
+            // Sag = (5 * w * L^4) / (384 * E * I)
+            // Using approximate values for wood
+            const L = length; // inches
+            const w = load / length; // load per inch
+            const E = 1500000; // modulus of elasticity for wood (psi)
+            const I = (width * Math.pow(thickness, 3)) / 12; // moment of inertia
+            
+            const sag = (5 * w * Math.pow(L, 4)) / (384 * E * I);
+            
+            if (sourceUnit !== 'sag') {
+                document.getElementById('unit-sag').value = formatNumber(sag);
+            }
+        }
+
+        // Drawer Box Calculator
+        function calculateDrawer(sourceUnit, value) {
+            const openingWidth = parseFloat(document.getElementById('unit-openingwidth').value) || 0;
+            const openingHeight = parseFloat(document.getElementById('unit-openingheight').value) || 0;
+            const drawerDepth = parseFloat(document.getElementById('unit-drawerdepth').value) || 0;
+            const overlay = parseFloat(document.getElementById('unit-overlay').value) || 0;
+            
+            const drawerWidth = openingWidth - (overlay * 2);
+            const drawerHeight = openingHeight - overlay;
+            
+            if (sourceUnit !== 'drawerwidth') {
+                document.getElementById('unit-drawerwidth').value = formatNumber(drawerWidth);
+            }
+            if (sourceUnit !== 'drawerheight') {
+                document.getElementById('unit-drawerheight').value = formatNumber(drawerHeight);
+            }
+        }
+
+        // Door Calculator
+        function calculateDoor(sourceUnit, value) {
+            const openingWidth = parseFloat(document.getElementById('unit-openingwidth').value) || 0;
+            const openingHeight = parseFloat(document.getElementById('unit-openingheight').value) || 0;
+            const overlay = parseFloat(document.getElementById('unit-overlay').value) || 0;
+            
+            const doorWidth = openingWidth + (overlay * 2);
+            const doorHeight = openingHeight + overlay;
+            
+            if (sourceUnit !== 'doorwidth') {
+                document.getElementById('unit-doorwidth').value = formatNumber(doorWidth);
+            }
+            if (sourceUnit !== 'doorheight') {
+                document.getElementById('unit-doorheight').value = formatNumber(doorHeight);
+            }
+        }
+
+        // Table Top Calculator
+        function calculateTableTop(sourceUnit, value) {
+            const tableTopWidth = parseFloat(document.getElementById('unit-tabletopwidth').value) || 0;
+            const tableTopLength = parseFloat(document.getElementById('unit-tabletoplength').value) || 0;
+            const boardWidth = parseFloat(document.getElementById('unit-boardwidth').value) || 0;
+            
+            const numBoards = Math.ceil(tableTopWidth / boardWidth);
+            
+            if (sourceUnit !== 'numboards') {
+                document.getElementById('unit-numboards').value = numBoards;
+            }
+        }
+
+        // Picture Frame Calculator
+        function calculatePictureFrame(sourceUnit, value) {
+            const pictureWidth = parseFloat(document.getElementById('unit-picturewidth').value) || 0;
+            const pictureHeight = parseFloat(document.getElementById('unit-pictureheight').value) || 0;
+            const frameWidth = parseFloat(document.getElementById('unit-framewidth').value) || 0;
+            
+            const miterAngle = 45; // always 45 degrees for rectangular frames
+            const boardLength = (pictureWidth + frameWidth * 2) + (pictureHeight + frameWidth * 2);
+            
+            if (sourceUnit !== 'miterangle') {
+                document.getElementById('unit-miterangle').value = miterAngle;
+            }
+            if (sourceUnit !== 'boardlength') {
+                document.getElementById('unit-boardlength').value = formatNumber(boardLength);
+            }
+        }
+
+        // Golden Ratio Calculator
+        function calculateGoldenRatio(sourceUnit, value) {
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const goldenRatio = 1.61803398875;
+            
+            const height = width * goldenRatio;
+            
+            if (sourceUnit !== 'height') {
+                document.getElementById('unit-height').value = formatNumber(height);
+            }
+            if (sourceUnit !== 'ratio') {
+                document.getElementById('unit-ratio').value = goldenRatio;
+            }
+        }
+
+        // Taper Calculator
+        function calculateTaper(sourceUnit, value) {
+            const largeDiameter = parseFloat(document.getElementById('unit-largediameter').value) || 0;
+            const smallDiameter = parseFloat(document.getElementById('unit-smalldiameter').value) || 0;
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            
+            const taperAngle = Math.atan((largeDiameter - smallDiameter) / (2 * length)) * 180 / Math.PI;
+            
+            if (sourceUnit !== 'taperangle') {
+                document.getElementById('unit-taperangle').value = formatNumber(taperAngle);
+            }
+        }
+
+        // Ellipse Calculator
+        function calculateEllipse(sourceUnit, value) {
+            const majorAxis = parseFloat(document.getElementById('unit-majoraxis').value) || 0;
+            const minorAxis = parseFloat(document.getElementById('unit-minoraxis').value) || 0;
+            
+            const a = majorAxis / 2;
+            const b = minorAxis / 2;
+            const area = Math.PI * a * b;
+            const circumference = Math.PI * (3 * (a + b) - Math.sqrt((3 * a + b) * (a + 3 * b)));
+            
+            if (sourceUnit !== 'area') {
+                document.getElementById('unit-area').value = formatNumber(area);
+            }
+            if (sourceUnit !== 'circumference') {
+                document.getElementById('unit-circumference').value = formatNumber(circumference);
+            }
+        }
+
+        // Polygon Calculator
+        function calculatePolygon(sourceUnit, value) {
+            const sides = parseFloat(document.getElementById('unit-sides').value) || 0;
+            const radius = parseFloat(document.getElementById('unit-radius').value) || 0;
+            
+            const sideLength = 2 * radius * Math.sin(Math.PI / sides);
+            const area = (sides * Math.pow(sideLength, 2)) / (4 * Math.tan(Math.PI / sides));
+            const interiorAngle = ((sides - 2) * 180) / sides;
+            
+            if (sourceUnit !== 'sidelen') {
+                document.getElementById('unit-sidelen').value = formatNumber(sideLength);
+            }
+            if (sourceUnit !== 'area') {
+                document.getElementById('unit-area').value = formatNumber(area);
+            }
+            if (sourceUnit !== 'interiorangle') {
+                document.getElementById('unit-interiorangle').value = formatNumber(interiorAngle);
+            }
+        }
+
+        // Circle/Arc Calculator
+        function calculateCircle(sourceUnit, value) {
+            const diameter = parseFloat(document.getElementById('unit-diameter').value) || 0;
+            const arcAngle = parseFloat(document.getElementById('unit-arcangle').value) || 0;
+            
+            const radius = diameter / 2;
+            const circumference = Math.PI * diameter;
+            const area = Math.PI * Math.pow(radius, 2);
+            const arcLength = (arcAngle / 360) * circumference;
+            
+            if (sourceUnit !== 'radius') {
+                document.getElementById('unit-radius').value = formatNumber(radius);
+            }
+            if (sourceUnit !== 'circumference') {
+                document.getElementById('unit-circumference').value = formatNumber(circumference);
+            }
+            if (sourceUnit !== 'area') {
+                document.getElementById('unit-area').value = formatNumber(area);
+            }
+            if (sourceUnit !== 'arclength') {
+                document.getElementById('unit-arclength').value = formatNumber(arcLength);
+            }
+        }
+
+        // Screw/Nail Calculator
+        function calculateFastener(sourceUnit, value) {
+            const boardLength = parseFloat(document.getElementById('unit-boardlength').value) || 0;
+            const boardWidth = parseFloat(document.getElementById('unit-boardwidth').value) || 0;
+            const spacing = parseFloat(document.getElementById('unit-spacing').value) || 0;
+            
+            const boardLengthIn = boardLength * 12;
+            const numFasteners = Math.ceil(boardLengthIn / spacing) * Math.ceil(boardWidth / spacing);
+            
+            if (sourceUnit !== 'numfasteners') {
+                document.getElementById('unit-numfasteners').value = numFasteners;
+            }
+        }
+
+        // Wood Glue Coverage Calculator
+        function calculateGlue(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const coverage = parseFloat(document.getElementById('unit-coverage').value) || 200;
+            
+            const area = length * width;
+            const glueOz = area / coverage;
+            
+            if (sourceUnit !== 'glueoz') {
+                document.getElementById('unit-glueoz').value = formatNumber(glueOz);
+            }
+        }
+
+        // Saw Blade Kerf Calculator
+        function calculateKerf(sourceUnit, value) {
+            const boardLength = parseFloat(document.getElementById('unit-boardlength').value) || 0;
+            const numCuts = parseFloat(document.getElementById('unit-numcuts').value) || 0;
+            const kerfWidth = parseFloat(document.getElementById('unit-kerfwidth').value) || 0;
+            
+            const totalKerf = numCuts * kerfWidth;
+            const totalLength = boardLength + totalKerf;
+            
+            if (sourceUnit !== 'totalkerf') {
+                document.getElementById('unit-totalkerf').value = formatNumber(totalKerf);
+            }
+            if (sourceUnit !== 'totallength') {
+                document.getElementById('unit-totallength').value = formatNumber(totalLength);
+            }
+        }
+
+        // Edge Banding Calculator
+        function calculateEdgeBanding(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const thickness = parseFloat(document.getElementById('unit-thickness').value) || 0;
+            
+            const bandedLength = (length * 2) + (width * 2);
+            
+            if (sourceUnit !== 'bandedlength') {
+                document.getElementById('unit-bandedlength').value = formatNumber(bandedLength);
+            }
+        }
+
+        // Wood Movement Calculator
+        function calculateWoodMovement(sourceUnit, value) {
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const humidityChange = parseFloat(document.getElementById('unit-humiditychange').value) || 0;
+            
+            // Approximate movement coefficients for different species
+            const movementCoefficients = {
+                'pine': 0.0025,
+                'oak': 0.0035,
+                'maple': 0.003,
+                'cherry': 0.0025,
+                'walnut': 0.003,
+                'mahogany': 0.002,
+                'teak': 0.0015,
+                'cedar': 0.002,
+                'fir': 0.0025,
+                'birch': 0.003
+            };
+            
+            const speciesSelect = document.getElementById('unit-species');
+            const species = speciesSelect ? speciesSelect.value : 'oak';
+            const coefficient = movementCoefficients[species] || 0.003;
+            
+            const movement = width * coefficient * humidityChange;
+            
+            if (sourceUnit !== 'movement') {
+                document.getElementById('unit-movement').value = formatNumber(movement);
+            }
+        }
+
+        // Pocket Hole Calculator
+        function calculatePocketHole(sourceUnit, value) {
+            const boardThickness = parseFloat(document.getElementById('unit-boardthickness').value) || 0;
+            const boardLength = parseFloat(document.getElementById('unit-boardlength').value) || 0;
+            const spacing = parseFloat(document.getElementById('unit-spacing').value) || 0;
+            
+            const numHoles = Math.ceil(boardLength / spacing);
+            
+            if (sourceUnit !== 'numholes') {
+                document.getElementById('unit-numholes').value = numHoles;
+            }
+        }
+
+        // Biscuit Joinery Calculator
+        function calculateBiscuit(sourceUnit, value) {
+            const boardWidth = parseFloat(document.getElementById('unit-boardwidth').value) || 0;
+            const spacing = parseFloat(document.getElementById('unit-spacing').value) || 0;
+            
+            const numBiscuits = Math.ceil(boardWidth / spacing);
+            
+            if (sourceUnit !== 'numbiscuits') {
+                document.getElementById('unit-numbiscuits').value = numBiscuits;
+            }
+        }
+
+        // Dowel Calculator
+        function calculateDowel(sourceUnit, value) {
+            const boardWidth = parseFloat(document.getElementById('unit-boardwidth').value) || 0;
+            const spacing = parseFloat(document.getElementById('unit-spacing').value) || 0;
+            
+            const numDowels = Math.ceil(boardWidth / spacing);
+            
+            if (sourceUnit !== 'numdowels') {
+                document.getElementById('unit-numdowels').value = numDowels;
+            }
+        }
+
+        // Mortise and Tenon Calculator
+        function calculateMortiseTenon(sourceUnit, value) {
+            const boardThickness = parseFloat(document.getElementById('unit-boardthickness').value) || 0;
+            
+            const tenonThickness = boardThickness * 0.67;
+            const tenonWidth = boardThickness * 2;
+            const tenonLength = boardThickness * 1.33;
+            
+            if (sourceUnit !== 'tenonthickness') {
+                document.getElementById('unit-tenonthickness').value = formatNumber(tenonThickness);
+            }
+            if (sourceUnit !== 'tenonwidth') {
+                document.getElementById('unit-tenonwidth').value = formatNumber(tenonWidth);
+            }
+            if (sourceUnit !== 'tenonlength') {
+                document.getElementById('unit-tenonlength').value = formatNumber(tenonLength);
+            }
+        }
+
+        // Compound Miter Calculator
+        function calculateCompoundMiter(sourceUnit, value) {
+            const sides = parseFloat(document.getElementById('unit-sides').value) || 0;
+            const springAngle = parseFloat(document.getElementById('unit-springangle').value) || 45;
+            
+            const wallAngle = 360 / sides;
+            const springRad = springAngle * Math.PI / 180;
+            const wallRad = wallAngle * Math.PI / 180;
+            
+            const miterAngle = Math.atan(Math.tan(springRad) * Math.sin(wallRad)) * 180 / Math.PI;
+            const bevelAngle = Math.atan(Math.tan(springRad) * Math.cos(wallRad)) * 180 / Math.PI;
+            
+            if (sourceUnit !== 'miterangle') {
+                document.getElementById('unit-miterangle').value = formatNumber(miterAngle);
+            }
+            if (sourceUnit !== 'bevelangle') {
+                document.getElementById('unit-bevelangle').value = formatNumber(bevelAngle);
+            }
+        }
+
+        // Silicone/Sealant Calculator
+        function calculateSilicone(sourceUnit, value) {
+            const length = parseFloat(document.getElementById('unit-length').value) || 0;
+            const width = parseFloat(document.getElementById('unit-width').value) || 0;
+            const depth = parseFloat(document.getElementById('unit-depth').value) || 0;
+            
+            // Volume in cubic inches
+            const volume = (length * 12) * width * depth;
+            // Standard tube is approximately 10.1 fl oz = 18.5 cubic inches
+            const tubesNeeded = volume / 18.5;
+            
+            if (sourceUnit !== 'tubes') {
+                document.getElementById('unit-tubes').value = formatNumber(tubesNeeded);
+            }
+        }
+
+        // TV Height Calculator
+        function calculateTVHeight(sourceUnit, value) {
+            const tvSize = parseFloat(document.getElementById('unit-tvsize').value) || 0;
+            const viewingDistance = parseFloat(document.getElementById('unit-viewingdistance').value) || 0;
+            const eyeHeight = parseFloat(document.getElementById('unit-eyeheight').value) || 42;
+            
+            // Optimal viewing distance is 1.5 to 2.5 times the TV diagonal
+            // For mounting height: center of TV should be at eye level
+            // TV height is approximately 0.49 * diagonal for 16:9 TVs
+            const tvHeight = tvSize * 0.49;
+            const mountHeight = eyeHeight - (tvHeight / 2);
+            
+            if (sourceUnit !== 'mountheight') {
+                document.getElementById('unit-mountheight').value = formatNumber(mountHeight);
+            }
+        }
+
+        // Mirror Calculator
+        function calculateMirror(sourceUnit, value) {
+            const personHeight = parseFloat(document.getElementById('unit-height').value) || 0;
+            
+            // For full reflection, mirror height should be at least half the person's height
+            // Mirror should be mounted with top at person's eye level
+            const mirrorHeight = personHeight * 0.5;
+            const placement = personHeight * 0.5;
+            
+            if (sourceUnit !== 'mirrorheight') {
+                document.getElementById('unit-mirrorheight').value = formatNumber(mirrorHeight);
+            }
+            if (sourceUnit !== 'placement') {
+                document.getElementById('unit-placement').value = formatNumber(placement);
+            }
+        }
+
+        // Toilet Accessories Calculator
+        function calculateToilet(sourceUnit, value) {
+            const roomLength = parseFloat(document.getElementById('unit-roomlength').value) || 0;
+            const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
+            
+            // Calculate optimal locations based on room dimensions
+            // Toilet paper: 12" from wall, Soap: 18" from wall, Brush: 24" from wall
+            const toiletPaperLoc = 12;
+            const soapLoc = 18;
+            const brushLoc = 24;
+            
+            if (sourceUnit !== 'toiltpaperloc') {
+                document.getElementById('unit-toiltpaperloc').value = toiletPaperLoc;
+            }
+            if (sourceUnit !== 'soaploc') {
+                document.getElementById('unit-soaploc').value = soapLoc;
+            }
+            if (sourceUnit !== 'brushloc') {
+                document.getElementById('unit-brushloc').value = brushLoc;
+            }
+        }
+
+        // Room Accessories Calculator
+        function calculateRoom(sourceUnit, value) {
+            const roomLength = parseFloat(document.getElementById('unit-roomlength').value) || 0;
+            const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
+            const ceilingHeight = parseFloat(document.getElementById('unit-ceilingheight').value) || 0;
+            
+            // Calculate optimal placement locations
+            // Light at center of room
+            const lightX = roomLength / 2;
+            const lightY = roomWidth / 2;
+            // Switch near door (assume door at 2ft from corner)
+            const switchX = 4;
+            const switchY = 48; // 48" from floor (standard height)
+            
+            if (sourceUnit !== 'lightx') {
+                document.getElementById('unit-lightx').value = formatNumber(lightX);
+            }
+            if (sourceUnit !== 'lighty') {
+                document.getElementById('unit-lighty').value = formatNumber(lightY);
+            }
+            if (sourceUnit !== 'switchx') {
+                document.getElementById('unit-switchx').value = formatNumber(switchX);
+            }
+            if (sourceUnit !== 'switchy') {
+                document.getElementById('unit-switchy').value = formatNumber(switchY);
+            }
+        }
+
+        // Wall Watch Height Calculator
+        function calculateWatch(sourceUnit, value) {
+            const wallHeight = parseFloat(document.getElementById('unit-wallheight').value) || 9;
+            const eyeHeight = parseFloat(document.getElementById('unit-eyeheight').value) || 5.5;
+            
+            // Mount watch slightly above eye level for optimal viewing
+            const watchHeight = eyeHeight + 0.5;
+            
+            if (sourceUnit !== 'watchheight') {
+                document.getElementById('unit-watchheight').value = formatNumber(watchHeight);
+            }
+        }
+
+        // Light Location Calculator
+        function calculateLight(sourceUnit, value) {
+            const roomLength = parseFloat(document.getElementById('unit-roomlength').value) || 0;
+            const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
+            const ceilingHeight = parseFloat(document.getElementById('unit-ceilingheight').value) || 0;
+            
+            // Calculate optimal light placement for even coverage
+            // Divide room into quadrants for multiple lights
+            const light1X = roomLength / 3;
+            const light1Y = roomWidth / 3;
+            const light2X = (roomLength / 3) * 2;
+            const light2Y = (roomWidth / 3) * 2;
+            
+            if (sourceUnit !== 'light1x') {
+                document.getElementById('unit-light1x').value = formatNumber(light1X);
+            }
+            if (sourceUnit !== 'light1y') {
+                document.getElementById('unit-light1y').value = formatNumber(light1Y);
+            }
+            if (sourceUnit !== 'light2x') {
+                document.getElementById('unit-light2x').value = formatNumber(light2X);
+            }
+            if (sourceUnit !== 'light2y') {
+                document.getElementById('unit-light2y').value = formatNumber(light2Y);
+            }
+        }
+
+        // Switch Location Calculator
+        function calculateSwitch(sourceUnit, value) {
+            const roomLength = parseFloat(document.getElementById('unit-roomlength').value) || 0;
+            const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
+            const doorX = parseFloat(document.getElementById('unit-doorx').value) || 2;
+            
+            // Switch should be 4ft from door and 48" from floor
+            const switchX = doorX + 4;
+            const switchY = 4; // 4ft from floor
+            
+            if (sourceUnit !== 'switchx') {
+                document.getElementById('unit-switchx').value = formatNumber(switchX);
+            }
+            if (sourceUnit !== 'switchy') {
+                document.getElementById('unit-switchy').value = formatNumber(switchY);
+            }
+        }
+
+        // Outlet Location Calculator
+        function calculateOutlet(sourceUnit, value) {
+            const roomLength = parseFloat(document.getElementById('unit-roomlength').value) || 0;
+            const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
+            
+            // Calculate optimal outlet spacing (every 6ft along walls)
+            const spacing = 6;
+            const outletX = roomLength / 2;
+            const outletY = 1; // 1ft from floor
+            
+            if (sourceUnit !== 'outletx') {
+                document.getElementById('unit-outletx').value = formatNumber(outletX);
+            }
+            if (sourceUnit !== 'outlety') {
+                document.getElementById('unit-outlety').value = formatNumber(outletY);
+            }
+            if (sourceUnit !== 'spacing') {
+                document.getElementById('unit-spacing').value = formatNumber(spacing);
+            }
+        }
+
+        // Thermostat Location Calculator
+        function calculateThermostat(sourceUnit, value) {
+            const roomLength = parseFloat(document.getElementById('unit-roomlength').value) || 0;
+            const roomWidth = parseFloat(document.getElementById('unit-roomwidth').value) || 0;
+            
+            // Thermostat should be at center of room, 5ft from floor
+            const thermostatX = roomLength / 2;
+            const thermostatY = 5;
+            
+            if (sourceUnit !== 'thermostatx') {
+                document.getElementById('unit-thermostatx').value = formatNumber(thermostatX);
+            }
+            if (sourceUnit !== 'thermostaty') {
+                document.getElementById('unit-thermostaty').value = formatNumber(thermostatY);
+            }
+        }
+
+        // Curtains/Blinds Calculator
+        function calculateCurtains(sourceUnit, value) {
+            const windowWidth = parseFloat(document.getElementById('unit-windowwidth').value) || 0;
+            const windowHeight = parseFloat(document.getElementById('unit-windowheight').value) || 0;
+            
+            // Curtains should be 2x window width and extend to floor
+            const curtainWidth = windowWidth * 2;
+            const curtainLength = windowHeight + 1; // 1ft extra for pooling
+            
+            if (sourceUnit !== 'curtainwidth') {
+                document.getElementById('unit-curtainwidth').value = formatNumber(curtainWidth);
+            }
+            if (sourceUnit !== 'curtainlength') {
+                document.getElementById('unit-curtainlength').value = formatNumber(curtainLength);
+            }
+        }
+
+        // Art/Decor Placement Calculator
+        function calculateArt(sourceUnit, value) {
+            const wallWidth = parseFloat(document.getElementById('unit-wallwidth').value) || 0;
+            const wallHeight = parseFloat(document.getElementById('unit-wallheight').value) || 0;
+            const artWidth = parseFloat(document.getElementById('unit-artwidth').value) || 0;
+            const artHeight = parseFloat(document.getElementById('unit-artheight').value) || 0;
+            
+            // Art should be centered on wall at eye level (5ft)
+            const artX = (wallWidth - artWidth) / 2;
+            const artY = 5;
+            
+            if (sourceUnit !== 'artx') {
+                document.getElementById('unit-artx').value = formatNumber(artX);
+            }
+            if (sourceUnit !== 'arty') {
+                document.getElementById('unit-arty').value = formatNumber(artY);
+            }
+        }
+
+        // Convert temperature (special case)
+        function convertTemperature(value, fromUnit, toUnit) {
+            let celsius;
+            
+            // Convert to Celsius first
+            switch (fromUnit) {
+                case 'c':
+                    celsius = value;
+                    break;
+                case 'f':
+                    celsius = (value - 32) * 5 / 9;
+                    break;
+                case 'k':
+                    celsius = value - 273.15;
+                    break;
+            }
+            
+            // Convert from Celsius to target
+            switch (toUnit) {
+                case 'c':
+                    return celsius;
+                case 'f':
+                    return (celsius * 9 / 5) + 32;
+                case 'k':
+                    return celsius + 273.15;
+            }
+        }
+
+        // Format number for display
+        function formatNumber(num) {
+            if (isNaN(num)) return '';
+            
+            // Handle very small and very large numbers
+            if (Math.abs(num) < 0.000001 && num !== 0) {
+                return num.toExponential(6);
+            }
+            if (Math.abs(num) > 1000000) {
+                return num.toExponential(6);
+            }
+            
+            // Round to reasonable precision
+            return parseFloat(num.toPrecision(10));
+        }
+
+        // Format feet as feet + inches (e.g., "1 ft 3 in")
+        function formatFeetInches(decimalFeet) {
+            if (isNaN(decimalFeet)) return '';
+            
+            const feet = Math.floor(decimalFeet);
+            const inches = Math.round((decimalFeet - feet) * 12);
+            
+            if (feet === 0) {
+                return `${inches} in`;
+            } else if (inches === 0) {
+                return `${feet} ft`;
+            } else {
+                return `${feet} ft ${inches} in`;
+            }
+        }
+
+        // Parse feet+inches format (e.g., "1 ft 3 in") to decimal feet
+        function parseFeetInches(value) {
+            if (!value || value === '') return NaN;
+            
+            // If it's already a number, return it
+            if (!isNaN(parseFloat(value))) {
+                return parseFloat(value);
+            }
+            
+            // Parse "X ft Y in" format
+            const parts = value.toLowerCase().split(' ');
+            let feet = 0;
+            let inches = 0;
+            
+            for (let i = 0; i < parts.length; i++) {
+                const num = parseFloat(parts[i]);
+                if (isNaN(num)) continue;
+                
+                if (parts[i + 1] && parts[i + 1].includes('ft')) {
+                    feet = num;
+                } else if (parts[i + 1] && parts[i + 1].includes('in')) {
+                    inches = num;
+                } else if (!parts[i + 1]) {
+                    // Just a number with no unit, assume inches if < 12, else feet
+                    inches = num < 12 ? num : 0;
+                    feet = num >= 12 ? num : 0;
+                }
+            }
+            
+            return feet + (inches / 12);
+        }
+
+        // Update category instructions
+        function updateCategoryInstructions(category) {
+            const instructionsDiv = document.getElementById('categoryInstructions');
+            const instructions = categoryInstructions[category] || categoryInstructions['length'];
+            
+            instructionsDiv.innerHTML = `
+                <h4>${instructions.title}</h4>
+                <p>${instructions.description}</p>
+                <p><strong>Example:</strong> ${instructions.example}</p>
+            `;
+            
+            // Update image
+            const imageElement = document.getElementById('categoryImage');
+            if (imageElement && instructions.image) {
+                imageElement.src = instructions.image;
+            }
+        }
+
+        // Handle category tab clicks
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Update current category
+                currentCategory = tab.dataset.category;
+                
+                // Update instructions
+                updateCategoryInstructions(currentCategory);
+                
+                // Generate new inputs
+                generateUnitInputs(currentCategory);
+            });
+        });
+
+        // Initialize with length category
+        generateUnitInputs('length');
+        updateCategoryInstructions('length');
+    </script>
+</body>
+</html>

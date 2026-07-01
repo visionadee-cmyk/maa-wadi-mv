@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Dimensions Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .unit-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .unit-toggle label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .unit-toggle select {
+            padding: 8px 15px;
+            border: 2px solid #667eea;
+            border-radius: 6px;
+            font-size: 1em;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .unit-toggle select:hover {
+            border-color: #764ba2;
+        }
+
+        .unit-toggle select:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-size: 1.8em;
+            color: #764ba2;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .category-image {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .category-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .dimension-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dimension-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .dimension-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .dimension-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .dimension-item:last-child {
+            border-bottom: none;
+        }
+
+        .dimension-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .dimension-value {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .note {
+            font-size: 0.85em;
+            color: #888;
+            font-style: italic;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .dimensions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Home</a>
+        
+        <h1>Standard Dimensions Reference</h1>
+        <p class="subtitle">Common furniture and fixture dimensions that rarely change</p>
+
+        <div class="unit-toggle">
+            <label for="unitSelect">Display Units:</label>
+            <select id="unitSelect" onchange="convertUnits()">
+                <option value="inches">Inches (")</option>
+                <option value="feet">Feet (')</option>
+                <option value="cm">Centimeters (cm)</option>
+                <option value="mm">Millimeters (mm)</option>
+                <option value="meters">Meters (m)</option>
+            </select>
+        </div>
+
+        <!-- Bedroom Furniture -->
+        <div class="category">
+            <h2 class="category-title">🛏️ Bedroom Furniture</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/bedroom-furniture.png" alt="Bedroom Furniture Dimensions">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Single Bed with Mattress</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">36" (3 ft)</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Length</span>
+                        <span class="dimension-value">75" (6'3")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height (with mattress)</span>
+                        <span class="dimension-value">20-24"</span>
+                    </div>
+                    <div class="note">Standard US Twin size</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Double Bed with Mattress</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">54" (4'6")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Length</span>
+                        <span class="dimension-value">75" (6'3")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height (with mattress)</span>
+                        <span class="dimension-value">20-24"</span>
+                    </div>
+                    <div class="note">Standard US Full size</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Queen Bed with Mattress</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">60" (5 ft)</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Length</span>
+                        <span class="dimension-value">80" (6'8")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height (with mattress)</span>
+                        <span class="dimension-value">20-24"</span>
+                    </div>
+                    <div class="note">Most common size</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">King Bed with Mattress</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">76" (6'4")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Length</span>
+                        <span class="dimension-value">80" (6'8")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height (with mattress)</span>
+                        <span class="dimension-value">20-24"</span>
+                    </div>
+                    <div class="note">Standard US King size</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Bedside Table</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">18-24"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">16-20"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">24-28"</span>
+                    </div>
+                    <div class="note">Should match mattress height</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Wardrobe (Standard)</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">36-72"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">20-24"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">72-84"</span>
+                    </div>
+                    <div class="note">Cloth hanger bar at 66-70"</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Living Room Furniture -->
+        <div class="category">
+            <h2 class="category-title">🛋️ Living Room Furniture</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/living-room-furniture.png" alt="Living Room Furniture Dimensions">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Sofa (3-Seater)</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">72-84"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">32-40"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Seat Height</span>
+                        <span class="dimension-value">16-18"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Back Height</span>
+                        <span class="dimension-value">30-36"</span>
+                    </div>
+                    <div class="note">Standard 3-seater</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Sofa (2-Seater / Love Seat)</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">48-60"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">32-40"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Seat Height</span>
+                        <span class="dimension-value">16-18"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Back Height</span>
+                        <span class="dimension-value">30-36"</span>
+                    </div>
+                    <div class="note">Compact seating</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Coffee Table</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">36-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">18-24"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">16-18"</span>
+                    </div>
+                    <div class="note">Should be lower than sofa seat</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">End Table / Side Table</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">18-24"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">18-24"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">20-24"</span>
+                    </div>
+                    <div class="note">Same height as sofa arm</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">TV Console / Media Unit</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">48-72"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">16-20"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">18-24"</span>
+                    </div>
+                    <div class="note">Wider than TV by 6-12"</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Bookshelf / Bookcase</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">24-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">12-16"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">72-84"</span>
+                    </div>
+                    <div class="note">Shelf spacing 10-14"</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dining Room Furniture -->
+        <div class="category">
+            <h2 class="category-title">🍽️ Dining Room Furniture</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/dining-room-furniture.png" alt="Dining Room Furniture Dimensions">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Dining Table (4-Seater)</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">36-42"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Length</span>
+                        <span class="dimension-value">48-60"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">28-30"</span>
+                    </div>
+                    <div class="note">Rectangular or square</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Dining Table (6-Seater)</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">36-42"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Length</span>
+                        <span class="dimension-value">66-78"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">28-30"</span>
+                    </div>
+                    <div class="note">Rectangular</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Dining Chair</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">16-20"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">16-20"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Seat Height</span>
+                        <span class="dimension-value">17-19"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Back Height</span>
+                        <span class="dimension-value">32-38"</span>
+                    </div>
+                    <div class="note">Allow 24" per person</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Sideboard / Buffet</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">48-72"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">18-24"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">32-40"</span>
+                    </div>
+                    <div class="note">Storage and serving</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bathroom Fixtures -->
+        <div class="category">
+            <h2 class="category-title">🚿 Bathroom Fixtures</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/bathroom-fixtures.png" alt="Bathroom Fixtures Dimensions">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Shower Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Shower Head Height</span>
+                        <span class="dimension-value">78-80"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Control Height</span>
+                        <span class="dimension-value">48-52"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Shower Curtain Height</span>
+                        <span class="dimension-value">72"</span>
+                    </div>
+                    <div class="note">Standard residential</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Vanity / Sink</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">30-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">18-22"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">30-36"</span>
+                    </div>
+                    <div class="note">Comfort height: 34-36"</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Toilet</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">14-16"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">27-30"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Seat Height</span>
+                        <span class="dimension-value">15-17"</span>
+                    </div>
+                    <div class="note">Comfort height: 17-19"</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Mirror Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">30-40"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Mounting Height</span>
+                        <span class="dimension-value">60-66"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Distance from Sink</span>
+                        <span class="dimension-value">4-6"</span>
+                    </div>
+                    <div class="note">Eye level placement</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Towel Bar Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">42-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Length</span>
+                        <span class="dimension-value">18-24"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Distance from Tub</span>
+                        <span class="dimension-value">4-6"</span>
+                    </div>
+                    <div class="note">Accessible height</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kitchen Dimensions -->
+        <div class="category">
+            <h2 class="category-title">🍳 Kitchen Dimensions</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/kitchen-dimensions.png" alt="Kitchen Dimensions">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Kitchen Counter Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard Height</span>
+                        <span class="dimension-value">36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Counter Depth</span>
+                        <span class="dimension-value">24-26"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Upper Cabinet Height</span>
+                        <span class="dimension-value">12-42"</span>
+                    </div>
+                    <div class="note">Standard work surface</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Upper Cabinet Placement</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height from Counter</span>
+                        <span class="dimension-value">15-18"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">12-13"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">12-36"</span>
+                    </div>
+                    <div class="note">Standard spacing</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Kitchen Island</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">36-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">24-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">36"</span>
+                    </div>
+                    <div class="note">Allow 36" walkway</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Refrigerator Space</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">30-36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">28-34"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">68-70"</span>
+                    </div>
+                    <div class="note">Standard side-by-side</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Office Furniture -->
+        <div class="category">
+            <h2 class="category-title">💼 Office Furniture</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/office-furniture.png" alt="Office Furniture Dimensions">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Office Desk</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">48-72"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">24-30"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">28-30"</span>
+                    </div>
+                    <div class="note">Standard desk height</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Office Chair</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">20-26"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">20-26"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Seat Height Range</span>
+                        <span class="dimension-value">16-21"</span>
+                    </div>
+                    <div class="note">Adjustable height</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Bookshelf (Office)</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">30-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-label">12-16"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">72-84"</span>
+                    </div>
+                    <div class="note">Adjustable shelves</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Door & Window Standards -->
+        <div class="category">
+            <h2 class="category-title">🚪 Door & Window Standards</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/door-window-standards.png" alt="Door & Window Standards">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Interior Door</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">32-36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">80"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Thickness</span>
+                        <span class="dimension-value">1.375"</span>
+                    </div>
+                    <div class="note">Standard residential</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Exterior Door</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">80"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Thickness</span>
+                        <span class="dimension-value">1.75"</span>
+                    </div>
+                    <div class="note">Front door standard</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Standard Window</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">24-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">36-60"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Sill Height</span>
+                        <span class="dimension-value">30-36"</span>
+                    </div>
+                    <div class="note">Double hung common</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Door Handle Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard Height</span>
+                        <span class="dimension-value">36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">ADA Compliant</span>
+                        <span class="dimension-value">34-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Distance from Edge</span>
+                        <span class="dimension-value">2-4"</span>
+                    </div>
+                    <div class="note">Accessible range</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Electrical Standards -->
+        <div class="category">
+            <h2 class="category-title">⚡ Electrical Standards</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/electrical-standards.png" alt="Electrical Standards">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Wall Switch Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard Height</span>
+                        <span class="dimension-value">48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Range</span>
+                        <span class="dimension-value">40-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Distance from Door</span>
+                        <span class="dimension-value">4-6"</span>
+                    </div>
+                    <div class="note">Accessible height</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Electrical Outlet Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard Height</span>
+                        <span class="dimension-value">12"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Kitchen Counter</span>
+                        <span class="dimension-value">15-20"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Spacing</span>
+                        <span class="dimension-value">6-12"</span>
+                    </div>
+                    <div class="note">Code requirements vary</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Thermostat Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard Height</span>
+                        <span class="dimension-value">60"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Range</span>
+                        <span class="dimension-value">52-60"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Location</span>
+                        <span class="dimension-value">Interior wall</span>
+                    </div>
+                    <div class="note">Eye level placement</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Smoke Detector Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Ceiling Mount</span>
+                        <span class="dimension-value">On ceiling</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Wall Mount</span>
+                        <span class="dimension-value">12" below ceiling</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Spacing</span>
+                        <span class="dimension-value">30' max</span>
+                    </div>
+                    <div class="note">Code requirements</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stair Dimensions -->
+        <div class="category">
+            <h2 class="category-title">🪜 Stair Dimensions</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/stair-dimensions.png" alt="Stair Dimensions">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Standard Stair Rise</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Rise Height</span>
+                        <span class="dimension-value">7-7.5"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Run Depth</span>
+                        <span class="dimension-value">10-11"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Total Rise Formula</span>
+                        <span class="dimension-value">Rise × Steps</span>
+                    </div>
+                    <div class="note">Comfortable: 7" rise, 11" run</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Stair Railing Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard Height</span>
+                        <span class="dimension-value">34-38"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">From Tread</span>
+                        <span class="dimension-value">Measured vertically</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Code Requirement</span>
+                        <span class="dimension-value">Min 34"</span>
+                    </div>
+                    <div class="note">Residential standard</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Stair Width</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Minimum Width</span>
+                        <span class="dimension-value">36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Recommended</span>
+                        <span class="dimension-value">42-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Headroom Clearance</span>
+                        <span class="dimension-value">6'8" min</span>
+                    </div>
+                    <div class="note">Code requirements</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Landing Dimensions</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Minimum Width</span>
+                        <span class="dimension-value">36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Minimum Depth</span>
+                        <span class="dimension-value">36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Door Swing Area</span>
+                        <span class="dimension-value">Add to landing</span>
+                    </div>
+                    <div class="note">At top and bottom</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cabinet Dimensions -->
+        <div class="category">
+            <h2 class="category-title">🗄️ Cabinet Dimensions</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/cabinet-dimensions.png" alt="Cabinet Dimensions">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Base Cabinet</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">34.5"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">9-48" (3" increments)</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">24"</span>
+                    </div>
+                    <div class="note">With countertop: 36" total</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Wall Cabinet</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">12-42"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">9-36" (3" increments)</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">12-13"</span>
+                    </div>
+                    <div class="note">Mounted 18" above counter</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Tall Cabinet</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">84-96"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Width</span>
+                        <span class="dimension-value">18-36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Depth</span>
+                        <span class="dimension-value">24"</span>
+                    </div>
+                    <div class="note">Full height pantry</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Countertop</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard Depth</span>
+                        <span class="dimension-value">25-26"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard Thickness</span>
+                        <span class="dimension-value">1.25-1.5"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Overhang</span>
+                        <span class="dimension-value">1-1.5"</span>
+                    </div>
+                    <div class="note">Past cabinet edge</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workbench Dimensions -->
+        <div class="category">
+            <h2 class="category-title">🔨 Workbench Dimensions</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/workbench-dimensions.png" alt="Workbench Dimensions">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Standard Workbench Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standing Height</span>
+                        <span class="dimension-value">34-36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Sitting Height</span>
+                        <span class="dimension-value">28-30"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Adjustable Range</span>
+                        <span class="dimension-value">28-40"</span>
+                    </div>
+                    <div class="note">Based on user height</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Workbench Depth</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard Depth</span>
+                        <span class="dimension-value">24-30"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Compact</span>
+                        <span class="dimension-value">18-24"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Heavy Duty</span>
+                        <span class="dimension-value">30-36"</span>
+                    </div>
+                    <div class="note">Based on workspace</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Workbench Width</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Minimum</span>
+                        <span class="dimension-value">48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard</span>
+                        <span class="dimension-value">60-72"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Large</span>
+                        <span class="dimension-value">84-96"</span>
+                    </div>
+                    <div class="note">Available space dependent</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Vise Placement</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">From Edge</span>
+                        <span class="dimension-value">4-6"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">From Corner</span>
+                        <span class="dimension-value">6-8"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">Flush with top</span>
+                    </div>
+                    <div class="note">Optimal positioning</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clearance Spaces -->
+        <div class="category">
+            <h2 class="category-title">📏 Clearance Spaces</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/clearance-spaces.png" alt="Clearance Spaces">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Walkway Clearance</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Minimum</span>
+                        <span class="dimension-value">36"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Recommended</span>
+                        <span class="dimension-value">42-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Wheelchair</span>
+                        <span class="dimension-value">36" min</span>
+                    </div>
+                    <div class="note">Passage width</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Door Swing Clearance</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Arc Radius</span>
+                        <span class="dimension-value">36-42"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">From Wall</span>
+                        <span class="dimension-value">12" min</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Opposite Wall</span>
+                        <span class="dimension-value">24" min</span>
+                    </div>
+                    <div class="note">Full swing area</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Furniture Clearance</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Around Sofa</span>
+                        <span class="dimension-value">18-24"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Around Table</span>
+                        <span class="dimension-value">24-30"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Around Bed</span>
+                        <span class="dimension-value">24-30"</span>
+                    </div>
+                    <div class="note">Comfortable movement</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Work Area Clearance</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">In Front of Counter</span>
+                        <span class="dimension-value">42-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">At Workbench</span>
+                        <span class="dimension-value">36-42"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">At Desk</span>
+                        <span class="dimension-value">30-36"</span>
+                    </div>
+                    <div class="note">Working space</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ergonomic Measurements -->
+        <div class="category">
+            <h2 class="category-title">👤 Ergonomic Measurements</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/ergonomic-measurements.png" alt="Ergonomic Measurements">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Average Eye Level</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standing</span>
+                        <span class="dimension-value">60-66"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Sitting</span>
+                        <span class="dimension-value">42-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">From Floor</span>
+                        <span class="dimension-value">Measured</span>
+                    </div>
+                    <div class="note">For displays/art placement</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Reach Zones</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Primary Reach</span>
+                        <span class="dimension-value">15-20"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Secondary Reach</span>
+                        <span class="dimension-value">20-30"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Maximum Reach</span>
+                        <span class="dimension-value">30-48"</span>
+                    </div>
+                    <div class="note">From seated position</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Desk Ergonomics</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Desk Height</span>
+                        <span class="dimension-value">28-30"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Chair Seat Height</span>
+                        <span class="dimension-value">16-20"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Monitor Height</span>
+                        <span class="dimension-value">Eye level</span>
+                    </div>
+                    <div class="note">Neutral posture</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Keyboard/Mouse Position</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Height</span>
+                        <span class="dimension-value">Elbow height</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Distance from Body</span>
+                        <span class="dimension-value">6-10"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Wrist Position</span>
+                        <span class="dimension-value">Neutral/straight</span>
+                    </div>
+                    <div class="note">Prevent strain</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ceiling & Room Heights -->
+        <div class="category">
+            <h2 class="category-title">🏠 Ceiling & Room Heights</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/ceiling-room-heights.png" alt="Ceiling & Room Heights">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Standard Ceiling Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard</span>
+                        <span class="dimension-value">8' (96")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Modern</span>
+                        <span class="dimension-value">9' (108")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">High Ceiling</span>
+                        <span class="dimension-value">10-12'</span>
+                    </div>
+                    <div class="note">Residential standard</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Minimum Ceiling Height</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Habitable Rooms</span>
+                        <span class="dimension-value">7' (84")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Bathrooms</span>
+                        <span class="dimension-value">7' (84")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Hallways</span>
+                        <span class="dimension-value">7' (84")</span>
+                    </div>
+                    <div class="note">Code requirements</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Room Dimensions</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Small Bedroom</span>
+                        <span class="dimension-value">10' × 10'</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Master Bedroom</span>
+                        <span class="dimension-value">12' × 14' min</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Living Room</span>
+                        <span class="dimension-value">12' × 16' min</span>
+                    </div>
+                    <div class="note">Minimum comfortable sizes</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Door Headroom</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Standard Door</span>
+                        <span class="dimension-value">6'8" (80")</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Clearance Above</span>
+                        <span class="dimension-value">6-12"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Sliding Door</span>
+                        <span class="dimension-value">6'8" (80")</span>
+                    </div>
+                    <div class="note">Standard residential</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Material Thicknesses -->
+        <div class="category">
+            <h2 class="category-title">📏 Material Thicknesses</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/material-thicknesses.png" alt="Material Thicknesses">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Plywood Thickness</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1/4"</span>
+                        <span class="dimension-value">0.25" (6mm)</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1/2"</span>
+                        <span class="dimension-value">0.50" (12mm)</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">3/4"</span>
+                        <span class="dimension-value">0.75" (18mm)</span>
+                    </div>
+                    <div class="note">Common woodworking sizes</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Lumber Thickness (Nominal)</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1× (1x4, 1x6)</span>
+                        <span class="dimension-value">0.75" actual</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">2× (2x4, 2x6)</span>
+                        <span class="dimension-value">1.5" actual</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">4× (4x4, 4x6)</span>
+                        <span class="dimension-value">3.5" actual</span>
+                    </div>
+                    <div class="note">Nominal vs actual</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Sheet Goods</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">MDF</span>
+                        <span class="dimension-value">1/4" to 1"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Particle Board</span>
+                        <span class="dimension-value">1/2" to 3/4"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Melamine</span>
+                        <span class="dimension-value">5/8" to 3/4"</span>
+                    </div>
+                    <div class="note">Common thicknesses</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Countertop Thickness</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Laminate</span>
+                        <span class="dimension-value">1.25-1.5"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Solid Surface</span>
+                        <span class="dimension-value">0.5"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Stone/Granite</span>
+                        <span class="dimension-value">2-3"</span>
+                    </div>
+                    <div class="note">Material dependent</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hardware Sizes -->
+        <div class="category">
+            <h2 class="category-title">🔩 Hardware Sizes</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/hardware-sizes.png" alt="Hardware Sizes">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Screw Lengths</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Wood Screws</span>
+                        <span class="dimension-value">0.5-3"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Drywall Screws</span>
+                        <span class="dimension-value">1-2"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Deck Screws</span>
+                        <span class="dimension-value">1.5-3.5"</span>
+                    </div>
+                    <div class="note">Common sizes</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Nail Lengths</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Finish Nails</span>
+                        <span class="dimension-value">1-2.5"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Common Nails</span>
+                        <span class="dimension-value">2-6"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Framing Nails</span>
+                        <span class="dimension-value">3-4"</span>
+                    </div>
+                    <div class="note">Penny sizes vary</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Bolt Diameters</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1/4"</span>
+                        <span class="dimension-value">0.25"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">3/8"</span>
+                        <span class="dimension-value">0.375"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1/2"</span>
+                        <span class="dimension-value">0.5"</span>
+                    </div>
+                    <div class="note">Common diameters</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Hinge Sizes</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Cabinet Hinge</span>
+                        <span class="dimension-value">3-4" height</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Door Hinge</span>
+                        <span class="dimension-value">4-5" height</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Overlay</span>
+                        <span class="dimension-value">0.5-0.75"</span>
+                    </div>
+                    <div class="note">Standard sizes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pipe & Conduit -->
+        <div class="category">
+            <h2 class="category-title">🔧 Pipe & Conduit</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/pipe-conduit.png" alt="Pipe & Conduit">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Water Pipe Sizes</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1/2"</span>
+                        <span class="dimension-value">0.625" OD</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">3/4"</span>
+                        <span class="dimension-value">0.875" OD</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1"</span>
+                        <span class="dimension-value">1.125" OD</span>
+                    </div>
+                    <div class="note">Copper/CPVC</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Drain Pipe Sizes</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Sink Drain</span>
+                        <span class="dimension-value">1.5"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Toilet Drain</span>
+                        <span class="dimension-value">3-4"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Main Drain</span>
+                        <span class="dimension-value">4-6"</span>
+                    </div>
+                    <div class="note">PVC/ABS</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Electrical Conduit</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1/2" EMT</span>
+                        <span class="dimension-value">0.706" OD</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">3/4" EMT</span>
+                        <span class="dimension-value">0.922" OD</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1" EMT</span>
+                        <span class="dimension-value">1.163" OD</span>
+                    </div>
+                    <div class="note">Metal conduit</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Gas Pipe</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1/2"</span>
+                        <span class="dimension-value">0.84" OD</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">3/4"</span>
+                        <span class="dimension-value">1.05" OD</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">1"</span>
+                        <span class="dimension-value">1.315" OD</span>
+                    </div>
+                    <div class="note">Black steel pipe</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HVAC Dimensions -->
+        <div class="category">
+            <h2 class="category-title">❄️ HVAC Dimensions</h2>
+            <div class="category-image">
+                <img src="public/images/standard-dimensions/hvac-dimensions.jfif" alt="HVAC Dimensions">
+            </div>
+            <div class="dimensions-grid">
+                <div class="dimension-card">
+                    <div class="dimension-name">Duct Sizes</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Supply</span>
+                        <span class="dimension-value">6-12" round</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Return</span>
+                        <span class="dimension-value">8-14" round</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Rectangular</span>
+                        <span class="dimension-value">8×12 to 12×24"</span>
+                    </div>
+                    <div class="note">Sheet metal duct</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Vent Placement</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">From Wall</span>
+                        <span class="dimension-value">3-4"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Spacing</span>
+                        <span class="dimension-value">8-12"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">From Ceiling</span>
+                        <span class="dimension-value">Flush</span>
+                    </div>
+                    <div class="note">Floor/ceiling vents</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">AC Unit Clearance</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Side Clearance</span>
+                        <span class="dimension-value">12-24"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Top Clearance</span>
+                        <span class="dimension-value">24-48"</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Service Access</span>
+                        <span class="dimension-value">30" min</span>
+                    </div>
+                    <div class="note">Outdoor unit</div>
+                </div>
+
+                <div class="dimension-card">
+                    <div class="dimension-name">Thermostat Wire</div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Gauge</span>
+                        <span class="dimension-value">18 AWG</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Conductors</span>
+                        <span class="dimension-value">2-5 wires</span>
+                    </div>
+                    <div class="dimension-item">
+                        <span class="dimension-label">Voltage</span>
+                        <span class="dimension-value">24V</span>
+                    </div>
+                    <div class="note">Low voltage</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store original values in inches for conversion
+        const originalValues = [];
+        
+        // Initialize: store original values on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const valueElements = document.querySelectorAll('.dimension-value');
+            valueElements.forEach(element => {
+                originalValues.push({
+                    element: element,
+                    originalText: element.textContent
+                });
+            });
+        });
+
+        function convertUnits() {
+            const selectedUnit = document.getElementById('unitSelect').value;
+            
+            originalValues.forEach(item => {
+                const originalText = item.originalText;
+                let convertedText = originalText;
+                
+                // Extract numeric value and unit from original text
+                const inchMatch = originalText.match(/(\d+(?:\.\d+)?)"/);
+                const ftMatch = originalText.match(/(\d+(?:\.\d+)?)'/);
+                
+                if (inchMatch) {
+                    const inches = parseFloat(inchMatch[1]);
+                    const converted = convertFromInches(inches, selectedUnit);
+                    convertedText = originalText.replace(inchMatch[0], formatValue(converted, selectedUnit));
+                } else if (ftMatch) {
+                    const feet = parseFloat(ftMatch[1]);
+                    const inches = feet * 12;
+                    const converted = convertFromInches(inches, selectedUnit);
+                    convertedText = originalText.replace(ftMatch[0], formatValue(converted, selectedUnit));
+                }
+                
+                item.element.textContent = convertedText;
+            });
+        }
+
+        function convertFromInches(inches, targetUnit) {
+            switch(targetUnit) {
+                case 'inches':
+                    return inches;
+                case 'feet':
+                    return inches / 12;
+                case 'cm':
+                    return inches * 2.54;
+                case 'mm':
+                    return inches * 25.4;
+                case 'meters':
+                    return inches * 0.0254;
+                default:
+                    return inches;
+            }
+        }
+
+        function formatValue(value, unit) {
+            const rounded = Math.round(value * 100) / 100;
+            switch(unit) {
+                case 'inches':
+                    return rounded + '"';
+                case 'feet':
+                    return rounded + "'";
+                case 'cm':
+                    return rounded + ' cm';
+                case 'mm':
+                    return Math.round(rounded) + ' mm';
+                case 'meters':
+                    return rounded + ' m';
+                default:
+                    return rounded;
+            }
+        }
+    </script>
+</body>
+</html>
