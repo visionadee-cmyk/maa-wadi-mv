@@ -178,15 +178,133 @@
         }
 
         @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .brand-name {
+                font-size: 1.2em;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 3px;
+            }
+
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.9em;
+                gap: 5px;
+            }
+
+            nav a span {
+                display: none;
+            }
+
+            nav a.active span {
+                display: inline;
+            }
+
+            .units-dropdown span {
+                display: none;
+            }
+
+            .converter-container {
+                padding: 15px;
+            }
+
             .converter-header h1 {
-                font-size: 2em;
+                font-size: 1.8em;
             }
 
             .converter-input-group {
                 grid-template-columns: 1fr;
             }
 
+            .category-tabs {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
             .category-tab {
+                padding: 8px 12px;
+                font-size: 0.85em;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .result-display {
+                font-size: 1.5em;
+            }
+
+            .how-to-use {
+                padding: 15px;
+            }
+
+            .how-to-use h3 {
+                font-size: 1.2em;
+            }
+
+            .how-to-use p {
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                height: 30px;
+            }
+
+            .brand-name {
+                font-size: 1em;
+            }
+
+            nav a {
+                padding: 6px 8px;
+                font-size: 0.85em;
+            }
+
+            nav a i {
+                font-size: 1em;
+            }
+
+            .unit-select {
+                font-size: 12px;
+                padding: 3px 6px;
+            }
+
+            .converter-container {
+                padding: 10px;
+            }
+
+            .converter-header h1 {
+                font-size: 1.5em;
+            }
+
+            .category-tab {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+
+            .input-group label {
+                font-size: 0.85em;
+            }
+
+            .input-group input,
+            .input-group select {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .result-display {
+                font-size: 1.3em;
+            }
+
+            .convert-btn {
                 padding: 10px 20px;
                 font-size: 0.9em;
             }

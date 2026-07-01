@@ -251,22 +251,125 @@
         }
         
         @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .brand-name {
+                font-size: 1.2em;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 3px;
+            }
+
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.9em;
+                gap: 5px;
+            }
+
+            nav a span {
+                display: none;
+            }
+
+            nav a.active span {
+                display: inline;
+            }
+
+            .units-dropdown span {
+                display: none;
+            }
+
+            .quotation-container {
+                padding: 15px;
+            }
+
             .quotation-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            
+
+            .quotation-header h1 {
+                font-size: 1.5em;
+            }
+
             .additional-costs {
                 grid-template-columns: 1fr;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
             }
-            
+
             .btn {
                 width: 100%;
                 justify-content: center;
+            }
+
+            .quotation-table {
+                font-size: 0.85em;
+            }
+
+            .quotation-table th,
+            .quotation-table td {
+                padding: 8px 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                height: 30px;
+            }
+
+            .brand-name {
+                font-size: 1em;
+            }
+
+            nav a {
+                padding: 6px 8px;
+                font-size: 0.85em;
+            }
+
+            nav a i {
+                font-size: 1em;
+            }
+
+            .unit-select {
+                font-size: 12px;
+                padding: 3px 6px;
+            }
+
+            .quotation-container {
+                padding: 10px;
+            }
+
+            .quotation-header h1 {
+                font-size: 1.3em;
+            }
+
+            .back-btn {
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+
+            .quotation-table {
+                font-size: 0.75em;
+            }
+
+            .quotation-table th,
+            .quotation-table td {
+                padding: 6px 2px;
+            }
+
+            .quotation-table th:nth-child(3),
+            .quotation-table td:nth-child(3),
+            .quotation-table th:nth-child(4),
+            .quotation-table td:nth-child(4) {
+                display: none;
             }
         }
     </style>

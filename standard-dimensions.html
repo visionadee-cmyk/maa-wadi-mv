@@ -331,16 +331,129 @@
         }
 
         @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .brand-name {
+                font-size: 1.2em;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 3px;
+            }
+
+            nav a {
+                padding: 8px 10px;
+                font-size: 0.9em;
+                gap: 5px;
+            }
+
+            nav a span {
+                display: none;
+            }
+
+            nav a.active span {
+                display: inline;
+            }
+
+            .units-dropdown span {
+                display: none;
+            }
+
             .container {
+                margin: 10px;
                 padding: 20px;
             }
 
             h1 {
-                font-size: 2em;
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .unit-toggle {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-input,
+            .filter-select {
+                width: 100%;
             }
 
             .dimensions-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .category-title {
+                font-size: 1.4em;
+            }
+
+            .dimension-card {
+                padding: 15px;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                height: 30px;
+            }
+
+            .brand-name {
+                font-size: 1em;
+            }
+
+            nav a {
+                padding: 6px 8px;
+                font-size: 0.85em;
+            }
+
+            nav a i {
+                font-size: 1em;
+            }
+
+            .unit-select {
+                font-size: 12px;
+                padding: 3px 6px;
+            }
+
+            .container {
+                margin: 5px;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .category-title {
+                font-size: 1.2em;
+            }
+
+            .dimension-name {
+                font-size: 1.1em;
+            }
+
+            .dimension-item {
+                font-size: 0.9em;
             }
         }
     </style>
